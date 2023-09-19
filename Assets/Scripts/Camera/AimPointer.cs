@@ -6,7 +6,7 @@ public class AimPointer
     private float _size;
     private GameObject _pointer;
 
-    public void Init(float size, GameObject pointer)
+    public AimPointer(float size, GameObject pointer)
     {
         _size = size;
         _pointer = pointer;
