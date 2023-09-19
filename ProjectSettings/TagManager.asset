@@ -4,26 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Arrow
   - Bow
-  - Right_Door
-  - Left_Door
-  - KeyTile1
-  - KeyTile2
-  - KeyTile3
-  - KeyTile4
   - Movable
-  - OneDoor
-  - DragonRelic
-  - ShrineEntrance
-  - BridgeDetector
-  - TentHint
-  - BucketBombs
-  - SpawnEnemies
-  - ArrowWareHouseHint
-  - Enemy1
   - CamCenter
-  - Torch
   - Terrain
   layers:
   - Default
@@ -35,9 +18,9 @@ TagManager:
   - Obstruction
   - Rocks
   - Enemy
-  - LeanWall
-  - 
-  - 
+  - PlayerTrigger
+  - Terrain
+  - Decor
   - 
   - 
   - 

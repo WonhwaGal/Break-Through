@@ -2,5 +2,6 @@ using UnityEngine;
 
 public interface IInputService
 {
-    Vector2 Axis { get; }
+    Vector3 KeyAxis { get; }
+    Vector3 MouseAxis { get; }
 }
