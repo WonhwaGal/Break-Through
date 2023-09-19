@@ -2,17 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class BaseEnemyMovement : IDisposable
+public abstract class BaseEnemyMovement : State<EnemyView>
 {
     private EnemyView _enemyView;
     protected NavMeshAgent _navMesh;
     protected bool _targetingPlayer;
     protected bool _isPatrolling;
-    protected const float _playerStoppingDist = 5;
-    protected const float _regularStoppingDist = 1;
+    protected const float PlayerStoppingDist = 5;
+    protected const float RegularStoppingDist = 1;
 
     public EnemyView EnemyView { get => _enemyView; }
+    public BaseEnemyMovement()
+    {
 
+    }
     public BaseEnemyMovement(EnemyView view)
     {
         _enemyView = view;

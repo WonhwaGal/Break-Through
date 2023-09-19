@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,11 @@ public class EnemyController : MonoBehaviour
     private List<BaseEnemyMovement> enemyList = new();
     private Pool<EnemyView> _enemyViewPool;
     private bool _objectsSpawned = false;
+
+    private event Action OnUpdate;//(target, Method)
+    //soli D 
+    // class (core) x=> class list
+    // class list => class core
 
     private void Start()
     {
@@ -33,7 +39,8 @@ public class EnemyController : MonoBehaviour
         {
             EnemyView enemy = _enemyViewPool.Spawn(this.transform);
             enemy.transform.position = _guardPoints[i].position;
-            enemyList.Add(new GuardMovement(enemy, _guardPoints[i]));
+            new GuardMovement(enemy, _guardPoints[i]);
+            enemy.StateMachine.ChangeState<GuardMovement>(x => x._guardPoint = _guardPoints[i]);
         }
         _objectsSpawned = true;
     }

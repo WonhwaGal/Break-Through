@@ -2,7 +2,10 @@
 
 public class GuardMovement : BaseEnemyMovement
 {
-    private Transform _guardPoint;
+    public Transform _guardPoint;
+    public GuardMovement()
+    {
+    }
     public GuardMovement(EnemyView view, Transform guardPoint) : base(view)
     {
         view.EnemyType = EnemyType.Guard;
