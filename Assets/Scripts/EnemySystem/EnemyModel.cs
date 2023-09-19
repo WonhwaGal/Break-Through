@@ -14,6 +14,7 @@ public class EnemyModel
     public KillRewardType RewardType { get => _rewardType; }
     public int RewardAmount { get => _rewardAmount; }
     public bool IsIdle { get => _isIdle; set => _isIdle = value; }
+    public Vector3 GuardPoint { get; set; }
 
     public void SetValues()
     {
