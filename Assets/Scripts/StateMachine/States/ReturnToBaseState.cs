@@ -1,23 +1,35 @@
-using UnityEngine.AI;
 
 public class ReturnToBaseState : BaseStateOf<EnemyView>
 {
-    private NavMeshAgent _navMesh;
     private const float RegularStoppingDist = 0.9f;
 
     public override void EnterState()
     {
-        _navMesh = Owner.GetComponent<NavMeshAgent>();
-        _navMesh.stoppingDistance = RegularStoppingDist;
-        _navMesh.SetDestination(Owner.EnemyModel.GuardPoint);
+        Owner.Agent.stoppingDistance = RegularStoppingDist;
+        Owner.Agent.SetDestination(Owner.EnemyModel.GuardPoint);
     }
 
     public override void UpdateState()
     {
-        if (_navMesh.remainingDistance < 1)
+        Owner.Agent.isStopped = Owner.IsShooting;
+
+        if (Owner.Agent.remainingDistance < 1)
         {
-            _navMesh.isStopped = true;
+            Owner.Agent.isStopped = true;
             Owner.IsIdle = true;
+            var owner = Owner;
+            StateMachine.ChangeTo<GuardState>(guardState => guardState.Owner = owner);
         }
+
+        if (Owner.Target != null)
+        {
+            var owner = Owner;
+            StateMachine.ChangeTo<ChasePlayerState>(chaseState => chaseState.Owner = owner);
+        }
+    }
+
+    public override void ExitState()
+    {
+        Owner.Agent.SetDestination(Owner.transform.position);
     }
 }

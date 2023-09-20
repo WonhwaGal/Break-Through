@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField, Range(0, 10)] private float _speed;
-    [SerializeField] private Transform _playerView;
 
     private KeyboardInputService _input;
     private PlayerMovement _movement;

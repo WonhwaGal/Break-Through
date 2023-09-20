@@ -26,7 +26,5 @@ public class EnemyModel
 
         if(_rewardType != KillRewardType.Key)
             _rewardAmount = randomNumber % MaxReward;
-
-        Debug.Log($"reward amount is {RewardAmount}, type is {RewardType}");
     }
 }

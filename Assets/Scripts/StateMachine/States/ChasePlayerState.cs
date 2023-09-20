@@ -1,17 +1,30 @@
-using UnityEngine.AI;
+
+using UnityEngine;
 
 public class ChasePlayerState : BaseStateOf<EnemyView>
 {
-    private NavMeshAgent _navMesh;
     private const float PlayerStoppingDist = 5;
 
-    public override void EnterState() => _navMesh = Owner.GetComponent<NavMeshAgent>();
+    public override void EnterState()
+    {
+        Owner.Agent.stoppingDistance = PlayerStoppingDist;
+        Owner.ShootCoroutine(true);
+    }
 
     public override void UpdateState() => ChasePlayer();
 
     private void ChasePlayer()
     {
-        _navMesh.SetDestination(Owner.Target.position);
-        _navMesh.stoppingDistance = PlayerStoppingDist;
+        if(Owner.Target == null)
+        {
+            Owner.ShootCoroutine(false);
+            var owner = Owner;
+            StateMachine.ChangeTo<ReturnToBaseState>(returnState => returnState.Owner = owner);
+        }
+        else
+        {
+            Owner.Agent.SetDestination(Owner.Target.position);
+            Owner.Agent.isStopped = Owner.IsShooting;
+        }
     }
 }
