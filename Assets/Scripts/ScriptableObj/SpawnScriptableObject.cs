@@ -6,4 +6,6 @@ using UnityEngine;
 public class SpawnScriptableObject : ScriptableObject
 {
     [field: SerializeField] public EnemyView EnemyPrefab; 
+    [field: SerializeField] public GameObject ArrowPrefab; 
+    [field: SerializeField] public SettingsMenuCanvas SettingsMenuPrefab; 
 }

@@ -16,6 +16,9 @@ public class MainMenuCanvas : MonoBehaviour
     [SerializeField] private GameObject _noSavedGamePanel;
     [SerializeField] private GameObject _rulesPanel;
 
+    [Header("Other")]
+    [SerializeField] private SpawnScriptableObject _prefabs;
+
     private void Start()
     {
         SetPanels();
@@ -34,9 +37,21 @@ public class MainMenuCanvas : MonoBehaviour
     {
         _exitButton.onClick.AddListener(() => Application.Quit());
         _loadLevelButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        _settingsButton.onClick.AddListener(LoadSettingsContainer);
+    }
+
+    private void LoadSettingsContainer()
+    {
+        _mainMenuContainer.SetActive(false);
+        SettingsMenuCanvas settings = Instantiate<SettingsMenuCanvas>(_prefabs.SettingsMenuPrefab);
+        settings.transform.SetParent(this.transform);
+        settings.transform.SetAsLastSibling();
+        settings.ReturnButton.onClick.AddListener(() => _mainMenuContainer.SetActive(true));
     }
     private void OnDestroy()
     {
         _exitButton.onClick.RemoveAllListeners();
+        _loadLevelButton.onClick.RemoveAllListeners();
+        _settingsButton.onClick.RemoveAllListeners();
     }
 }
