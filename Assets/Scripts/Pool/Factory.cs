@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class Factory<T> where T : MonoBehaviour
+public class Factory<T> 
+    where T : MonoBehaviour
 {
     private readonly T _objectPrefab;
 

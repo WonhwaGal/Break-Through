@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool<T> where T : MonoBehaviour
+public class Pool<T> 
+    where T : MonoBehaviour
 {
-    private Factory<T> _factory;
-    private Stack<T> _storage;
+    private readonly Factory<T> _factory;
+    private readonly Stack<T> _storage;
 
     public Pool(T prefab)
     {
