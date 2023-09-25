@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -9,23 +7,17 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float _minVertRotation;
     [SerializeField] private float _maxVertRotation;
     [SerializeField] private Transform _center;
-    [SerializeField] private GameObject _pointerObj;
 
     private float _cameraXRotation;
     private float _cameraYRotation;
     private Transform _playerT;
-    private AimPointer _aimPointer;
-    public Transform CenterT => _center.transform;
 
-    private void Awake() => _aimPointer = new AimPointer(0.008f, _pointerObj);
+    public Transform CenterTransform => _center.transform;
+
 
     public void AssignToPlayer(Transform playerT) => _playerT = playerT;
 
-    public void UpdateRotation(Vector3 mouseInput)
-    {
-        Rotate(mouseInput);
-        UpdatePointer();
-    }
+    public void UpdateRotation(Vector3 mouseInput) => Rotate(mouseInput);
 
     private void Rotate(Vector3 mouseInput)
     {
@@ -44,10 +36,5 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 moveVector = Vector3.Lerp(transform.position, _playerT.transform.position, _moveSpeed * Time.deltaTime);
         transform.position = moveVector;
-    }
-
-    private void UpdatePointer()
-    {
-
     }
 }

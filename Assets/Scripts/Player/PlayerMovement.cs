@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement
 {
-    private CharacterController _characterController;
-    private Transform _playerT;
-    private float _speed;
+    private readonly CharacterController _characterController;
+    private readonly Transform _playerT;
+    private readonly float _speed;
     private Vector3 _moveDirection;
     private const float GravityMultiplier = 2.5f;
 
@@ -15,7 +15,6 @@ public class PlayerMovement
         _characterController = characterController;
         _speed = speed;
         _playerT = playerT;
-
 
         _cameraMovement = Camera.main.GetComponentInParent<CameraMovement>();
         _cameraMovement.AssignToPlayer(_playerT);
@@ -34,12 +33,12 @@ public class PlayerMovement
 
     private void Rotate()
     {
-        Vector3 lookPoint = _cameraMovement.CenterT.position + _cameraMovement.CenterT.forward * _speed;
+        Vector3 lookPoint = _cameraMovement.CenterTransform.position + _cameraMovement.CenterTransform.forward * _speed;
         Vector3 lookDirection = lookPoint - _playerT.position;
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
         lookRotation.x = 0;
         lookRotation.z = 0;
 
-        _playerT.rotation = Quaternion.Lerp(_playerT.rotation, lookRotation, _speed * Time.deltaTime); ;
+        _playerT.rotation = Quaternion.Lerp(_playerT.rotation, lookRotation, _speed * Time.deltaTime);
     }
 }

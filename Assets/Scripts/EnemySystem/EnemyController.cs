@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -7,7 +5,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private SpawnScriptableObject spawnPrefabs;
     [SerializeField] private Transform[] _guardPoints;
     [SerializeField] private Transform[] _patrolPoints;
-    [SerializeField] private int _MinEnemyNumer = 10;
 
     private Pool<EnemyView> _enemyViewPool;
 
@@ -41,8 +38,7 @@ public class EnemyController : MonoBehaviour
         EnemyView enemy = _enemyViewPool.Spawn(this.transform);
         enemy.transform.position = placement;
         enemy.EnemyType = enemyType;
+        enemy.Agent.avoidancePriority = Random.Range(0, 51);
         return enemy;
     }
-
-
 }

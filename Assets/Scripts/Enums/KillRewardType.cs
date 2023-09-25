@@ -1,4 +1,3 @@
-
 public enum KillRewardType
 {
     Arrow = 2,

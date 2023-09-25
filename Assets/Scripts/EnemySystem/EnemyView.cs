@@ -1,99 +1,57 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class EnemyView : MonoBehaviour
 {
-    [SerializeField] private int _hp;
+    [SerializeField] private int _maxHP;
+    [SerializeField] private Slider _hpSlider;
 
     private StateMachine _stateMachine = new();
     private EnemyModel _enemyModel = new();
     private EnemyAnimator _enemyAnimator;
     private EnemyType _enemyType;
-    private Transform _target;
-    private bool _isShooting;
-    private WaitForSeconds _shootInterval = new WaitForSeconds(5);
 
-    public Transform Target
-    {
-        get => _target;
-        set
-        {
-            _target = value;
-            if (_target != null)
-                OnSeeingPlayer?.Invoke(true);
-            else
-                OnSeeingPlayer?.Invoke(false);
-
-            OnMoving?.Invoke(true);
-        }
-    }
-    public bool IsIdle
-    {
-        get => _enemyModel.IsIdle;
-        set
-        {
-            _enemyModel.IsIdle = value;
-            if (value)
-                OnMoving?.Invoke(false);
-        }
-    }
     public NavMeshAgent Agent { get; private set; }
-    public bool IsShooting
-    {
-        get => _isShooting;
-        set
-        {
-            _isShooting = value;
-            if (value)
-                OnTakingAShot?.Invoke();
-        }
-    }
     public EnemyType EnemyType { get => _enemyType; set => _enemyType = value; }
-    public EnemyModel EnemyModel { get => _enemyModel; }
-    public IStateMachine StateMachine { get => _stateMachine; }
-
-    public event Action<bool> OnSeeingPlayer;
-    public event Action<bool> OnMoving;
-    public event Action OnTakingAShot;
+    public EnemyModel EnemyModel => _enemyModel;
+    public IStateMachine StateMachine => _stateMachine;
+    public EnemyAnimator EnemyAnimator => _enemyAnimator;
 
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         _enemyAnimator = new EnemyAnimator(GetComponent<Animator>());
-        OnMoving += _enemyAnimator.AnimateMovement;
-        OnTakingAShot += _enemyAnimator.Shoot;
+        _enemyModel.OnMoving += _enemyAnimator.AnimateMovement;
+        _enemyModel.OnTakingAShot += _enemyAnimator.AnimateShot;
+        _enemyModel.OnDying += _enemyAnimator.AnimateDeath;
+        _hpSlider.maxValue = _maxHP;
+        EnemyModel.HP = _maxHP;
     }
 
-    private void OnEnable() => EnemyModel.SetValues();
-
-    private void Update() => _stateMachine.UpdateStateMachine();
-
-    public void ShootCoroutine(bool play)
+    private void OnEnable()
     {
-        if (play)
-            StartCoroutine(Shoot());
-        else
-            StopCoroutine(Shoot());
+        EnemyModel.SetRewardValues();
     }
 
-    private IEnumerator Shoot()
+    private void Update()
     {
-        while (_target != null)
-        {
-            yield return _shootInterval;
-            IsShooting = _target == null ? false : true;
-        }
+        if (Input.GetKeyUp(KeyCode.L))  //check dying
+            EnemyModel.IsDead = true;
+
+        _stateMachine.UpdateStateMachine();
     }
 
-    public void ShootToFalse() => IsShooting = false;
+    private void OnDisable()
+    {
+        EnemyModel.IsDead = false;
+    }
 
     private void OnDestroy()
     {
-        OnMoving -= _enemyAnimator.AnimateMovement;
-        OnTakingAShot -= _enemyAnimator.Shoot;
+        _enemyModel.OnMoving -= _enemyAnimator.AnimateMovement;
+        _enemyModel.OnTakingAShot -= _enemyAnimator.AnimateShot;
+        _enemyModel.OnDying -= _enemyAnimator.AnimateDeath;
     }
 }

@@ -13,12 +13,21 @@ public class KeyboardInputService : IInputService
     public Vector3 MouseAxis => GetMouseAxis();
 
     public event Action<bool> OnPressingAim;
+    public event Action OnPause;
 
-    private Vector3 GetInputAxis() => new(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));
+    private Vector3 GetInputAxis()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            OnPause?.Invoke();
+
+        return new(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));
+    }
+
     private Vector3 GetMouseAxis()
     {
         if (Input.GetMouseButtonDown(0))
             OnPressingAim?.Invoke(true);
+
         if(Input.GetMouseButtonUp(0))
             OnPressingAim?.Invoke(false);
 

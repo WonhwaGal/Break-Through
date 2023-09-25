@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class AimPointer
+public class AimPointer: MonoBehaviour
 {
-    private Vector3 _camPosition;
-    private float _size;
-    private GameObject _pointer;
+    [SerializeField] private GameObject _pointer;
+    [SerializeField] private float _size = 0.008f;
 
-    public AimPointer(float size, GameObject pointer)
-    {
-        _size = size;
-        _pointer = pointer;
-    }
+    private Vector3 _camPosition;
 
     public void ShowPointer()
     {

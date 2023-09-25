@@ -1,4 +1,3 @@
-
 public enum EnemyType
 {
     Guard = 0,
