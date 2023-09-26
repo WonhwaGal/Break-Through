@@ -3,12 +3,12 @@ public class BaseEnemyState : BaseStateOf<EnemyView>
 {
     public override void EnterState()
     {
-        Owner.EnemyModel.OnDying += GoToDieState;
+        Owner.Model.OnDying += GoToDieState;
     }
 
     public override void ExitState()
     {
-        Owner.EnemyModel.OnDying -= GoToDieState;
+        Owner.Model.OnDying -= GoToDieState;
     }
 
     private void GoToDieState()

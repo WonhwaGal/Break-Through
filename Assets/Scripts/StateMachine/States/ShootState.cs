@@ -1,26 +1,26 @@
-using System.Threading.Tasks;
+using UnityEngine;
 
 public class ShootState : BaseEnemyState
 {
-    private const int DefaultTransitionInMilliSec = 300;
-    private bool _checkAnimationFinish = false;
+    private const float AnimationTransitionTime = 1.0f;
+    private float _targetTime;
 
     public override void EnterState()
     {
-        Owner.EnemyModel.IsShooting = true;
+        Owner.Model.IsShooting = true;
         Owner.Agent.isStopped = true;
-        WaitForAnimationTransition();
+        _targetTime = AnimationTransitionTime + Time.time;
         base.EnterState();
     }
 
     public override void UpdateState()
     {
-        if (!_checkAnimationFinish)
+        if (_targetTime > Time.time)
             return;
 
         if (!Owner.EnemyAnimator.CheckCurrentClip("EnemyShoot"))
         {
-            Owner.EnemyModel.IsShooting = false;
+            Owner.Model.IsShooting = false;
             Owner.Agent.isStopped = false;
             SetNextState();
         }
@@ -28,7 +28,7 @@ public class ShootState : BaseEnemyState
 
     public void SetNextState()
     {
-        if (Owner.EnemyModel.Target != null)
+        if (Owner.Model.Target != null)
             ActWhileSeeingPlayer();
         else
             ActAfterLosingPlayer();
@@ -47,11 +47,5 @@ public class ShootState : BaseEnemyState
             StateMachine.ChangeTo<ReturnToBaseState>(returnState => returnState.Owner = owner);
         else
             StateMachine.ChangeTo<PatrolState>(patrolState => patrolState.Owner = owner);
-    }
-
-    private async void WaitForAnimationTransition()
-    {
-        await Task.Delay(DefaultTransitionInMilliSec);
-        _checkAnimationFinish = true;
     }
 }

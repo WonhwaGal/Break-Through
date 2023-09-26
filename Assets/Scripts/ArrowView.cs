@@ -1,14 +1,11 @@
 using UnityEngine;
 
-public class ArrowView : MonoBehaviour
+public class ArrowView : MonoBehaviour, IArrow
 {
     [SerializeField] private Rigidbody _arrowRb;
+    [SerializeField] private float _force = 10;
 
-    private const float Force = 10;
     public ArrowType ArrowType { get; set; }
-
-    public void ShootArrow(Vector3 direction)
-    {
-        _arrowRb.AddForce(direction * Force, ForceMode.Impulse);
-    }
+    public Rigidbody RigidBody => _arrowRb;
+    public float Force => _force;
 }

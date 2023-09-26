@@ -6,24 +6,23 @@ public class PlayerMovement
     private readonly Transform _playerT;
     private readonly float _speed;
     private Vector3 _moveDirection;
-    private const float GravityMultiplier = 2.5f;
+    private const float GravityValue = -1.8f;
 
     private CameraMovement _cameraMovement;
 
-    public PlayerMovement(CharacterController characterController, Transform playerT, float speed)
+    public PlayerMovement(CharacterController characterController, float speed, IInputService input)
     {
         _characterController = characterController;
         _speed = speed;
-        _playerT = playerT;
-
+        _playerT = _characterController.transform;
         _cameraMovement = Camera.main.GetComponentInParent<CameraMovement>();
-        _cameraMovement.AssignToPlayer(_playerT);
+        _cameraMovement.Init(_playerT, input);
     }
 
     public void Move(IInputService input)
     {
         _moveDirection = _playerT.TransformDirection(input.KeyAxis);
-        _moveDirection.y += Physics.gravity.y * Time.deltaTime * GravityMultiplier;
+        _moveDirection.y += GravityValue;
         _characterController.Move(_speed * Time.deltaTime * _moveDirection.normalized);
         _cameraMovement.FollowPlayer();
 

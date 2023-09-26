@@ -1,15 +1,15 @@
-using System.Threading.Tasks;
+using UnityEngine;
 
 public class ChasePlayerState : BaseEnemyState
 {
     private const float PlayerStoppingDist = 5;
-    private bool _shouldCancel;
+    private float _timeToShoot;
 
     public override void EnterState()
     {
         Owner.Agent.isStopped = false;
         Owner.Agent.stoppingDistance = PlayerStoppingDist;
-        TransitionToShoot();
+        _timeToShoot = Time.time + Owner.Model.ChaseTimeSpan;
         base.EnterState();
     }
 
@@ -17,7 +17,13 @@ public class ChasePlayerState : BaseEnemyState
 
     private void ChasePlayer()
     {
-        if (Owner.EnemyModel.Target == null)
+        if(_timeToShoot < Time.time)
+        {
+            TransitionToShoot();
+            return;
+        }
+
+        if (Owner.Model.Target == null)
         {
             var owner = Owner;
             if (Owner.EnemyType == EnemyType.Guard)
@@ -28,36 +34,25 @@ public class ChasePlayerState : BaseEnemyState
         else
         {
             CheckProximityToPlayer();
-            Owner.Agent.SetDestination(Owner.EnemyModel.Target.position);
+            Owner.Agent.SetDestination(Owner.Model.Target.position);
         }
     }
 
-    private async void TransitionToShoot()
+    private void TransitionToShoot()
     {
-        await Task.Delay(Owner.EnemyModel.ChaseSpanInMilliSec);
-        if (_shouldCancel)
-            return;
-
         var owner = Owner;
-        if(Owner.Agent != null && !Owner.EnemyModel.IsDead)
+        if (Owner.Agent != null && !Owner.Model.IsDead)
             StateMachine.ChangeTo<ShootState>(shootState => shootState.Owner = owner);
     }
 
     private void CheckProximityToPlayer()
     {
-        bool reachedPlayer = (Owner.EnemyModel.Target.position - Owner.transform.position).magnitude - Owner.Agent.stoppingDistance < 0;
+        bool reachedPlayer = (Owner.Model.Target.position - Owner.transform.position).magnitude - Owner.Agent.stoppingDistance < 0;
 
         if (reachedPlayer)
         {
-            _shouldCancel = true;
             var owner = Owner;
             StateMachine.ChangeTo<ShootState>(shootState => shootState.Owner = owner);
         }
-    }
-
-    public override void ExitState()
-    {
-        _shouldCancel = true;
-        base.ExitState();
     }
 }

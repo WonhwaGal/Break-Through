@@ -15,7 +15,7 @@ public class EnemyView : MonoBehaviour
 
     public NavMeshAgent Agent { get; private set; }
     public EnemyType EnemyType { get => _enemyType; set => _enemyType = value; }
-    public EnemyModel EnemyModel => _enemyModel;
+    public EnemyModel Model => _enemyModel;
     public IStateMachine StateMachine => _stateMachine;
     public EnemyAnimator EnemyAnimator => _enemyAnimator;
 
@@ -27,25 +27,25 @@ public class EnemyView : MonoBehaviour
         _enemyModel.OnTakingAShot += _enemyAnimator.AnimateShot;
         _enemyModel.OnDying += _enemyAnimator.AnimateDeath;
         _hpSlider.maxValue = _maxHP;
-        EnemyModel.HP = _maxHP;
+        Model.HP = _maxHP;
     }
 
     private void OnEnable()
     {
-        EnemyModel.SetRewardValues();
+        Model.SetRewardValues();
     }
 
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.L))  //check dying
-            EnemyModel.IsDead = true;
+            Model.IsDead = true;
 
         _stateMachine.UpdateStateMachine();
     }
 
     private void OnDisable()
     {
-        EnemyModel.IsDead = false;
+        Model.IsDead = false;
     }
 
     private void OnDestroy()

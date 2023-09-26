@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class BowView : MonoBehaviour
 {
+    public Transform ShootPoint;
+
     private Animator _animator;
 
     private void OnEnable() => _animator = GetComponent<Animator>();

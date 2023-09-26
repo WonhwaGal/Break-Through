@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class KeyboardInputService : IInputService
+public class KeyboardInputService : IInputService, IService
 {
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";

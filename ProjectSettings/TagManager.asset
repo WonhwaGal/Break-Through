@@ -8,6 +8,7 @@ TagManager:
   - Movable
   - CamCenter
   - Terrain
+  - Arrow
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Water
   - UI
   - Obstruction
-  - Rocks
+  - 
   - Enemy
   - PlayerTrigger
   - Terrain

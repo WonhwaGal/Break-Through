@@ -15,7 +15,7 @@ public class MainMenuCanvas : BaseSceneUI
     [SerializeField] private GameObject _continueSavedPanel;
     [SerializeField] private GameObject _noSavedGamePanel;
     [SerializeField] private GameObject _rulesPanel;
-
+    
     private void Start()
     {
         SetPanels();

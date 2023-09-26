@@ -1581,6 +1581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8875861e4f2e84b8cf9a87065e1af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefabs: {fileID: 11400000, guid: aca20c816827392439387e56727823bd, type: 2}
   _settingsButton: {fileID: 2383566340798715108}
   _exitButton: {fileID: 2383566339619533449}
   _loadLevelButton: {fileID: 1865168285019265767}
@@ -1589,7 +1590,6 @@ MonoBehaviour:
   _continueSavedPanel: {fileID: 1865168284506409160}
   _noSavedGamePanel: {fileID: 1865168283719411115}
   _rulesPanel: {fileID: 1865168285402386795}
-  _prefabs: {fileID: 11400000, guid: 9fd9e4e8a51b35746b09ed0bf4d6bc82, type: 2}
 --- !u!1 &1865168284623750218
 GameObject:
   m_ObjectHideFlags: 0

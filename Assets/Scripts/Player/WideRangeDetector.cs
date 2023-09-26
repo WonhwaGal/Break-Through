@@ -6,7 +6,7 @@ public class WideRangeDetector : MonoBehaviour
     {
         if (other.TryGetComponent<EnemyView>(out var enemyView))
         {
-            enemyView.EnemyModel.Target = this.transform;
+            enemyView.Model.Target = this.transform;
         }
     }
 
@@ -14,7 +14,7 @@ public class WideRangeDetector : MonoBehaviour
     {
         if (other.TryGetComponent<EnemyView>(out var enemyView))
         {
-            enemyView.EnemyModel.Target = null;
+            enemyView.Model.Target = null;
         }
     }
 }

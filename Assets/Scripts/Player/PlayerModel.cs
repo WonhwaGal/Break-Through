@@ -1,32 +1,24 @@
-using System.Threading.Tasks;
+using UnityEngine;
 
 public class PlayerModel
 {
     private readonly PlayerAnimator _animator;
-    private float _shootLength;
-    private const float TransitionAdjustment = 0.8f;
+    private readonly PlayerShooter _shooter;
 
-    public PlayerModel(PlayerAnimator animator)
+    public PlayerModel(PlayerAnimator animator, Transform bowShootPoint)
     {
         _animator = animator;
-        _shootLength = _animator.GetLengthOfClip("PlayerShoot") * TransitionAdjustment;
+        _shooter = new PlayerShooter(bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
     }
 
-    public bool IsShooting { get; set; }
+    public bool IsShooting { get; private set; }
+    public bool IsstaticShooting => _shooter.IsShooting;
 
     public void StartAiming(bool aiming)
     {
         IsShooting = !aiming;
 
         if (IsShooting)
-            WaitForEndOfShoot();
-    }
-
-    private async void WaitForEndOfShoot()
-    {
-        var length = (int)(_shootLength * 1000);
-        await Task.Delay(length);
-
-        IsShooting = false;
+            _shooter.ShootArrow();
     }
 }

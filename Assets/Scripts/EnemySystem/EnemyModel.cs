@@ -11,7 +11,8 @@ public class EnemyModel
     private bool _isIdle;
     private bool _isShooting;
     private const int MaxRewardValue = 5;
-    private const int ChaseSpanInMillSec = 3000;
+    private const float ChaseSpan = 3.0f;
+    private const float StayAfterDeathSpan = 5.0f;
 
     public KillRewardType RewardType { get => _rewardType; }
     public int RewardAmount { get => _rewardAmount; }
@@ -61,12 +62,14 @@ public class EnemyModel
         }
     }
     public int HP { get => _hp; set => _hp = value; }
-    public int ChaseSpanInMilliSec => ChaseSpanInMillSec;
+    public float ChaseTimeSpan => ChaseSpan;
+    public float StayAfterDeathTime => StayAfterDeathSpan;
 
     public event Action<bool> OnSeeingPlayer;
     public event Action<bool> OnMoving;
     public event Action OnTakingAShot;
     public event Action OnDying;
+    public event Action<EnemyView> OnReadyToDespawn;
 
     public void SetRewardValues()
     {
@@ -79,4 +82,6 @@ public class EnemyModel
         if(_rewardType != KillRewardType.Key)
             _rewardAmount = randomNumber % MaxRewardValue;
     }
+
+    public void InvokeDespawn(EnemyView enemy) => OnReadyToDespawn?.Invoke(enemy);
 }
