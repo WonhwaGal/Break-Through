@@ -1,19 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool<T> 
+public class Pool<T> : IPool<T>
     where T : MonoBehaviour
 {
     private readonly Factory<T> _factory;
     private readonly Stack<T> _storage;
+    private int _activeAgents = 0;
 
-    public Pool(T prefab)
+    public Pool(T prefab, Transform root)
     {
         _factory = new Factory<T>(prefab);
         _storage = new Stack<T>();
+        RootObject = root;
     }
 
-    public T Spawn(Transform parent)
+    public Transform RootObject { get; private set; }
+    public int ActiveAgents { get => _activeAgents; }
+
+    public T Spawn()
     {
         T sample;
         if (_storage.Count == 0)
@@ -21,7 +26,8 @@ public class Pool<T>
         else
             sample = _storage.Pop();
 
-        OnSpawn(sample, parent);
+        OnSpawn(sample);
+        _activeAgents++;
         return sample;
     }
 
@@ -29,11 +35,12 @@ public class Pool<T>
     {
         _storage.Push(sample);
         sample.gameObject.SetActive(false);
+        _activeAgents--;
     }
 
-    private void OnSpawn(T sample, Transform parent)
+    private void OnSpawn(T sample)
     {
         sample.gameObject.SetActive(true);
-        sample.transform.parent = parent;
+        sample.transform.parent = RootObject;
     }
 }

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 5226366868278538003, guid: 0f9e29ceaa5259e459e0afdbf34cc0d5, type: 3}
   ArrowPrefab: {fileID: 4535334721746499451, guid: 6511fc682010d2b4d94b429556e0b611, type: 3}
-  SettingsMenuPrefab: {fileID: -8355538982839819913, guid: 5dc30fee8a384ec4288042a4a3cff65b, type: 3}
+  PointerPrefab: {fileID: 4557340427249492926, guid: 62c1833956bcebf4b89689ca5bdd912f, type: 3}
