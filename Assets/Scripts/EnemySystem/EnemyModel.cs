@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class EnemyModel
+public class EnemyModel :IDisposable
 {
     private int _hp;
     private KillRewardType _rewardType;
@@ -13,30 +14,23 @@ public class EnemyModel
     private const int MaxRewardValue = 5;
     private const float ChaseSpan = 3.0f;
     private const float StayAfterDeathSpan = 5.0f;
+    private readonly EnemyShooter _shooter;
+    private readonly int _damageFromArrow;
+    private readonly Slider _hpSlider;
+
+    public EnemyModel(Transform shootPoint, int damage, Slider hpSlider)
+    {
+        _shooter = new EnemyShooter(shootPoint);
+        _damageFromArrow = damage;
+        _hpSlider = hpSlider;
+        _hpSlider.onValueChanged.AddListener(UpdateSlider);
+        GameEventSystem.Subscribe<GameStopEvent>(GameStopped);
+    }
 
     public KillRewardType RewardType { get => _rewardType; }
     public int RewardAmount { get => _rewardAmount; }
     public Vector3 GuardPoint { get; set; }
-    public bool IsIdle
-    {
-        get => _isIdle;
-        set
-        {
-            _isIdle = value;
-            if (value)
-                OnMoving?.Invoke(false);
-        }
-    }
-    public bool IsShooting
-    {
-        get => _isShooting;
-        set
-        {
-            _isShooting = value;
-            if (value)
-                OnTakingAShot?.Invoke();
-        }
-    }
+    public Type State { get; set; }
     public Transform Target
     {
         get => _target;
@@ -48,7 +42,30 @@ public class EnemyModel
             else
                 OnSeeingPlayer?.Invoke(false);
 
-            OnMoving?.Invoke(true);
+            OnMoving?.Invoke(_target != null, true, State);
+        }
+    }
+    public bool IsIdle
+    {
+        get => _isIdle;
+        set
+        {
+            _isIdle = value;
+            if (value)
+                OnMoving?.Invoke(_target != null, false, State);
+        }
+    }
+    public bool IsShooting
+    {
+        get => _isShooting;
+        set
+        {
+            _isShooting = value;
+            if (value)
+            {
+                OnStartShooting?.Invoke();
+                _shooter.AssignTarget(_target);
+            }
         }
     }
     public bool IsDead 
@@ -61,17 +78,36 @@ public class EnemyModel
                 OnDying?.Invoke();
         }
     }
-    public int HP { get => _hp; set => _hp = value; }
+    public int HP
+    { 
+        get => _hp;
+        set
+        {
+            _hp = value;
+            if (value <= 0)
+                IsDead = true;
+            _hpSlider.value = _hp;
+        }
+    }
     public float ChaseTimeSpan => ChaseSpan;
     public float StayAfterDeathTime => StayAfterDeathSpan;
 
     public event Action<bool> OnSeeingPlayer;
-    public event Action<bool> OnMoving;
-    public event Action OnTakingAShot;
+    public event Action<bool, bool, Type> OnMoving;
+    public event Action OnStartShooting;
     public event Action OnDying;
     public event Action<EnemyView> OnReadyToDespawn;
 
-    public void SetRewardValues()
+
+    public void Reset()
+    {
+        _hpSlider.gameObject.SetActive(true);
+        HP = (int)_hpSlider.maxValue;
+
+        SetRewardValues();
+    }
+
+    private void SetRewardValues()
     {
         _rewardAmount = 1;
 
@@ -83,5 +119,26 @@ public class EnemyModel
             _rewardAmount = randomNumber % MaxRewardValue;
     }
 
+    public void CauseDamage(ArrowType arrowType)
+    {
+        if (arrowType == ArrowType.FromPlayer)
+            HP -= _damageFromArrow;
+    }
+
+    public void UpdateShooter() => _shooter.Update();
     public void InvokeDespawn(EnemyView enemy) => OnReadyToDespawn?.Invoke(enemy);
+    private void UpdateSlider(float value) => _hpSlider.gameObject.SetActive(value > 0);
+
+    private void GameStopped(GameStopEvent @event)
+    {
+        if (@event.EndOfGame)
+            Target = null;
+    }
+
+    public void Dispose()
+    {
+        _hpSlider.onValueChanged.RemoveAllListeners();
+        GameEventSystem.UnSubscribe<GameStopEvent>(GameStopped);
+        GC.SuppressFinalize(this);
+    }
 }

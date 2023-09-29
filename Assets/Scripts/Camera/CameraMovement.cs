@@ -16,7 +16,7 @@ public class CameraMovement : MonoBehaviour
 
     public Transform CenterTransform => _center.transform;
 
-    public void Init(Transform playerT, IInputService input)  //pointer is not needed
+    public void Init(Transform playerT)  //pointer is not needed
     {
         _playerT = playerT;
         _aimPointer = ServiceLocator.Container.RequestFor<Pointer>();

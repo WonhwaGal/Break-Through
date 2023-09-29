@@ -1,21 +1,17 @@
 using UnityEngine;
 
-public class PlayerShooter
+public class PlayerShooter: Shooter
 {
-    private ArrowController _arrowController;
-    private Pointer _aimPointer;
-    private Transform _bowShootPoint;
-
-    private float _shootLength;
+    private readonly Pointer _aimPointer;
+    private readonly float _shootLength;
     private float _stopShootingTime;
     private const float TransitionAdjustment = 0.8f;
 
-    public PlayerShooter(Transform bowShootPoint, float shootLength)
+    public PlayerShooter(Transform bowShootPoint, float shootLength) : base(bowShootPoint)
     {
-        _arrowController = ServiceLocator.Container.RequestFor<ArrowController>();
         _aimPointer = ServiceLocator.Container.RequestFor<Pointer>();
-        _bowShootPoint = bowShootPoint;
         _shootLength = shootLength * TransitionAdjustment;
+        _arrowType = ArrowType.FromPlayer;
     }
 
     public bool IsShooting
@@ -28,14 +24,15 @@ public class PlayerShooter
         }
     }
 
-    public void ShootArrow()
+    public override void ShootArrow()
     {
         _stopShootingTime = Time.time + _shootLength;
 
-        var pointerPos = _aimPointer.PointerT.position;
-        if (pointerPos == Vector3.zero)
-            pointerPos = _bowShootPoint.position + _bowShootPoint.forward;
+        _targetPos = _aimPointer.PointerT.position;
+        if (_targetPos == Vector3.zero)
+            _targetPos = _bowShootPoint.position + _bowShootPoint.forward;
 
-        _arrowController.ShootArrow(_bowShootPoint, ArrowType.FromPlayer, pointerPos);
+        GameEventSystem.Send<ArrowShootEvent>(new ArrowShootEvent(true));
+        base.ShootArrow();
     }
 }

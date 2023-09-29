@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5bed6215169b074da8700613548f68d, type: 3}
+  m_Name: PlayerAudio
+  m_EditorClassIdentifier: 
+  GroundFootstep: {fileID: 8300000, guid: 83b5cb64b7e89e94ba2b772703ce48d7, type: 3}
+  PlayerHurt: {fileID: 8300000, guid: 000e392be93fdc44798a012caea29620, type: 3}
+  PlayerDie: {fileID: 8300000, guid: d9980f58182d7c343a1481cb92fe93c0, type: 3}
+  ArrowShoot: {fileID: 8300000, guid: dea6c390cf9fd48458203129e2c864c0, type: 3}

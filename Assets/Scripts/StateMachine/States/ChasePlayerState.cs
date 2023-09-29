@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ChasePlayerState : BaseEnemyState
 {
-    private const float PlayerStoppingDist = 5;
+    private const float PlayerStoppingDist = 6;
     private float _timeToShoot;
 
     public override void EnterState()
@@ -10,6 +10,7 @@ public class ChasePlayerState : BaseEnemyState
         Owner.Agent.isStopped = false;
         Owner.Agent.stoppingDistance = PlayerStoppingDist;
         _timeToShoot = Time.time + Owner.Model.ChaseTimeSpan;
+        Owner.Model.State = typeof(ChasePlayerState);
         base.EnterState();
     }
 

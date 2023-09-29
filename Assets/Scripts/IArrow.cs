@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IArrow
+public interface IArroww
 {
     ArrowType ArrowType { get; set; }
     Rigidbody RigidBody { get; }

@@ -6,6 +6,7 @@ public class EntryPoint : MonoBehaviour
 
     void Awake()
     {
+        //Cursor.lockState = CursorLockMode.Locked;
         RegisterServices();
     }
 

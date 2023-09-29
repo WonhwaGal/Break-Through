@@ -14,6 +14,7 @@ public class PatrolState : BaseEnemyState
         _lastPosition = Owner.transform.position;
         Owner.Agent.enabled = true;
         Owner.Model.Target = null;
+        Owner.Model.State = typeof(PatrolState);
         SetRandomDestination();
         base.EnterState();
     }

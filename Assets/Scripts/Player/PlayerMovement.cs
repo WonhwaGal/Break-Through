@@ -10,13 +10,13 @@ public class PlayerMovement
 
     private CameraMovement _cameraMovement;
 
-    public PlayerMovement(CharacterController characterController, float speed, IInputService input)
+    public PlayerMovement(CharacterController characterController, float speed)
     {
         _characterController = characterController;
         _speed = speed;
         _playerT = _characterController.transform;
         _cameraMovement = Camera.main.GetComponentInParent<CameraMovement>();
-        _cameraMovement.Init(_playerT, input);
+        _cameraMovement.Init(_playerT);
     }
 
     public void Move(IInputService input)

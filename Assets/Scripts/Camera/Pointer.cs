@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Pointer: IService
 {
@@ -17,7 +17,8 @@ public class Pointer: IService
         _enemyMask = LayerMask.GetMask("Enemy");
 
         _aimPointer.SetActive(false);
-        _input.OnPressingAim += ShowPointer;
+        GameEventSystem.Subscribe<PlayerAimEvent>(ShowPointer);
+        //_input.OnPressingAim += ShowPointer;
     }
 
     public Transform PointerT => _aimPointer.transform;
@@ -47,7 +48,7 @@ public class Pointer: IService
         }
     }
 
-    private void ShowPointer(bool toShow) => _aimPointer.gameObject.SetActive(toShow);
+    private void ShowPointer(PlayerAimEvent @event) => _aimPointer.gameObject.SetActive(@event.AimPressed);
 
-    public void Dispose() => _input.OnPressingAim -= ShowPointer;
+    public void Dispose() => GameEventSystem.UnSubscribe<PlayerAimEvent>(ShowPointer);//_input.OnPressingAim -= ShowPointer;
 }

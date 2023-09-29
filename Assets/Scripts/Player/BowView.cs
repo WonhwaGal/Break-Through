@@ -7,7 +7,16 @@ public class BowView : MonoBehaviour
 
     private Animator _animator;
 
-    private void OnEnable() => _animator = GetComponent<Animator>();
+    private void OnEnable()
+    {
+        _animator = GetComponent<Animator>();
+        GameEventSystem.Subscribe<PlayerAimEvent>(TightenBow);
+    }
 
-    public void TightenBow(bool aiming) => _animator.SetBool("Aim", aiming);
+    public void TightenBow(PlayerAimEvent @event) => _animator.SetBool("Aim", @event.AimPressed);
+
+    private void OnDestroy()
+    {
+        GameEventSystem.UnSubscribe<PlayerAimEvent>(TightenBow);
+    }
 }
