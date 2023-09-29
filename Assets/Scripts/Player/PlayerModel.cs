@@ -1,32 +1,70 @@
-using System.Threading.Tasks;
+using UnityEngine;
 
 public class PlayerModel
 {
+    private int _hp;
+    private const int _maxHp = 100;
     private readonly PlayerAnimator _animator;
-    private float _shootLength;
-    private const float TransitionAdjustment = 0.8f;
+    private readonly PlayerShooter _shooter;
+    private readonly int _damageFromArrow;
 
-    public PlayerModel(PlayerAnimator animator)
+    public PlayerModel(PlayerAnimator animator, Transform bowShootPoint, int damage)
     {
         _animator = animator;
-        _shootLength = _animator.GetLengthOfClip("PlayerShoot") * TransitionAdjustment;
+        _damageFromArrow = damage;
+        _shooter = new PlayerShooter(bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
+        GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);
+        Reset();
     }
 
-    public bool IsShooting { get; set; }
-
-    public void StartAiming(bool aiming)
+    public bool ShouldStand => _shooter.IsShooting;
+    public bool IsShooting { get; private set; }
+    public int HP
     {
-        IsShooting = !aiming;
+        get => _hp;
+        private set
+        {
+            if (_hp > value)
+                HpDown(value, _hp);
+            else
+                _hp = value;
+        }
+    }
+
+    public bool IsDead { get; private set; }
+
+    public void Reset() => HP = _maxHp;
+
+    public void StartAiming(PlayerAimEvent @event)
+    {
+        IsShooting = !@event.AimPressed;
 
         if (IsShooting)
-            WaitForEndOfShoot();
+            _shooter.ShootArrow();
     }
 
-    private async void WaitForEndOfShoot()
+    public void CauseDamage(ArrowType arrowType)
     {
-        var length = (int)(_shootLength * 1000);
-        await Task.Delay(length);
+        if (arrowType == ArrowType.FromPlayer || IsDead)
+            return;
 
-        IsShooting = false;
+        HP -= _damageFromArrow;
+    }
+
+    private void HpDown(int value, int oldHp)
+    {
+        _hp = value;
+        if (_hp <= 0)
+        {
+            _hp = 0;
+            IsDead = true;
+            _animator.AnimateDeath();
+            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(true));
+        }
+        else
+        {
+            _animator.AnimateDamage();
+        }
+        GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp));
     }
 }

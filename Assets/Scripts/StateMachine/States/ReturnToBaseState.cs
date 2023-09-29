@@ -6,7 +6,8 @@ public class ReturnToBaseState : BaseEnemyState
     public override void EnterState()
     {
         Owner.Agent.stoppingDistance = RegularStoppingDist;
-        Owner.Agent.SetDestination(Owner.EnemyModel.GuardPoint);
+        Owner.Agent.SetDestination(Owner.Model.GuardPoint);
+        Owner.Model.State = typeof(ReturnToBaseState);
         base.EnterState();
     }
 
@@ -15,13 +16,13 @@ public class ReturnToBaseState : BaseEnemyState
         if (Owner.Agent.remainingDistance < 1)
         {
             Owner.Agent.isStopped = true;
-            Owner.EnemyModel.IsIdle = true;
+            Owner.Model.IsIdle = true;
 
             var owner = Owner;
             StateMachine.ChangeTo<GuardState>(guardState => guardState.Owner = owner);
         }
 
-        if (Owner.EnemyModel.Target != null)
+        if (Owner.Model.Target != null)
         {
             var owner = Owner;
             StateMachine.ChangeTo<ChasePlayerState>(chaseState => chaseState.Owner = owner);

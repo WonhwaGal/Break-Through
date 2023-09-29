@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class KeyboardInputService : IInputService
+public class KeyboardInputService : IInputService, IService
 {
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
@@ -12,7 +12,6 @@ public class KeyboardInputService : IInputService
     public Vector3 KeyAxis => GetInputAxis();
     public Vector3 MouseAxis => GetMouseAxis();
 
-    public event Action<bool> OnPressingAim;
     public event Action OnPause;
 
     private Vector3 GetInputAxis()
@@ -26,10 +25,10 @@ public class KeyboardInputService : IInputService
     private Vector3 GetMouseAxis()
     {
         if (Input.GetMouseButtonDown(0))
-            OnPressingAim?.Invoke(true);
+            GameEventSystem.Send<PlayerAimEvent>(new PlayerAimEvent(true));
 
         if(Input.GetMouseButtonUp(0))
-            OnPressingAim?.Invoke(false);
+            GameEventSystem.Send<PlayerAimEvent>(new PlayerAimEvent(false));
 
         return new(Input.GetAxis(MouseXAxis), Input.GetAxis(MouseYAxis), 0);
     }

@@ -13,7 +13,8 @@ public class PatrolState : BaseEnemyState
         _maxDistance = Owner.Agent.height * 2;
         _lastPosition = Owner.transform.position;
         Owner.Agent.enabled = true;
-        Owner.EnemyModel.Target = null;
+        Owner.Model.Target = null;
+        Owner.Model.State = typeof(PatrolState);
         SetRandomDestination();
         base.EnterState();
     }
@@ -23,7 +24,7 @@ public class PatrolState : BaseEnemyState
         if (Owner.Agent.remainingDistance < Threshold)
             SetRandomDestination();
 
-        if (Owner.EnemyModel.Target != null)
+        if (Owner.Model.Target != null)
         {
             var owner = Owner;
             StateMachine.ChangeTo<ChasePlayerState>(chaseState => chaseState.Owner = owner);

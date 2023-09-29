@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -11,11 +12,16 @@ public class CameraMovement : MonoBehaviour
     private float _cameraXRotation;
     private float _cameraYRotation;
     private Transform _playerT;
+    private Pointer _aimPointer;
 
     public Transform CenterTransform => _center.transform;
 
-
-    public void AssignToPlayer(Transform playerT) => _playerT = playerT;
+    public void Init(Transform playerT)  //pointer is not needed
+    {
+        _playerT = playerT;
+        _aimPointer = ServiceLocator.Container.RequestFor<Pointer>();
+        _aimPointer.SetUpPointer(transform);
+    }
 
     public void UpdateRotation(Vector3 mouseInput) => Rotate(mouseInput);
 
@@ -36,5 +42,7 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 moveVector = Vector3.Lerp(transform.position, _playerT.transform.position, _moveSpeed * Time.deltaTime);
         transform.position = moveVector;
+
+        _aimPointer.Update();
     }
 }

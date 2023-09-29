@@ -1,13 +1,17 @@
 using UnityEngine;
 
-public class PlayerAnimator
+public class PlayerAnimator: AgentAnimator
 {
-    private Animator _animator;
     private static readonly int s_forwardInput = Animator.StringToHash("Forward");
     private static readonly int s_sideInput = Animator.StringToHash("Side");
     private static readonly int s_aiming = Animator.StringToHash("Aiming");
+    private static readonly int s_hurt = Animator.StringToHash("Hurt");
+    private static readonly int s_die = Animator.StringToHash("Die");
 
-    public PlayerAnimator(Animator animator) => _animator = animator;
+    public PlayerAnimator(Animator animator) : base(animator) 
+    {
+        GameEventSystem.Subscribe<PlayerAimEvent>(AnimateAiming);
+    }
 
     public Animator Animator => _animator;
 
@@ -17,20 +21,13 @@ public class PlayerAnimator
         _animator.SetFloat(s_forwardInput, input.z);
     }
 
-    public void AnimateAiming(bool aiming)
-    {
-        _animator.SetBool(s_aiming, aiming);
-    }
+    public void AnimateAiming(PlayerAimEvent @event) => _animator.SetBool(s_aiming, @event.AimPressed);
 
-    public float GetLengthOfClip(string name)
-    {
-        AnimationClip[] clips = _animator.runtimeAnimatorController.animationClips;
-        for (int i = 0; i < clips.Length; i++)
-        {
-            if (clips[i].name == name)
-                return clips[i].length;
-        }
+    public void AnimateDamage() => _animator.SetTrigger(s_hurt);
+    public void AnimateDeath() => _animator.SetTrigger(s_die);
 
-        return default;
+    public override void Dispose()
+    {
+        GameEventSystem.UnSubscribe<PlayerAimEvent>(AnimateAiming);
     }
 }
