@@ -31,6 +31,7 @@ public class EnemyModel :IDisposable
     public int RewardAmount { get => _rewardAmount; }
     public Vector3 GuardPoint { get; set; }
     public Type State { get; set; }
+    public bool IsPaused { get; set; }
     public Transform Target
     {
         get => _target;
@@ -104,6 +105,7 @@ public class EnemyModel :IDisposable
         _hpSlider.gameObject.SetActive(true);
         HP = (int)_hpSlider.maxValue;
 
+        IsDead = false;
         SetRewardValues();
     }
 

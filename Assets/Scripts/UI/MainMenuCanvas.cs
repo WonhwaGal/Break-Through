@@ -11,7 +11,6 @@ public class MainMenuCanvas : BaseSceneUI
 
     [Header("Panels")]
     [SerializeField] private GameObject _mainMenuContainer;
-    [SerializeField] private GameObject _confirmNewPanel;
     [SerializeField] private GameObject _continueSavedPanel;
     [SerializeField] private GameObject _noSavedGamePanel;
     [SerializeField] private GameObject _rulesPanel;
@@ -25,7 +24,6 @@ public class MainMenuCanvas : BaseSceneUI
     private void SetPanels()
     {
         _mainMenuContainer.SetActive(true);
-        _confirmNewPanel.SetActive(false);
         _continueSavedPanel.SetActive(false);
         _noSavedGamePanel.SetActive(false);
         _rulesPanel.SetActive(false);
@@ -35,7 +33,7 @@ public class MainMenuCanvas : BaseSceneUI
     {
         _exitButton.onClick.AddListener(() => Application.Quit());
         _loadLevelButton.onClick.AddListener(() => SceneManager.LoadScene(1));
-        _settingsButton.onClick.AddListener(() => LoadSettingsContainer(_mainMenuContainer));
+        _settingsButton.onClick.AddListener(() => ShowSettingsContainer(_mainMenuContainer));
     }
 
     private void OnDestroy()

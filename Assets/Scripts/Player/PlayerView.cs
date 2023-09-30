@@ -29,7 +29,7 @@ public class PlayerView : MonoBehaviour, IDamagable
 
         _animator.AnimateMovement(_input.KeyAxis);
         
-        if (!_model.ShouldStand)
+        if (!_model.ShouldStand())
             _movement.Move(_input);
     }
 

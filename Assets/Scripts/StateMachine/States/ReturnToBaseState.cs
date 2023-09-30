@@ -1,8 +1,6 @@
 
 public class ReturnToBaseState : BaseEnemyState
 {
-    private const float RegularStoppingDist = 0.9f;
-
     public override void EnterState()
     {
         Owner.Agent.stoppingDistance = RegularStoppingDist;

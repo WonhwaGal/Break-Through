@@ -63,4 +63,6 @@ public class ShootState : BaseEnemyState
         var targetRotation = Quaternion.LookRotation(newDir);
         Owner.transform.rotation = Quaternion.Slerp(Owner.transform.rotation, targetRotation, RotationTime);
     }
+
+    public override void AdjustPauseTime(float deltaTime) => _targetTime += deltaTime;
 }

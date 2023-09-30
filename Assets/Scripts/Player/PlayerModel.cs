@@ -17,7 +17,8 @@ public class PlayerModel
         Reset();
     }
 
-    public bool ShouldStand => _shooter.IsShooting;
+    public bool IsHurting => _animator.CheckCurrentClip("Hurt-Reaction");
+    public bool IsDead { get; private set; }
     public bool IsShooting { get; private set; }
     public int HP
     {
@@ -31,16 +32,21 @@ public class PlayerModel
         }
     }
 
-    public bool IsDead { get; private set; }
-
     public void Reset() => HP = _maxHp;
 
     public void StartAiming(PlayerAimEvent @event)
     {
         IsShooting = !@event.AimPressed;
 
-        if (IsShooting)
+        if (IsShooting && !IsHurting)
             _shooter.ShootArrow();
+    }
+
+    public bool ShouldStand()
+    {
+        if (IsHurting || _shooter.IsShooting)
+            return true;
+        return false;
     }
 
     public void CauseDamage(ArrowType arrowType)
@@ -59,12 +65,13 @@ public class PlayerModel
             _hp = 0;
             IsDead = true;
             _animator.AnimateDeath();
-            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(true));
+            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(isEnded: true, isPaused: false));
         }
         else
         {
             _animator.AnimateDamage();
         }
-        GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp));
+        var isHurting = IsHurting;
+        GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp, isHurting));
     }
 }

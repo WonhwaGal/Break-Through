@@ -29,7 +29,7 @@ public class SettingsMenuCanvas : MonoBehaviour
         _audioPanel.Panel.SetActive(false);
         _gameplayPanel.Panel.SetActive(false);
 
-        if(_prefsSaver != null)
+        if (_prefsSaver != null)
             _prefsSaver.AssignValues();
     }
 

@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
-public class EnemyView : MonoBehaviour, IDamagable
+public class EnemyView : MonoBehaviour, IDamagable, IPausable
 {
     [SerializeField] private Slider _hpSlider;
     [SerializeField] private Transform _shootPoint;
@@ -28,21 +28,35 @@ public class EnemyView : MonoBehaviour, IDamagable
         _enemyModel.OnMoving += _enemyAnimator.AnimateMovement;
         _enemyModel.OnStartShooting += _enemyAnimator.AnimateShooting;
         _enemyModel.OnDying += _enemyAnimator.AnimateDeath;
+        GameEventSystem.Subscribe<GameStopEvent>(Pause);
     }
 
     private void OnEnable() => Model.Reset();
 
-    private void Update() => _stateMachine.UpdateStateMachine();
+    private void Update()
+    {
+        if (!Model.IsPaused)
+            _stateMachine.UpdateStateMachine();
+        else
+            ((BaseEnemyState)_stateMachine.CurrentState).AdjustPauseTime(Time.deltaTime);
+    }
 
     public void CauseDamage(ArrowType arrowType) => _enemyModel.CauseDamage(arrowType);
 
-    private void OnDisable() => Model.IsDead = false;
+    public void Pause(GameStopEvent @event)
+    {
+        if (Model.IsDead)
+            return;
+        Model.IsPaused = @event.IsPaused;
+        Agent.isStopped = Model.State == typeof(ShootState) ? true : @event.IsPaused;
+    }
 
     private void OnDestroy()
     {
         _enemyModel.OnMoving -= _enemyAnimator.AnimateMovement;
         _enemyModel.OnStartShooting -= _enemyAnimator.AnimateShooting;
         _enemyModel.OnDying -= _enemyAnimator.AnimateDeath;
+        GameEventSystem.UnSubscribe<GameStopEvent>(Pause);
         Model.Dispose();
     }
 }

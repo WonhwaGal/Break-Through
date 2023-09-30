@@ -10,9 +10,7 @@ public class PatrolState : BaseEnemyState
 
     public override void EnterState()
     {
-        _maxDistance = Owner.Agent.height * 2;
-        _lastPosition = Owner.transform.position;
-        Owner.Agent.enabled = true;
+        SetNavAgent();
         Owner.Model.Target = null;
         Owner.Model.State = typeof(PatrolState);
         SetRandomDestination();
@@ -53,5 +51,14 @@ public class PatrolState : BaseEnemyState
 
         result = Vector3.zero;
         return false;
+    }
+
+    private void SetNavAgent()
+    {
+        _maxDistance = Owner.Agent.height * 2;
+        _lastPosition = Owner.transform.position;
+        Owner.Agent.enabled = true;
+        Owner.Agent.isStopped = false;
+        Owner.Agent.stoppingDistance = RegularStoppingDist;
     }
 }

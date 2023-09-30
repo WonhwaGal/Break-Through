@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Pointer: IService
 {
-    private IInputService _input;
     private GameObject _aimPointer;
     private Transform _cameraT;
     private LayerMask _enemyMask;
@@ -12,13 +11,11 @@ public class Pointer: IService
     public Pointer(GameObject pointer, IInputService input)
     {
         _aimPointer = GameObject.Instantiate(pointer);
-        _input = input;
         _cameraT = Camera.main.transform;
         _enemyMask = LayerMask.GetMask("Enemy");
 
         _aimPointer.SetActive(false);
         GameEventSystem.Subscribe<PlayerAimEvent>(ShowPointer);
-        //_input.OnPressingAim += ShowPointer;
     }
 
     public Transform PointerT => _aimPointer.transform;
@@ -50,5 +47,8 @@ public class Pointer: IService
 
     private void ShowPointer(PlayerAimEvent @event) => _aimPointer.gameObject.SetActive(@event.AimPressed);
 
-    public void Dispose() => GameEventSystem.UnSubscribe<PlayerAimEvent>(ShowPointer);//_input.OnPressingAim -= ShowPointer;
+    public void Dispose()
+    {
+        GameEventSystem.UnSubscribe<PlayerAimEvent>(ShowPointer);
+    }
 }

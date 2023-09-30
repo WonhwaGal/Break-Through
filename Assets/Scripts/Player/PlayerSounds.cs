@@ -11,7 +11,6 @@ public class PlayerSounds : MonoBehaviour
         GameEventSystem.Subscribe<PlayerHpEvent>(PlayerHurtEvent);
     }
 
-    public void PlayerHurt() { }
     public void PlayerStep() => _audioSource.PlayOneShot(_playerSounds.GroundFootstep);
     public void PlayerShootArrow(ArrowShootEvent @event) => _audioSource.PlayOneShot(_playerSounds.ArrowShoot);
     public void PlayerHurtEvent(PlayerHpEvent @event)
@@ -20,9 +19,14 @@ public class PlayerSounds : MonoBehaviour
             return;
 
         if (@event.CurrentHP > 0)
-            _audioSource.PlayOneShot(_playerSounds.PlayerHurt);
+        {
+            if (!@event.IsHurt)
+                _audioSource.PlayOneShot(_playerSounds.PlayerHurt);
+        }
         else
+        {
             _audioSource.PlayOneShot(_playerSounds.PlayerDie);
+        }
     }
 
     private void OnDestroy()

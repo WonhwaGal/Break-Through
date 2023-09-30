@@ -2,5 +2,10 @@
 public struct GameStopEvent : IGameEvent
 {
     public readonly bool EndOfGame;
-    public GameStopEvent(bool isEnded) => EndOfGame = isEnded;
+    public readonly bool IsPaused;
+    public GameStopEvent(bool isEnded, bool isPaused)
+    {
+        EndOfGame = isEnded;
+        IsPaused = isPaused;
+    }
 }

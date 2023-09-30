@@ -1,13 +1,12 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
-public class ArrowView : MonoBehaviour, IArrow
+public class ArrowView : MonoBehaviour, IArrow, IPausable
 {
     [SerializeField] private Rigidbody _arrowRb;
-    [SerializeField, Range(5,20)] private float _force = 15;
-
-    private const float ArrowLifeTime = 3.0f;
+    [SerializeField, Range(5, 20)] private float _force = 15;
+    private Vector3 _pausedVelocity;
+    private ParticleSystem _particleSystem;
 
     public ArrowType ArrowType { get; set; }
     public Rigidbody RigidBody => _arrowRb;
@@ -15,7 +14,11 @@ public class ArrowView : MonoBehaviour, IArrow
 
     public event Action<ArrowView> OnHittingAgent;
 
-    private void OnEnable() => StartCoroutine(TurnOff());
+    private void Awake()
+    {
+        _particleSystem = GetComponentInChildren<ParticleSystem>();
+        GameEventSystem.Subscribe<GameStopEvent>(Pause);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,20 +28,27 @@ public class ArrowView : MonoBehaviour, IArrow
         OnHittingAgent?.Invoke(this);
     }
 
-    IEnumerator TurnOff()
+    public void Pause(GameStopEvent @event)
     {
-        var arrowOnTime = 0.0f;
-        while(arrowOnTime < ArrowLifeTime)
+        Debug.Log("I hear");
+        if (_arrowRb.velocity != Vector3.zero && @event.IsPaused)
         {
-            yield return null;
-            arrowOnTime += Time.deltaTime;
+            _pausedVelocity = _arrowRb.velocity;
+            _arrowRb.velocity = Vector3.zero;
+            _particleSystem.Pause();
+            Debug.Log("I pause");
         }
-        gameObject.SetActive(false);
+        else
+        {
+            _arrowRb.velocity = _pausedVelocity;
+            _particleSystem.Play();
+            Debug.Log("I play");
+        }
     }
 
     private void OnDisable()
     {
         _arrowRb.velocity = Vector3.zero;
-        StopCoroutine(TurnOff());
+        GameEventSystem.UnSubscribe<GameStopEvent>(Pause);
     }
 }

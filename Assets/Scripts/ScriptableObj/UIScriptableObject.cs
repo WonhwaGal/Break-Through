@@ -4,4 +4,6 @@ using UnityEngine;
 public class UIScriptableObject : ScriptableObject
 {
     public SettingsMenuCanvas SettingsMenu;
+    public PausePanel PausePanel;
+    public GameOverPanel GameOverPanel;
 }

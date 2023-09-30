@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class BaseGamePanel : MonoBehaviour
 {
-    [SerializeField] private GameObject _panel;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _exitButton;
 

@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4726daa0da0070e42b437d5d8c62584d, type: 3}
   m_Name: UIScriptableObject
   m_EditorClassIdentifier: 
-  SettingsMenu: {fileID: -8355538982839819913, guid: 5dc30fee8a384ec4288042a4a3cff65b, type: 3}
+  SettingsMenu: {fileID: -7964379816993978491, guid: 69a91f987745e2e4286056bd8c739b92, type: 3}
+  PausePanel: {fileID: 833476184902125560, guid: 7625238a48610cc428a339f705ff9939, type: 3}
+  GameOverPanel: {fileID: 0}

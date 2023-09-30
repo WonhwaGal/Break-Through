@@ -21,4 +21,10 @@ public class DieState : BaseStateOf<EnemyView>
             Dispose();
         }
     }
+
+    public override void ExitState()
+    {
+        Owner.GetComponent<Collider>().enabled = true;
+        base.ExitState();
+    }
 }

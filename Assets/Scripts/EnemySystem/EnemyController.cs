@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
         if (_enemyViewPool.ActiveAgents < _minNumberOfEnemies)
             RandomSpawnEnemy();
     }
+
     private void PlaceGuards()
     {
         for (int i = 0; i < _guardPoints.Length; i++)
