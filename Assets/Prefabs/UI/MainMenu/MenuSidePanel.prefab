@@ -1450,7 +1450,7 @@ GameObject:
   - component: {fileID: 6968179623889517343}
   - component: {fileID: 6968179623889517342}
   m_Layer: 5
-  m_Name: MenuPanel
+  m_Name: MenuSidePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

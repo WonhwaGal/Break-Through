@@ -11,6 +11,7 @@ public class PlayerAnimator: AgentAnimator
     public PlayerAnimator(Animator animator) : base(animator) 
     {
         GameEventSystem.Subscribe<PlayerAimEvent>(AnimateAiming);
+        GameEventSystem.Subscribe<GameStopEvent>(PauseAnimation);
     }
 
     public Animator Animator => _animator;
@@ -25,9 +26,11 @@ public class PlayerAnimator: AgentAnimator
 
     public void AnimateDamage() => _animator.SetTrigger(s_hurt);
     public void AnimateDeath() => _animator.SetTrigger(s_die);
+    private void PauseAnimation(GameStopEvent @event) => _animator.speed = @event.IsPaused ? 0 : 1;
 
     public override void Dispose()
     {
         GameEventSystem.UnSubscribe<PlayerAimEvent>(AnimateAiming);
+        GameEventSystem.UnSubscribe<GameStopEvent>(PauseAnimation);
     }
 }

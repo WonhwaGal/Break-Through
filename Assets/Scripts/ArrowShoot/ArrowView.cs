@@ -30,23 +30,23 @@ public class ArrowView : MonoBehaviour, IArrow, IPausable
 
     public void Pause(GameStopEvent @event)
     {
-        Debug.Log("I hear");
+        if (@event.EndOfGame)
+            return; 
+
         if (_arrowRb.velocity != Vector3.zero && @event.IsPaused)
         {
             _pausedVelocity = _arrowRb.velocity;
             _arrowRb.velocity = Vector3.zero;
             _particleSystem.Pause();
-            Debug.Log("I pause");
         }
         else
         {
             _arrowRb.velocity = _pausedVelocity;
             _particleSystem.Play();
-            Debug.Log("I play");
         }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _arrowRb.velocity = Vector3.zero;
         GameEventSystem.UnSubscribe<GameStopEvent>(Pause);

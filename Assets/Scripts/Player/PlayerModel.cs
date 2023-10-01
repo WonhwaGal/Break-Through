@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class PlayerModel
+public class PlayerModel : IDisposable
 {
     private int _hp;
     private const int _maxHp = 100;
@@ -73,5 +74,11 @@ public class PlayerModel
         }
         var isHurting = IsHurting;
         GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp, isHurting));
+    }
+
+    public void Dispose()
+    {
+        GameEventSystem.UnSubscribe<PlayerAimEvent>(StartAiming);
+        GC.SuppressFinalize(this);
     }
 }

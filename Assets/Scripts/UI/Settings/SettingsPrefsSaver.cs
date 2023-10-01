@@ -13,10 +13,12 @@ public class SettingsPrefsSaver : IDisposable
     private const string PrefsMusic = "masterMusic";
     private const string PrefsSound = "masterSounds";
     private const string PrefsSens = "masterSensitivity";
+    private const string PrefsSensStep = "sensStep";
 
     private const float DefaultMusic = -25;
     private const float DefaultSound = -10;
-    private const float DefaultSens = 3;
+    private const float DefaultSens = 2;
+    private const float SliderStep = 0.25f;
 
     public SettingsPrefsSaver(AudioMixer myMixer, Slider musicSlider, Slider soundSlider, Slider sensSlider)
     {
@@ -26,15 +28,16 @@ public class SettingsPrefsSaver : IDisposable
         _sensSlider = sensSlider;
     }
 
-    public event Action<float> OnSensSliderChanged;
+    public Action<float> OnSensSliderChanged { get; private set; }
 
     public void Init()
     {
         _musicSlider.onValueChanged.AddListener(value => _myMixer.SetFloat("myMusic", value));
         _soundSlider.onValueChanged.AddListener(value => _myMixer.SetFloat("mySounds", value));
-        _sensSlider.onValueChanged.AddListener(value => OnSensSliderChanged?.Invoke(value));
+        _sensSlider.onValueChanged.AddListener(value => UpdateSensitivity());
 
         AssignValues();
+        UpdateSensitivity();
     }
 
     public void AssignValues()
@@ -49,6 +52,7 @@ public class SettingsPrefsSaver : IDisposable
             GetAudioPrefs();
             GetGameplayPrefs();
         }
+        PlayerPrefs.SetFloat(PrefsSensStep, SliderStep);
     }
 
     public void SetDefaultAudio()
@@ -82,6 +86,12 @@ public class SettingsPrefsSaver : IDisposable
     public void GetGameplayPrefs()
     {
         _sensSlider.value = PlayerPrefs.GetInt(PrefsSens);
+    }
+
+    private void UpdateSensitivity()
+    {
+        var sensMultiplier = SliderStep * _sensSlider.value + SliderStep * 2;
+        GameEventSystem.Send<SensitivityEvent>(new SensitivityEvent(sensMultiplier));
     }
 
     public void Dispose()

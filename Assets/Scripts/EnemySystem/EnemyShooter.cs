@@ -35,4 +35,6 @@ public class EnemyShooter: Shooter
         _targetPos += new Vector3(0, VerticalShift, 0);
         base.ShootArrow();
     }
+
+    public void AdjustPauseTime(float deltaTime) => _timeToShoot += deltaTime;
 }

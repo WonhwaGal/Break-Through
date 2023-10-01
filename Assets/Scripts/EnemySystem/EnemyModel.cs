@@ -128,6 +128,7 @@ public class EnemyModel :IDisposable
     }
 
     public void UpdateShooter() => _shooter.Update();
+    public void AdjustShooter(float deltaTime) => _shooter.AdjustPauseTime(deltaTime);
     public void InvokeDespawn(EnemyView enemy) => OnReadyToDespawn?.Invoke(enemy);
     private void UpdateSlider(float value) => _hpSlider.gameObject.SetActive(value > 0);
 

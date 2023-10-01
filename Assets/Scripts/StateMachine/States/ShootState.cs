@@ -64,5 +64,9 @@ public class ShootState : BaseEnemyState
         Owner.transform.rotation = Quaternion.Slerp(Owner.transform.rotation, targetRotation, RotationTime);
     }
 
-    public override void AdjustPauseTime(float deltaTime) => _targetTime += deltaTime;
+    public override void AdjustPauseTime(float deltaTime)
+    {
+        _targetTime += deltaTime;
+        Owner.Model.AdjustShooter(deltaTime);
+    }
 }

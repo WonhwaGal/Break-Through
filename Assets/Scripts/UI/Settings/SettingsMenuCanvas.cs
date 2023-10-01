@@ -36,7 +36,7 @@ public class SettingsMenuCanvas : MonoBehaviour
     private void Start()
     {
         _prefsSaver = new SettingsPrefsSaver(_myMixer, _audioPanel.Slider, _audioPanel.SoundSlider, _gameplayPanel.Slider);
-        _prefsSaver.OnSensSliderChanged += SetMouseSensitivity;
+        GameEventSystem.Subscribe<SensitivityEvent>(SetMouseSensitivity);
 
         AssignUI();
     }
@@ -58,7 +58,7 @@ public class SettingsMenuCanvas : MonoBehaviour
         _prefsSaver.Init();
     }
 
-    private void SetMouseSensitivity(float value) => _gameplayPanel.Value.text = $"{value}";
+    private void SetMouseSensitivity(SensitivityEvent @event) => _gameplayPanel.Value.text = $"{@event.NewValue}";
 
     private void OpenAudioSubmenu()
     {
@@ -91,7 +91,7 @@ public class SettingsMenuCanvas : MonoBehaviour
         _audioButton.onClick.RemoveListener(OpenAudioSubmenu);
         _gameplayButton.onClick.RemoveListener(OpenGameplaySubmenu);
         _returnButton.onClick.RemoveAllListeners();
-        _prefsSaver.OnSensSliderChanged -= SetMouseSensitivity;
+        GameEventSystem.UnSubscribe<SensitivityEvent>(SetMouseSensitivity);
         _prefsSaver.Dispose();
     }
 }
