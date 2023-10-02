@@ -41,6 +41,6 @@ public class Pool<T> : IPool<T>
     private void OnSpawn(T sample)
     {
         sample.gameObject.SetActive(true);
-        sample.transform.parent = RootObject;
+        sample.transform.SetParent(RootObject);
     }
 }

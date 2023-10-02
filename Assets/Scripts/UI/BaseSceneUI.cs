@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class BaseSceneUI : MonoBehaviour
 {
     [Header("Prefabs")]
-    [SerializeField] private UIScriptableObject _prefabs;
+    [SerializeField] protected UIScriptableObject _prefabs;
     [SerializeField] private GameObject _settingsSpawn;
 
     private SettingsMenuCanvas _settingsCanvas;

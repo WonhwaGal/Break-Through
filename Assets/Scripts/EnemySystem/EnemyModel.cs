@@ -5,29 +5,28 @@ using UnityEngine.UI;
 public class EnemyModel :IDisposable
 {
     private int _hp;
-    private KillRewardType _rewardType;
+    private RewardType _rewardType;
     private int _rewardAmount;
     private Transform _target;
     private bool _isDead;
     private bool _isIdle;
     private bool _isShooting;
-    private const int MaxRewardValue = 5;
     private const float ChaseSpan = 3.0f;
     private const float StayAfterDeathSpan = 5.0f;
     private readonly EnemyShooter _shooter;
     private readonly int _damageFromArrow;
     private readonly Slider _hpSlider;
 
-    public EnemyModel(Transform shootPoint, int damage, Slider hpSlider)
+    public EnemyModel(Transform shootPoint, Slider hpSlider)
     {
         _shooter = new EnemyShooter(shootPoint);
-        _damageFromArrow = damage;
+        _damageFromArrow = Constants.ArrowDamageToEnemy;
         _hpSlider = hpSlider;
         _hpSlider.onValueChanged.AddListener(UpdateSlider);
         GameEventSystem.Subscribe<GameStopEvent>(GameStopped);
     }
 
-    public KillRewardType RewardType { get => _rewardType; }
+    public RewardType RewardType { get => _rewardType; }
     public int RewardAmount { get => _rewardAmount; }
     public Vector3 GuardPoint { get; set; }
     public Type State { get; set; }
@@ -99,7 +98,6 @@ public class EnemyModel :IDisposable
     public event Action OnDying;
     public event Action<EnemyView> OnReadyToDespawn;
 
-
     public void Reset()
     {
         _hpSlider.gameObject.SetActive(true);
@@ -111,14 +109,21 @@ public class EnemyModel :IDisposable
 
     private void SetRewardValues()
     {
-        _rewardAmount = 1;
-
         int randomNumber = UnityEngine.Random.Range(1, 31);
-        Array rewardTypeValues = Enum.GetValues(typeof(KillRewardType));
-        _rewardType = (KillRewardType)rewardTypeValues.GetValue(randomNumber % rewardTypeValues.Length);
 
-        if(_rewardType != KillRewardType.Key)
-            _rewardAmount = randomNumber % MaxRewardValue;
+        _rewardAmount = randomNumber % Constants.KillRewardMaxValue;
+        if (_rewardAmount == 0 || _rewardType == RewardType.Key)
+            _rewardAmount = 1;
+
+        Array rewardTypeValues = Enum.GetValues(typeof(RewardType));
+        for (var i = rewardTypeValues.Length - 1; i >= 0; i--)
+        {
+            if (randomNumber % (int)rewardTypeValues.GetValue(i) == 0)
+            {
+                _rewardType = (RewardType)rewardTypeValues.GetValue(i);
+                return;
+            }
+        }
     }
 
     public void CauseDamage(ArrowType arrowType)
@@ -130,6 +135,7 @@ public class EnemyModel :IDisposable
     public void UpdateShooter() => _shooter.Update();
     public void AdjustShooter(float deltaTime) => _shooter.AdjustPauseTime(deltaTime);
     public void InvokeDespawn(EnemyView enemy) => OnReadyToDespawn?.Invoke(enemy);
+    public void Pause(GameStopEvent @event) => IsPaused = @event.IsPaused;
     private void UpdateSlider(float value) => _hpSlider.gameObject.SetActive(value > 0);
 
     private void GameStopped(GameStopEvent @event)

@@ -7,7 +7,6 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
 {
     [SerializeField] private Slider _hpSlider;
     [SerializeField] private Transform _shootPoint;
-    [SerializeField] private int _damageFromArrow;
 
     private StateMachine _stateMachine = new();
     private EnemyModel _enemyModel;
@@ -23,11 +22,8 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
-        _enemyAnimator = new EnemyAnimator(GetComponent<Animator>());
-        _enemyModel = new EnemyModel(_shootPoint, _damageFromArrow, _hpSlider);
-        _enemyModel.OnMoving += _enemyAnimator.AnimateMovement;
-        _enemyModel.OnStartShooting += _enemyAnimator.AnimateShooting;
-        _enemyModel.OnDying += _enemyAnimator.AnimateDeath;
+        _enemyModel = new EnemyModel(_shootPoint, _hpSlider);
+        SetUpAnimator();
         GameEventSystem.Subscribe<GameStopEvent>(Pause);
     }
 
@@ -47,8 +43,17 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
     {
         if (Model.IsDead)
             return;
-        Model.IsPaused = @event.IsPaused;
-        Agent.isStopped = Model.State == typeof(ShootState) ? true : @event.IsPaused;
+
+        Model.Pause(@event);
+        Agent.isStopped = _enemyModel.State == typeof(ShootState) ? true : @event.IsPaused;
+    }
+
+    private void SetUpAnimator()
+    {
+        _enemyAnimator = new EnemyAnimator(GetComponent<Animator>());
+        _enemyModel.OnMoving += _enemyAnimator.AnimateMovement;
+        _enemyModel.OnStartShooting += _enemyAnimator.AnimateShooting;
+        _enemyModel.OnDying += _enemyAnimator.AnimateDeath;
     }
 
     private void OnDestroy()

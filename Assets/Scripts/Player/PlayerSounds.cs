@@ -7,12 +7,16 @@ public class PlayerSounds : MonoBehaviour
 
     private void Start()
     {
-        GameEventSystem.Subscribe<ArrowShootEvent>(PlayerShootArrow);
+        GameEventSystem.Subscribe<ReceiveRewardEvent>(PlayerShootArrow);
         GameEventSystem.Subscribe<PlayerHpEvent>(PlayerHurtEvent);
     }
 
     public void PlayerStep() => _audioSource.PlayOneShot(_playerSounds.GroundFootstep);
-    public void PlayerShootArrow(ArrowShootEvent @event) => _audioSource.PlayOneShot(_playerSounds.ArrowShoot);
+    public void PlayerShootArrow(ReceiveRewardEvent @event)
+    {
+        if (@event.RewardType == RewardType.Arrow && @event.RewardAmount < 0)
+            _audioSource.PlayOneShot(_playerSounds.ArrowShoot);
+    }
     public void PlayerHurtEvent(PlayerHpEvent @event)
     {
         if (@event.CurrentHP > @event.PreviousHP)
@@ -31,7 +35,7 @@ public class PlayerSounds : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameEventSystem.UnSubscribe<ArrowShootEvent>(PlayerShootArrow);
+        GameEventSystem.UnSubscribe<ReceiveRewardEvent>(PlayerShootArrow);
         GameEventSystem.UnSubscribe<PlayerHpEvent>(PlayerHurtEvent);
     }
 }

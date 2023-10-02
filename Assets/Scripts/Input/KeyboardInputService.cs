@@ -12,6 +12,7 @@ public class KeyboardInputService : IInputService, IService
 
     public KeyboardInputService()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         GameEventSystem.Subscribe<GameStopEvent>(UpdatePause);
     }
 
@@ -44,6 +45,7 @@ public class KeyboardInputService : IInputService, IService
         {
             await System.Threading.Tasks.Task.Delay(50);
             _isPaused = @event.IsPaused;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -62,6 +64,7 @@ public class KeyboardInputService : IInputService, IService
         {
             GameEventSystem.Send<GameStopEvent>(new GameStopEvent(isEnded: false, isPaused: true));
             _isPaused = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

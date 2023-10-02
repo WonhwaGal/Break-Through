@@ -3,6 +3,7 @@ using UnityEngine;
 public class DieState : BaseStateOf<EnemyView>
 {
     private float _despawnTime;
+    private Vector3 _verticalShift = Constants.RewardSpawnYShift;
 
     public override void EnterState()
     {
@@ -11,6 +12,9 @@ public class DieState : BaseStateOf<EnemyView>
         Owner.Model.State = typeof(DieState);
         Owner.GetComponent<Collider>().enabled = false;
         _despawnTime = Time.time + Owner.Model.StayAfterDeathTime;
+        var rewardSpawnPos = Owner.transform.position + _verticalShift;
+        GameEventSystem.Send<EnemyKilledEvent>(
+            new EnemyKilledEvent(Owner.Model.RewardType, Owner.Model.RewardAmount, rewardSpawnPos));
     }
 
     public override void UpdateState()

@@ -36,8 +36,8 @@ public class CameraMovement : MonoBehaviour
         _cameraYRotation += mouseInput.x * _mouseSensitivity;
         _cameraYRotation %= 360;
 
-        Vector3 rotatingAngle = new Vector3(_cameraXRotation, _cameraYRotation, 0);
-        Quaternion rotation = Quaternion.Slerp(_center.transform.localRotation, Quaternion.Euler(rotatingAngle), _rotationSpeed * Time.deltaTime);
+        Vector3 rotatingAngle = new (_cameraXRotation, _cameraYRotation, 0);
+        var rotation = Quaternion.Slerp(_center.transform.localRotation, Quaternion.Euler(rotatingAngle), _rotationSpeed * Time.deltaTime);
         _center.localRotation = rotation;
     }
 

@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: UIScriptableObject
   m_EditorClassIdentifier: 
   SettingsMenu: {fileID: -7964379816993978491, guid: 69a91f987745e2e4286056bd8c739b92, type: 3}
-  PausePanel: {fileID: 833476184902125560, guid: 7625238a48610cc428a339f705ff9939, type: 3}
-  GameOverPanel: {fileID: 0}
+  RewardIcon: {fileID: 282190109391311858, guid: b7ada39dd91451b48be9bc698695b494, type: 3}
+  KeySprite: {fileID: 21300000, guid: 3ea537e7c42b1d448ad7e6e300db26ab, type: 3}
+  ArrowSprite: {fileID: 21300000, guid: 5da3873f8fa9daf438241d185613c2bb, type: 3}
+  HpSprite: {fileID: 21300000, guid: 96ec8f853bd7f8b4bb9298cdeb1c8676, type: 3}

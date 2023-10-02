@@ -8,10 +8,13 @@ public class PlayerAnimator: AgentAnimator
     private static readonly int s_hurt = Animator.StringToHash("Hurt");
     private static readonly int s_die = Animator.StringToHash("Die");
 
+    private readonly StatisticsCounter _stats;
+
     public PlayerAnimator(Animator animator) : base(animator) 
     {
         GameEventSystem.Subscribe<PlayerAimEvent>(AnimateAiming);
         GameEventSystem.Subscribe<GameStopEvent>(PauseAnimation);
+        _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
     }
 
     public Animator Animator => _animator;
@@ -22,7 +25,11 @@ public class PlayerAnimator: AgentAnimator
         _animator.SetFloat(s_forwardInput, input.z);
     }
 
-    public void AnimateAiming(PlayerAimEvent @event) => _animator.SetBool(s_aiming, @event.AimPressed);
+    public void AnimateAiming(PlayerAimEvent @event)
+    {
+        if (_stats.ArrowNumber > 0)
+            _animator.SetBool(s_aiming, @event.AimPressed);
+    }
 
     public void AnimateDamage() => _animator.SetTrigger(s_hurt);
     public void AnimateDeath() => _animator.SetTrigger(s_die);

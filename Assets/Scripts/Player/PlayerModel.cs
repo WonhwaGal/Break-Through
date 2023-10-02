@@ -8,13 +8,16 @@ public class PlayerModel : IDisposable
     private readonly PlayerAnimator _animator;
     private readonly PlayerShooter _shooter;
     private readonly int _damageFromArrow;
+    private readonly StatisticsCounter _stats;
 
-    public PlayerModel(PlayerAnimator animator, Transform bowShootPoint, int damage)
+    public PlayerModel(PlayerAnimator animator, Transform bowShootPoint)
     {
         _animator = animator;
-        _damageFromArrow = damage;
+        _damageFromArrow = Constants.ArrowDamageToPlayer;
         _shooter = new PlayerShooter(bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
         GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);
+        _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
+        _stats.GrantArrows(Constants.StartArrowNumber);
         Reset();
     }
 
@@ -38,6 +41,9 @@ public class PlayerModel : IDisposable
     public void StartAiming(PlayerAimEvent @event)
     {
         IsShooting = !@event.AimPressed;
+
+        if (_stats.ArrowNumber <= 0)
+            return;
 
         if (IsShooting && !IsHurting)
             _shooter.ShootArrow();

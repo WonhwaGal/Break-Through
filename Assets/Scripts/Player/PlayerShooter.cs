@@ -32,7 +32,7 @@ public class PlayerShooter: Shooter
         if (_targetPos == Vector3.zero)
             _targetPos = _bowShootPoint.position + _bowShootPoint.forward;
 
-        GameEventSystem.Send<ArrowShootEvent>(new ArrowShootEvent(true));
+        GameEventSystem.Send<ReceiveRewardEvent>(new ReceiveRewardEvent(RewardType.Arrow, -1));
         base.ShootArrow();
     }
 }

@@ -1,31 +1,24 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class GameCanvas : BaseSceneUI
 {
     [Header("Game UI")]
-    [SerializeField] private Slider _playerHpSlider;
-    [SerializeField] private TextMeshProUGUI _hpText;
+    [SerializeField] private Transform _rewardsT;
 
     [Header("Game State UI")]
     [SerializeField] private GameObject _backgroundPanel;
     [SerializeField] private PausePanel _pausePanel;
     [SerializeField] private GameOverPanel _gameOverPanel;
 
+    private RewardController _rewardController;
+
     private void Start()
     {
-        GameEventSystem.Subscribe<PlayerHpEvent>(SetHpSlider);
+        SetPanels();
         GameEventSystem.Subscribe<GameStopEvent>(StopGame);
-        _playerHpSlider.onValueChanged.AddListener(SetHpText);
-        AssignPausePanelButton(_pausePanel);
-        _backgroundPanel.SetActive(false);
-        _pausePanel.gameObject.SetActive(false);
-        _gameOverPanel.gameObject.SetActive(false);
+        _rewardController = new RewardController(_prefabs, _rewardsT);
     }
-
-    private void SetHpSlider(PlayerHpEvent @event) => _playerHpSlider.value = @event.CurrentHP;
-    private void SetHpText(float value) => _hpText.text = value.ToString();
 
     private void StopGame(GameStopEvent @event)
     {
@@ -37,10 +30,17 @@ public class GameCanvas : BaseSceneUI
             ShowPanel(_gameOverPanel);
     }
 
+    private void SetPanels()
+    {
+        AssignPausePanelButton(_pausePanel);
+        _backgroundPanel.SetActive(false);
+        _pausePanel.gameObject.SetActive(false);
+        _gameOverPanel.gameObject.SetActive(false);
+    }
 
     private void OnDestroy()
     {
-        GameEventSystem.UnSubscribe<PlayerHpEvent>(SetHpSlider);
-        _playerHpSlider.onValueChanged.RemoveListener(SetHpText);
+        GameEventSystem.UnSubscribe<GameStopEvent>(StopGame);
+        _rewardController.Dispose();
     }
 }
