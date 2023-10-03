@@ -13,7 +13,6 @@ public class CameraMovement : MonoBehaviour
     private float _cameraYRotation;
     private Transform _playerT;
     private Pointer _aimPointer;
-    private const string PrefsSensitivity = "masterSensitivity";
 
     public Transform CenterTransform => _center.transform;
 
@@ -53,10 +52,11 @@ public class CameraMovement : MonoBehaviour
 
     private void SetSensitivityMultiplier()
     {
-        if (PlayerPrefs.HasKey(PrefsSensitivity))
+        if (PlayerPrefs.HasKey(Constants.PrefsSensitivity))
         {
-            var step = PlayerPrefs.GetFloat("sensStep");
-            _mouseSensitivity = PlayerPrefs.GetInt(PrefsSensitivity) * step + step * 2;
+            var step = Constants.MouseSensitivityStep;
+            _mouseSensitivity = 
+                PlayerPrefs.GetInt(Constants.PrefsSensitivity) * step + step * 2;
         } 
     }
 

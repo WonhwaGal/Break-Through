@@ -9,7 +9,6 @@ public class DieState : BaseStateOf<EnemyView>
     {
         Owner.Agent.isStopped = true;
         Owner.Model.Target = null;
-        Owner.Model.State = typeof(DieState);
         Owner.GetComponent<Collider>().enabled = false;
         _despawnTime = Time.time + Owner.Model.StayAfterDeathTime;
         var rewardSpawnPos = Owner.transform.position + _verticalShift;

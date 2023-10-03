@@ -12,7 +12,6 @@ public class PatrolState : BaseEnemyState
     {
         SetNavAgent();
         Owner.Model.Target = null;
-        Owner.Model.State = typeof(PatrolState);
         SetRandomDestination();
         base.EnterState();
     }

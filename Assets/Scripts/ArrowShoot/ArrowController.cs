@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class ArrowController : IService
 {
-    private GameObject _root;
-    private ArrowView _arrowPrefab;
-    private ArrowPool<ArrowView> _arrowPool;
+    private readonly GameObject _root;
+    private readonly ArrowView _arrowPrefab;
+    private readonly ArrowPool<ArrowView> _arrowPool;
 
     public ArrowController(SpawnScriptableObject prefabContainer)
     {

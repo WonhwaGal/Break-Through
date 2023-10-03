@@ -8,7 +8,7 @@ public class PlayerMovement
     private Vector3 _moveDirection;
     private const float GravityValue = -1.8f;
 
-    private CameraMovement _cameraMovement;
+    private readonly CameraMovement _cameraMovement;
 
     public PlayerMovement(CharacterController characterController, float speed)
     {

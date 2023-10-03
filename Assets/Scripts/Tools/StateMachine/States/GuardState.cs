@@ -4,7 +4,6 @@ public class GuardState : BaseEnemyState
     public override void EnterState()
     {
         Owner.Agent.enabled = true;
-        Owner.Model.State = typeof(GuardState);
         if (Owner.Model.GuardPoint == UnityEngine.Vector3.zero)
             Owner.Model.GuardPoint = Owner.transform.position;
         base.EnterState();

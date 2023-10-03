@@ -8,7 +8,7 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
     [SerializeField] private Slider _hpSlider;
     [SerializeField] private Transform _shootPoint;
 
-    private StateMachine _stateMachine = new();
+    private readonly StateMachine _stateMachine = new();
     private EnemyModel _enemyModel;
     private EnemyAnimator _enemyAnimator;
     private EnemyType _enemyType;
@@ -22,7 +22,7 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
-        _enemyModel = new EnemyModel(_shootPoint, _hpSlider);
+        _enemyModel = new EnemyModel(_shootPoint, _hpSlider, _stateMachine);
         SetUpAnimator();
         GameEventSystem.Subscribe<GameStopEvent>(Pause);
     }
@@ -45,7 +45,7 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
             return;
 
         Model.Pause(@event);
-        Agent.isStopped = _enemyModel.State == typeof(ShootState) ? true : @event.IsPaused;
+        Agent.isStopped = _stateMachine.CurrentState.GetType() == typeof(ShootState) || @event.IsPaused;
     }
 
     private void SetUpAnimator()

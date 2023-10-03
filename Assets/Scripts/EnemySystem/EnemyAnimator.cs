@@ -12,9 +12,9 @@ public class EnemyAnimator : AgentAnimator
         GameEventSystem.Subscribe<GameStopEvent>(PauseAnimation);
     }
 
-    public void AnimateMovement(bool hasTarget, bool shouldMove, Type stateType)
+    public void AnimateMovement(bool hasTarget, bool shouldMove, IState state)
     {
-        if (stateType == typeof(GuardState) && !hasTarget)
+        if (state.GetType() == typeof(GuardState) && !hasTarget)
             return;
 
         _animator.SetBool(s_moving, shouldMove);

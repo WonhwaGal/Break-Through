@@ -5,9 +5,10 @@ public class BaseSceneUI : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] protected UIScriptableObject _prefabs;
+    [SerializeField] protected GameAudioScriptable _soundPrefabs;
     [SerializeField] private GameObject _settingsSpawn;
 
-    private SettingsMenuCanvas _settingsCanvas;
+    private SettingsMenu _settingsCanvas;
     private Button _pauseSettingsButton;
 
     protected void ShowSettingsContainer(GameObject invokingPanel)
@@ -16,8 +17,7 @@ public class BaseSceneUI : MonoBehaviour
 
         if (_settingsCanvas == null)
         {
-            _settingsCanvas = Instantiate<SettingsMenuCanvas>(_prefabs.SettingsMenu, _settingsSpawn.transform);
-            _settingsCanvas.transform.SetParent(this.transform);
+            _settingsCanvas = Instantiate<SettingsMenu>(_prefabs.SettingsMenu, _settingsSpawn.transform);
             _settingsCanvas.transform.SetAsLastSibling();
             _settingsCanvas.ReturnButton.onClick.AddListener(() => HideSettings(invokingPanel, _settingsCanvas.gameObject));
             return;

@@ -171,7 +171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 9158128367596119528}
   _speed: 12
-  _damageFromArrow: 20
   _bowView: {fileID: 5837222032418856723}
 --- !u!143 &9158128367596119528
 CharacterController:
@@ -364,9 +363,9 @@ AudioSource:
   m_GameObject: {fileID: 8347805551758424483}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -5825226595725603159, guid: 5ceb1a19cc2b7c94ab249ef01d247cae, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
   Loop: 0

@@ -10,16 +10,6 @@ public class SettingsPrefsSaver : IDisposable
     private readonly Slider _soundSlider;
     private readonly Slider _sensSlider;
 
-    private const string PrefsMusic = "masterMusic";
-    private const string PrefsSound = "masterSounds";
-    private const string PrefsSens = "masterSensitivity";
-    private const string PrefsSensStep = "sensStep";
-
-    private const float DefaultMusic = -25;
-    private const float DefaultSound = -10;
-    private const float DefaultSens = 2;
-    private const float SliderStep = 0.25f;
-
     public SettingsPrefsSaver(AudioMixer myMixer, Slider musicSlider, Slider soundSlider, Slider sensSlider)
     {
         _myMixer = myMixer;
@@ -42,7 +32,7 @@ public class SettingsPrefsSaver : IDisposable
 
     public void AssignValues()
     {
-        if (!PlayerPrefs.HasKey(PrefsMusic))
+        if (!PlayerPrefs.HasKey(Constants.PrefsMusic))
         {
             SetDefaultAudio();
             SetDefaultGameplay();
@@ -52,45 +42,44 @@ public class SettingsPrefsSaver : IDisposable
             GetAudioPrefs();
             GetGameplayPrefs();
         }
-        PlayerPrefs.SetFloat(PrefsSensStep, SliderStep);
     }
 
     public void SetDefaultAudio()
     {
-        _musicSlider.value = DefaultMusic;
-        _soundSlider.value = DefaultSound;
+        _musicSlider.value = Constants.DefaultMusic;
+        _soundSlider.value = Constants.DefaultSound;
     }
 
     public void SetDefaultGameplay()
     {
-        _sensSlider.value = DefaultSens;
+        _sensSlider.value = Constants.DefaultSens;
     }
 
     public void AudioApply()
     {
-        PlayerPrefs.SetInt(PrefsMusic, (int)_musicSlider.value);
-        PlayerPrefs.SetInt(PrefsSound, (int)_soundSlider.value);
+        PlayerPrefs.SetInt(Constants.PrefsMusic, (int)_musicSlider.value);
+        PlayerPrefs.SetInt(Constants.PrefsSound, (int)_soundSlider.value);
     }
 
     public void GameplayApply()
     {
-        PlayerPrefs.SetInt(PrefsSens, (int)_sensSlider.value);
+        PlayerPrefs.SetInt(Constants.PrefsSens, (int)_sensSlider.value);
     }
 
     public void GetAudioPrefs()
     {
-        _musicSlider.value = PlayerPrefs.GetInt(PrefsMusic);
-        _soundSlider.value = PlayerPrefs.GetInt(PrefsSound);
+        _musicSlider.value = PlayerPrefs.GetInt(Constants.PrefsMusic);
+        _soundSlider.value = PlayerPrefs.GetInt(Constants.PrefsSound);
     }
 
     public void GetGameplayPrefs()
     {
-        _sensSlider.value = PlayerPrefs.GetInt(PrefsSens);
+        _sensSlider.value = PlayerPrefs.GetInt(Constants.PrefsSens);
     }
 
     private void UpdateSensitivity()
     {
-        var sensMultiplier = SliderStep * _sensSlider.value + SliderStep * 2;
+        var sensMultiplier = Constants.MouseSensitivityStep * _sensSlider.value + Constants.MouseSensitivityStep * 2;
         GameEventSystem.Send<SensitivityEvent>(new SensitivityEvent(sensMultiplier));
     }
 

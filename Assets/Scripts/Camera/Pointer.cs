@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Pointer: IService
 {
-    private GameObject _aimPointer;
-    private Transform _cameraT;
-    private LayerMask _enemyMask;
+    private readonly GameObject _aimPointer;
+    private readonly Transform _cameraT;
+    private readonly LayerMask _enemyMask;
     private const float MaxDistance = 30;
     private const float Size = 0.01f;
 
@@ -36,7 +36,7 @@ public class Pointer: IService
         if (Physics.Raycast(_cameraT.position, _cameraT.forward, out rayCast, MaxDistance, _enemyMask))
         {
             float scale = Vector3.Distance(_aimPointer.transform.position, _cameraT.position);
-            _aimPointer.transform.localScale = Vector3.one * scale * Size;
+            _aimPointer.transform.localScale = scale * Size * Vector3.one;
             _aimPointer.transform.position = rayCast.point;
         }
         else
@@ -45,7 +45,7 @@ public class Pointer: IService
         }
     }
 
-    private void ShowPointer(PlayerAimEvent @event) => _aimPointer.gameObject.SetActive(@event.AimPressed);
+    private void ShowPointer(PlayerAimEvent @event) => _aimPointer.SetActive(@event.AimPressed);
 
     public void Dispose()
     {

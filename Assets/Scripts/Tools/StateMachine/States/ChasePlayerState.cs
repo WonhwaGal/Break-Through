@@ -9,7 +9,6 @@ public class ChasePlayerState : BaseEnemyState
         Owner.Agent.isStopped = false;
         Owner.Agent.stoppingDistance = PlayerStoppingDist;
         _timeToShoot = Time.time + Owner.Model.ChaseTimeSpan;
-        Owner.Model.State = typeof(ChasePlayerState);
         base.EnterState();
     }
 

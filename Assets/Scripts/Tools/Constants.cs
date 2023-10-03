@@ -8,6 +8,21 @@ public static class Constants
     public const int ArrowDamageToPlayer = 20;
     public const int ArrowDamageToEnemy = 50;
 
+    [Header("UI Values :")]
+    public const float MouseSensitivityStep = 0.25f;
+    public const float DefaultMusic = -25;
+    public const float DefaultSound = -10;
+    public const float DefaultSens = 2;
+    public const string PrefsSensitivity = "masterSensitivity";
+    public const float DefaultAudioVolume = 0.5f;
+
+    [Header("Audio Values :")]
+    public const string PrefsMusic = "masterMusic";
+    public const string PrefsSound = "masterSounds";
+    public const string PrefsSens = "masterSensitivity";
+    public const int MinAudioValue = -80;
+    public const int MaxAudioValue = 20;
+
     [Header("Enemy System :")]
-    public static Vector3 RewardSpawnYShift = new Vector3(0, 7, 0);
+    public static Vector3 RewardSpawnYShift = new (0, 7, 0);
 }

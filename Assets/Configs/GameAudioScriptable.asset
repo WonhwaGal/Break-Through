@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cbad077a2e04fa4a91c3ef9587fa954, type: 3}
+  m_Name: GameAudioScriptable
+  m_EditorClassIdentifier: 
+  MenuBackground: {fileID: 8300000, guid: 4bb1e1e04fb7f0d4eb03e03e2f6d1c61, type: 3}
+  NatureBackground: {fileID: 8300000, guid: add7648d1726e4944ba68e477f055929, type: 3}
+  WaterfallSound: {fileID: 8300000, guid: f6aca1067a0c0e74e94138dedc7a28d2, type: 3}
+  RiverSound: {fileID: 8300000, guid: 81f6a6f6b490ff340a37c4543efdf090, type: 3}

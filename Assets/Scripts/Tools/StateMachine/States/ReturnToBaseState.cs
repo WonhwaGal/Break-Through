@@ -5,7 +5,6 @@ public class ReturnToBaseState : BaseEnemyState
     {
         Owner.Agent.stoppingDistance = RegularStoppingDist;
         Owner.Agent.SetDestination(Owner.Model.GuardPoint);
-        Owner.Model.State = typeof(ReturnToBaseState);
         base.EnterState();
     }
 

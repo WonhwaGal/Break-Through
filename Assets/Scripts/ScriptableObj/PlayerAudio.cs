@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 [CreateAssetMenu(fileName = nameof(PlayerAudio), menuName = "SpawnSystem/PlayerAudio")]
 public class PlayerAudio : ScriptableObject
 {

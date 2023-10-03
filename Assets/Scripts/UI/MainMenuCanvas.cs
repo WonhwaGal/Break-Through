@@ -19,6 +19,8 @@ public class MainMenuCanvas : BaseSceneUI
     {
         SetPanels();
         AssignButtons();
+        GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(
+            _soundPrefabs.MenuBackground, onLoop: true, AudioType.BackgroundMusic));
     }
 
     private void SetPanels()

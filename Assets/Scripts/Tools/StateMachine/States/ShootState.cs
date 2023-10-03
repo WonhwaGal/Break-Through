@@ -10,7 +10,6 @@ public class ShootState : BaseEnemyState
     {
         Owner.Model.IsShooting = true;
         Owner.Agent.isStopped = true;
-        Owner.Model.State = typeof(ShootState);
         _targetTime = AnimationTransitionTime + Time.time;
         base.EnterState();
     }

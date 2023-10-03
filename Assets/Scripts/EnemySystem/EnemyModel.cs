@@ -11,25 +11,26 @@ public class EnemyModel :IDisposable
     private bool _isDead;
     private bool _isIdle;
     private bool _isShooting;
-    private const float ChaseSpan = 3.0f;
-    private const float StayAfterDeathSpan = 5.0f;
     private readonly EnemyShooter _shooter;
     private readonly int _damageFromArrow;
     private readonly Slider _hpSlider;
+    private const float ChaseSpan = 3.0f;
+    private const float StayAfterDeathSpan = 5.0f;
 
-    public EnemyModel(Transform shootPoint, Slider hpSlider)
+    public EnemyModel(Transform shootPoint, Slider hpSlider, IStateMachine stateMachine)
     {
+        _hpSlider = hpSlider;
+        StateMachine = stateMachine;
         _shooter = new EnemyShooter(shootPoint);
         _damageFromArrow = Constants.ArrowDamageToEnemy;
-        _hpSlider = hpSlider;
         _hpSlider.onValueChanged.AddListener(UpdateSlider);
         GameEventSystem.Subscribe<GameStopEvent>(GameStopped);
     }
 
     public RewardType RewardType { get => _rewardType; }
     public int RewardAmount { get => _rewardAmount; }
+    public IStateMachine StateMachine { get; private set; }
     public Vector3 GuardPoint { get; set; }
-    public Type State { get; set; }
     public bool IsPaused { get; set; }
     public Transform Target
     {
@@ -42,7 +43,7 @@ public class EnemyModel :IDisposable
             else
                 OnSeeingPlayer?.Invoke(false);
 
-            OnMoving?.Invoke(_target != null, true, State);
+            OnMoving?.Invoke(_target != null, true, StateMachine.CurrentState);
         }
     }
     public bool IsIdle
@@ -52,7 +53,7 @@ public class EnemyModel :IDisposable
         {
             _isIdle = value;
             if (value)
-                OnMoving?.Invoke(_target != null, false, State);
+                OnMoving?.Invoke(_target != null, false, StateMachine.CurrentState);
         }
     }
     public bool IsShooting
@@ -93,7 +94,7 @@ public class EnemyModel :IDisposable
     public float StayAfterDeathTime => StayAfterDeathSpan;
 
     public event Action<bool> OnSeeingPlayer;
-    public event Action<bool, bool, Type> OnMoving;
+    public event Action<bool, bool, IState> OnMoving;
     public event Action OnStartShooting;
     public event Action OnDying;
     public event Action<EnemyView> OnReadyToDespawn;
