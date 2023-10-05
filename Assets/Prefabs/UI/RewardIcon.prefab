@@ -225,5 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac4b5f8e7e05ea4a883f9289137c9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KillReward: 1
   RewardImage: {fileID: 4718769894391157255}
   RewardText: {fileID: 3379287249068346543}

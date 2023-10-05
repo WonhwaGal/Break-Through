@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerAudio
   m_EditorClassIdentifier: 
   GroundFootstep: {fileID: 8300000, guid: 83b5cb64b7e89e94ba2b772703ce48d7, type: 3}
+  WaterFootStep: {fileID: 8300000, guid: 6b61009c231a75d44a3642d509c1031b, type: 3}
   PlayerHurt: {fileID: 8300000, guid: 000e392be93fdc44798a012caea29620, type: 3}
   PlayerDie: {fileID: 8300000, guid: d9980f58182d7c343a1481cb92fe93c0, type: 3}
   ArrowShoot: {fileID: 8300000, guid: dea6c390cf9fd48458203129e2c864c0, type: 3}

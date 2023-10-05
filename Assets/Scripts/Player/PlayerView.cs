@@ -18,7 +18,7 @@ public class PlayerView : MonoBehaviour, IDamagable
         _input = ServiceLocator.Container.RequestFor<KeyboardInputService>();
         _movement = new PlayerMovement(_characterController, _speed);
         _animator = new PlayerAnimator(GetComponentInChildren<Animator>());
-        _model = new PlayerModel(_animator, _bowView.ShootPoint);
+        _model = new PlayerModel(_animator, _bowView.ShootPoint, transform);
     }
 
     void Update()

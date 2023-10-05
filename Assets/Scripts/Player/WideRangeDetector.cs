@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class WideRangeDetector : MonoBehaviour
 {
+    [SerializeField] private CapsuleCollider _collider;
+    [SerializeField] private LayerMask _enemyMask;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<EnemyView>(out var enemyView))
@@ -23,6 +26,15 @@ public class WideRangeDetector : MonoBehaviour
         else if (other.TryGetComponent<WaterTrigger>(out var water))
         {
             water.PlayerToNull();
+        }
+    }
+
+    public void ScanForEnemies()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _collider.radius, _enemyMask);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            colliders[i].gameObject.SetActive(false);
         }
     }
 }

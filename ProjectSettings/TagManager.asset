@@ -22,8 +22,8 @@ TagManager:
   - PlayerTrigger
   - Terrain
   - Decor
-  - WaterObjects
-  - 
+  - WaterSounds
+  - PlayerFootTrigger
   - 
   - 
   - 

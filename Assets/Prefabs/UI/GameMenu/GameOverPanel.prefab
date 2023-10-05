@@ -195,9 +195,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settingsButton: {fileID: 0}
+  _saveButton: {fileID: 3227866985376533027}
   _exitButton: {fileID: 3227866984109940500}
   _restartButton: {fileID: 3227866985003286807}
-  _saveButton: {fileID: 3227866985376533027}
 --- !u!1 &4260824634998888502
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,11 +658,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1723421278254028750, guid: 8fccdfe36156ec14ba6a2324f6d840d3, type: 3}
       propertyPath: m_text
-      value: Save
+      value: Save Progress
       objectReference: {fileID: 0}
     - target: {fileID: 1723421279007515987, guid: 8fccdfe36156ec14ba6a2324f6d840d3, type: 3}
       propertyPath: m_Name
-      value: SaveProgressButton
+      value: SaveButton
       objectReference: {fileID: 0}
     - target: {fileID: 1723421279007515996, guid: 8fccdfe36156ec14ba6a2324f6d840d3, type: 3}
       propertyPath: m_Pivot.x

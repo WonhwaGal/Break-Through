@@ -7,6 +7,8 @@ public static class Constants
     public const int KillRewardMaxValue = 5;
     public const int ArrowDamageToPlayer = 20;
     public const int ArrowDamageToEnemy = 50;
+    public const string SaveGameKey = "ProgressData";
+    public static Vector3 PlayerDefaultSpawn = new Vector3(-205.46f, 2.11f, -106.02f);
 
     [Header("UI Values :")]
     public const float MouseSensitivityStep = 0.25f;
@@ -23,6 +25,6 @@ public static class Constants
     public const int MinAudioValue = -80;
     public const int MaxAudioValue = 20;
 
-    [Header("Enemy System :")]
+    [Header("Enemies :")]
     public static Vector3 RewardSpawnYShift = new (0, 7, 0);
 }

@@ -13,18 +13,16 @@ public class StatsView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _keyText;
     [SerializeField] private TextMeshProUGUI _enemiesKilledText;
     private int _enemiesKilled = 0;
-    private const int MaxSliderValue = 100;
 
     private void Awake()
     {
         GameEventSystem.Subscribe<StatsChangedEvent>(UpdateView);
-        GameEventSystem.Subscribe<PlayerHpEvent>(SetHpSlider);
         _playerHpSlider.onValueChanged.AddListener(SetHpText);
     }
 
     private void UpdateView(StatsChangedEvent @event)
     {
-        AddEnemies(@event.EnemyKilled);
+        EnemyKilled(@event.EnemiesKilled);
 
         switch (@event.RewardType)
         {
@@ -35,19 +33,14 @@ public class StatsView : MonoBehaviour
                 UpdateSlot(_keyText, @event.NewValue);
                 break;
             default:
-                _playerHpSlider.value += @event.NewValue;
-                if (_playerHpSlider.value > MaxSliderValue)
-                    _playerHpSlider.value = MaxSliderValue;
+                _playerHpSlider.value = @event.NewValue;
                 break;
         }
     }
 
-    private void AddEnemies(bool enemyKilled)
+    private void EnemyKilled(int enemiesKilled)
     {
-        if (!enemyKilled)
-            return; 
-
-        _enemiesKilled++;
+        _enemiesKilled += enemiesKilled;
         _enemiesKilledText.text = _enemiesKilled.ToString();
         EnableSprite(_enemiesKilledText, _enemiesKilled > 0);
     }
@@ -64,13 +57,11 @@ public class StatsView : MonoBehaviour
         spriteT.gameObject.SetActive(shouldEnable);
     }
 
-    private void SetHpSlider(PlayerHpEvent @event) => _playerHpSlider.value = @event.CurrentHP;
     private void SetHpText(float value) => _hpText.text = value.ToString();
 
     private void OnDestroy()
     {
         GameEventSystem.UnSubscribe<StatsChangedEvent>(UpdateView);
-        GameEventSystem.UnSubscribe<PlayerHpEvent>(SetHpSlider);
         _playerHpSlider.onValueChanged.RemoveListener(SetHpText);
     }
 }

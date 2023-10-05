@@ -4,20 +4,25 @@ using UnityEngine;
 public class PlayerModel : IDisposable
 {
     private int _hp;
-    private const int _maxHp = 100;
+    private const int MaxHp = 100;
+    private const float DrownControl = -9.15f;
     private readonly PlayerAnimator _animator;
     private readonly PlayerShooter _shooter;
     private readonly int _damageFromArrow;
+    private readonly Transform _transform;
     private readonly StatisticsCounter _stats;
 
-    public PlayerModel(PlayerAnimator animator, Transform bowShootPoint)
+    public PlayerModel(PlayerAnimator animator, Transform bowShootPoint, Transform playerT)
     {
         _animator = animator;
+        _transform = playerT;
         _damageFromArrow = Constants.ArrowDamageToPlayer;
         _shooter = new PlayerShooter(bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
-        GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);
         _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
-        _stats.GrantArrows(Constants.StartArrowNumber);
+
+        GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);
+        GameEventSystem.Subscribe<SaveGameEvent>(SavePlayerData);
+
         Reset();
     }
 
@@ -36,7 +41,7 @@ public class PlayerModel : IDisposable
         }
     }
 
-    public void Reset() => HP = _maxHp;
+    public void Reset() => HP = MaxHp;
 
     public void StartAiming(PlayerAimEvent @event)
     {
@@ -51,6 +56,9 @@ public class PlayerModel : IDisposable
 
     public bool ShouldStand()
     {
+        if (_transform.position.y < DrownControl)
+            HP = 0;
+
         if (IsHurting || _shooter.IsShooting)
             return true;
         return false;
@@ -82,9 +90,17 @@ public class PlayerModel : IDisposable
         GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp, isHurting));
     }
 
+    private void SavePlayerData(SaveGameEvent @event)
+    {
+        var progressData = ServiceLocator.Container.RequestFor<ProgressData>();
+        if (@event.ProgressToSave)
+            progressData.PlayerPos = _transform.position;
+    }
+
     public void Dispose()
     {
         GameEventSystem.UnSubscribe<PlayerAimEvent>(StartAiming);
+        GameEventSystem.UnSubscribe<SaveGameEvent>(SavePlayerData);
         GC.SuppressFinalize(this);
     }
 }

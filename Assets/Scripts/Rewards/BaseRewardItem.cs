@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 
 public class BaseRewardItem : MonoBehaviour, IPausable
 {
+    [SerializeField] private bool KillReward;
     protected bool _isPaused;
 
     public RewardType RewardType { get; set; }
@@ -17,7 +17,7 @@ public class BaseRewardItem : MonoBehaviour, IPausable
 
     public void SendReceiveAwardEvent()
     {
-        GameEventSystem.Send<ReceiveRewardEvent>(new ReceiveRewardEvent(RewardType, RewardAmount));
+        GameEventSystem.Send<ReceiveRewardEvent>(new ReceiveRewardEvent(RewardType, RewardAmount, KillReward));
     }
 
     private void OnDestroy()

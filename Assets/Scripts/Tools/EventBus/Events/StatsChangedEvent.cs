@@ -3,12 +3,12 @@ public struct StatsChangedEvent : IGameEvent
 {
     public RewardType RewardType;
     public int NewValue;
-    public bool EnemyKilled;
+    public int EnemiesKilled;
 
-    public StatsChangedEvent(RewardType type, int newValue, bool enemyKilled)
+    public StatsChangedEvent(RewardType type, int newValue, int enemiesKilled = 0)
     {
         RewardType = type;
         NewValue = newValue;
-        EnemyKilled = enemyKilled;
+        EnemiesKilled = enemiesKilled;
     }
 }

@@ -4,6 +4,7 @@ public class PlayerSounds : MonoBehaviour
 {
     [SerializeField] private PlayerAudio _playerSounds;
     [SerializeField] private AudioSource _audioSource;
+    private bool _isInWater;
 
     private void Start()
     {
@@ -11,7 +12,14 @@ public class PlayerSounds : MonoBehaviour
         GameEventSystem.Subscribe<PlayerHpEvent>(PlayerHurtEvent);
     }
 
-    public void PlayerStep() => _audioSource.PlayOneShot(_playerSounds.GroundFootstep);
+    public void PlayerStep()
+    {
+        if(!_isInWater)
+            _audioSource.PlayOneShot(_playerSounds.GroundFootstep);
+        else
+            _audioSource.PlayOneShot(_playerSounds.WaterFootStep);
+    }
+
     public void PlayerShootArrow(ReceiveRewardEvent @event)
     {
         if (@event.RewardType == RewardType.Arrow && @event.RewardAmount < 0)
@@ -32,6 +40,9 @@ public class PlayerSounds : MonoBehaviour
             _audioSource.PlayOneShot(_playerSounds.PlayerDie);
         }
     }
+
+    private void OnTriggerEnter(Collider other) => _isInWater = true;
+    private void OnTriggerExit(Collider other) => _isInWater = false;
 
     private void OnDestroy()
     {

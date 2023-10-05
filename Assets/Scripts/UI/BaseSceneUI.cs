@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BaseSceneUI : MonoBehaviour
 {
@@ -9,7 +8,14 @@ public class BaseSceneUI : MonoBehaviour
     [SerializeField] private GameObject _settingsSpawn;
 
     private SettingsMenu _settingsCanvas;
-    private Button _pauseSettingsButton;
+    protected LoadingCurtain _curtain;
+    protected ProgressSaver _progressSaver;
+
+    private void Awake()
+    {
+        _curtain = ServiceLocator.Container.RequestFor<LoadingCurtain>();
+        GameEventSystem.Subscribe<SaveGameEvent>(SaveProgress);
+    }
 
     protected void ShowSettingsContainer(GameObject invokingPanel)
     {
@@ -32,21 +38,31 @@ public class BaseSceneUI : MonoBehaviour
             panel.gameObject.SetActive(shouldShow);
     }
 
-    public void AssignPausePanelButton(PausePanel pausePanel)
-    {
-        _pauseSettingsButton = pausePanel.SettingsButton;
-        _pauseSettingsButton.onClick.AddListener(() => ShowSettingsContainer(pausePanel.gameObject));
-    }
-
     private void HideSettings(GameObject invokingPanel, GameObject settingsPanel)
     {
         invokingPanel.SetActive(true);
         settingsPanel.SetActive(false);
     }
 
-    private void OnDestroy()
+    private void SaveProgress(SaveGameEvent @event)
     {
-        _settingsCanvas.ReturnButton.onClick.RemoveAllListeners();
-        _pauseSettingsButton.onClick.RemoveAllListeners();
+        _progressSaver = new ProgressSaver();
+        _progressSaver.SaveProgressData();
+    }
+
+    protected void PrepareGameServices(SpawnScriptableObject spawnPrefabs)
+    {
+        ServiceLocator.Container.Register<StatisticsCounter>(new StatisticsCounter());
+        ServiceLocator.Container.Register<KeyboardInputService>(new KeyboardInputService());
+        ServiceLocator.Container.Register<ArrowController>(new ArrowController(spawnPrefabs));
+        ServiceLocator.Container.Register<Pointer>(
+            new Pointer(spawnPrefabs.PointerPrefab, ServiceLocator.Container.RequestFor<KeyboardInputService>()));
+    }
+
+    protected void BaseOnDestroy()
+    {
+        if(_settingsCanvas != null)
+            _settingsCanvas.ReturnButton.onClick.RemoveAllListeners();
+        GameEventSystem.UnSubscribe<SaveGameEvent>(SaveProgress);
     }
 }

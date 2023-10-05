@@ -47,6 +47,9 @@ public class KeyboardInputService : IInputService, IService
             _isPaused = @event.IsPaused;
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        if (@event.EndOfGame)
+            Cursor.lockState = CursorLockMode.None;
     }
 
     private void SendMouseEvents()

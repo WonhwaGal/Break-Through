@@ -4,6 +4,9 @@ using UnityEngine.UI;
 public class PausePanel : BaseGamePanel
 {
     [SerializeField] private Button _resumeButton;
+    [SerializeField] private Button _settingsButton;
+
+    public Button SettingsButton => _settingsButton;
 
     private void Start()
     {
@@ -18,5 +21,6 @@ public class PausePanel : BaseGamePanel
     private void OnDestroy()
     {
         _resumeButton.onClick.RemoveListener(ResumeGame);
+        BaseOnDestroy();
     }
 }

@@ -59,11 +59,13 @@ public class SettingsPrefsSaver : IDisposable
     {
         PlayerPrefs.SetInt(Constants.PrefsMusic, (int)_musicSlider.value);
         PlayerPrefs.SetInt(Constants.PrefsSound, (int)_soundSlider.value);
+        PlayerPrefs.Save();
     }
 
     public void GameplayApply()
     {
         PlayerPrefs.SetInt(Constants.PrefsSens, (int)_sensSlider.value);
+        PlayerPrefs.Save();
     }
 
     public void GetAudioPrefs()

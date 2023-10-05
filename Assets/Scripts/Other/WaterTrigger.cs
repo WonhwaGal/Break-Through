@@ -21,7 +21,7 @@ public class WaterTrigger : MonoBehaviour, IPausable
     }
     private void Update()
     {
-        if (PlayerT == null && !_isPaused)
+        if (PlayerT == null || _isPaused)
             return;
 
         _distance = (_triggerCenter - PlayerT.position).magnitude;

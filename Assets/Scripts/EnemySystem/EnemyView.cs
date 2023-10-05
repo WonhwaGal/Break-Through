@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class EnemyView : MonoBehaviour, IDamagable, IPausable
 {
@@ -45,7 +46,8 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
             return;
 
         Model.Pause(@event);
-        Agent.isStopped = _stateMachine.CurrentState.GetType() == typeof(ShootState) || @event.IsPaused;
+        if(Agent.isActiveAndEnabled)
+            Agent.isStopped = _stateMachine.CurrentState.GetType() == typeof(ShootState) || @event.IsPaused;
     }
 
     private void SetUpAnimator()

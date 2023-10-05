@@ -1,29 +1,31 @@
 using System;
-using UnityEngine;
 
 public class StatisticsCounter : IService, IDisposable
 {
     private const int SliderMultiplier = 10;
+    private const int MaxSliderValue = 100;
 
     public StatisticsCounter()
     {
         GameEventSystem.Subscribe<ReceiveRewardEvent>(UpdateStats);
+        GameEventSystem.Subscribe<SaveGameEvent>(SaveProgress);
+        GameEventSystem.Subscribe<PlayerHpEvent>(SetHpSlider);
     }
 
     public int ArrowNumber { get; private set; }
     public int KeyNumber { get; private set; }
     public int EnemyNumber { get; private set; }
-
+    public int PlayerHP { get; private set; }
 
     public void GrantArrows(int number)
     {
         ArrowNumber += number;
-        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.Arrow, ArrowNumber, enemyKilled: false));
+        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.Arrow, ArrowNumber, enemiesKilled: 0));
     }
 
     private void UpdateStats(ReceiveRewardEvent @event)
     {
-        if(@event.RewardAmount <= 0)
+        if(@event.KillReward)
             EnemyNumber++;
 
         switch (@event.RewardType)
@@ -45,8 +47,9 @@ public class StatisticsCounter : IService, IDisposable
         var result = currentValue + @event.RewardAmount;
         if(result < 0)
             result = 0;
-        bool enemyKilled = @event.RewardAmount > 0 && @event.RewardAmount < Constants.KillRewardMaxValue;
-        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(@event.RewardType, result, enemyKilled));
+
+        GameEventSystem.Send<StatsChangedEvent>(
+            new StatsChangedEvent(@event.RewardType, result, @event.KillReward ? 1 : 0));
 
         return result;
     }
@@ -54,14 +57,64 @@ public class StatisticsCounter : IService, IDisposable
     private float AddToSlider(int rewardAmount)
     {
         var result = rewardAmount * SliderMultiplier;
-        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.HP, (int)result, true));
+        PlayerHP += result;
+        CheckSLiderValue();
+        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.HP, PlayerHP, enemiesKilled: 1));
 
         return result;
     }
 
+    private void SetHpSlider(PlayerHpEvent @event)
+    {
+        PlayerHP = @event.CurrentHP;
+        CheckSLiderValue();
+        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.HP, PlayerHP, enemiesKilled: 0));
+    }
+
+    private void CheckSLiderValue()
+    {
+        if(PlayerHP > MaxSliderValue)
+            PlayerHP = MaxSliderValue;
+    }
+
+    private void SaveProgress(SaveGameEvent @event)
+    {
+        var progressData = ServiceLocator.Container.RequestFor<ProgressData>();
+        if (@event.ProgressToSave)
+        {
+            progressData.ArrowsNumber = ArrowNumber;
+            progressData.KeysNumber = KeyNumber;
+            progressData.EnemiesKilledNumber = EnemyNumber;
+            progressData.PlayerHP = PlayerHP;
+        }
+        else
+        {
+            LoadProgress(progressData);
+        }
+    }
+
+    private void LoadProgress(ProgressData progressData)
+    {
+        ArrowNumber = progressData.ArrowsNumber;
+        GameEventSystem.Send<StatsChangedEvent>(
+            new StatsChangedEvent(RewardType.Arrow, ArrowNumber));
+        KeyNumber = progressData.KeysNumber;
+        GameEventSystem.Send<StatsChangedEvent>(
+            new StatsChangedEvent(RewardType.Key, KeyNumber));
+        EnemyNumber = progressData.EnemiesKilledNumber;
+        GameEventSystem.Send<StatsChangedEvent>(
+            new StatsChangedEvent(RewardType.Arrow,
+                ArrowNumber, enemiesKilled: progressData.EnemiesKilledNumber));
+        PlayerHP = progressData.PlayerHP;
+        GameEventSystem.Send<StatsChangedEvent>(
+            new StatsChangedEvent(RewardType.HP, PlayerHP));
+    }
+
     public void Dispose()
     {
-        GameEventSystem.Subscribe<ReceiveRewardEvent>(UpdateStats);
+        GameEventSystem.UnSubscribe<ReceiveRewardEvent>(UpdateStats);
+        GameEventSystem.UnSubscribe<SaveGameEvent>(SaveProgress);
+        GameEventSystem.UnSubscribe<PlayerHpEvent>(SetHpSlider);
         GC.SuppressFinalize(this);
     }
 }

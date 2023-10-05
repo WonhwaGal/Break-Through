@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class GameCanvas : BaseSceneUI
 {
@@ -11,6 +11,7 @@ public class GameCanvas : BaseSceneUI
     [SerializeField] private PausePanel _pausePanel;
     [SerializeField] private GameOverPanel _gameOverPanel;
 
+    private Button _pauseSettingsButton;
     private RewardController _rewardController;
 
     private void Start()
@@ -42,9 +43,17 @@ public class GameCanvas : BaseSceneUI
         _gameOverPanel.gameObject.SetActive(false);
     }
 
+    public void AssignPausePanelButton(PausePanel pausePanel)
+    {
+        _pauseSettingsButton = pausePanel.SettingsButton;
+        _pauseSettingsButton.onClick.AddListener(() => ShowSettingsContainer(pausePanel.gameObject));
+    }
+
     private void OnDestroy()
     {
         GameEventSystem.UnSubscribe<GameStopEvent>(StopGame);
+        _pauseSettingsButton.onClick.RemoveAllListeners();
         _rewardController.Dispose();
+        BaseOnDestroy();
     }
 }

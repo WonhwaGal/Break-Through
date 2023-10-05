@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class GameOverPanel : BaseGamePanel
 {
     [SerializeField] private Button _restartButton;
-    [SerializeField] private Button _saveButton;
 
     private void Start()
     {
@@ -19,5 +18,6 @@ public class GameOverPanel : BaseGamePanel
     private void OnDestroy()
     {
         _restartButton.onClick.RemoveListener(TryAgain);
+        BaseOnDestroy();
     }
 }
