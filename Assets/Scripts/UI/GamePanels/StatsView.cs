@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StatsView : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class StatsView : MonoBehaviour
     {
         GameEventSystem.Subscribe<StatsChangedEvent>(UpdateView);
         _playerHpSlider.onValueChanged.AddListener(SetHpText);
+        if(SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            _keyText.gameObject.SetActive(false);
+            _enemiesKilledText.gameObject.SetActive(false);
+        }
     }
 
     private void UpdateView(StatsChangedEvent @event)

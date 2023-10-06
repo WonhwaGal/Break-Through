@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class EnemyAnimator : AgentAnimator
@@ -25,4 +24,6 @@ public class EnemyAnimator : AgentAnimator
     public void PauseAnimation(GameStopEvent @event) => _animator.speed = @event.IsPaused ? 0 : 1;
 
     public void AnimateDeath() => _animator.SetTrigger(s_die);
+
+    public override void Dispose() => GameEventSystem.UnSubscribe<GameStopEvent>(PauseAnimation);
 }

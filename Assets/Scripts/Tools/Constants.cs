@@ -4,11 +4,17 @@ public static class Constants
 {
     [Header("General Settings :")]
     public const int StartArrowNumber = 15;
+    public const int UnlockFinalLevelKeyNumber = 0;
     public const int KillRewardMaxValue = 5;
     public const int ArrowDamageToPlayer = 20;
     public const int ArrowDamageToEnemy = 50;
+
+    [Header("Load Values :")]
     public const string SaveGameKey = "ProgressData";
-    public static Vector3 PlayerDefaultSpawn = new Vector3(-205.46f, 2.11f, -106.02f);
+    public const string ContinueSaved = "ContinueSaved";
+    public static Vector3 PlayerDefaultSpawn = new (-205.46f, 2.11f, -106.02f);
+    public static Vector3 PlayerFinalSpawn = new (37.22f, 8.3f, -13.0f);
+    public const string CurrentArrowNumber = "CurrentArrows";
 
     [Header("UI Values :")]
     public const float MouseSensitivityStep = 0.25f;

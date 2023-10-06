@@ -1725,6 +1725,7 @@ MonoBehaviour:
   _prefabs: {fileID: 11400000, guid: aca20c816827392439387e56727823bd, type: 2}
   _soundPrefabs: {fileID: 11400000, guid: 497520e045342314495eb8a8447ce098, type: 2}
   _settingsSpawn: {fileID: 7885826794130984978}
+  _spawnPrefabs: {fileID: 11400000, guid: 9fd9e4e8a51b35746b09ed0bf4d6bc82, type: 2}
   _rewardsT: {fileID: 5716441441838163915}
   _backgroundPanel: {fileID: 7776098443369897194}
   _pausePanel: {fileID: 4914061817200694659}

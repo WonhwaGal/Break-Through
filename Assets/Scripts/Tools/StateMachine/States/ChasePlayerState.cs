@@ -16,7 +16,7 @@ public class ChasePlayerState : BaseEnemyState
 
     private void ChasePlayer()
     {
-        if(_timeToShoot < Time.time)
+        if (_timeToShoot < Time.time)
         {
             TransitionToShoot();
             return;
@@ -32,8 +32,8 @@ public class ChasePlayerState : BaseEnemyState
         }
         else
         {
-            CheckProximityToPlayer();
             Owner.Agent.SetDestination(Owner.Model.Target.position);
+            CheckProximityToPlayer();
         }
     }
 
@@ -46,7 +46,7 @@ public class ChasePlayerState : BaseEnemyState
 
     private void CheckProximityToPlayer()
     {
-        bool reachedPlayer = (Owner.Model.Target.position - Owner.transform.position).magnitude - Owner.Agent.stoppingDistance < 0;
+        bool reachedPlayer = (Owner.Agent.destination - Owner.transform.position).magnitude - Owner.Agent.stoppingDistance < 0;
 
         if (reachedPlayer)
         {

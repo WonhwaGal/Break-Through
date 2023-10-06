@@ -67,7 +67,7 @@ public class WaterTrigger : MonoBehaviour, IPausable
 
     public void Pause(GameStopEvent @event)
     {
-        _isPaused = @event.IsPaused;
+        _isPaused = @event.IsPaused || @event.EndOfGame;
         if (_isPaused)
         {
             _audioSource.Stop();

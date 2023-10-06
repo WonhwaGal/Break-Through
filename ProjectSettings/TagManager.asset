@@ -19,7 +19,7 @@ TagManager:
   - Obstruction
   - Arrows
   - Enemy
-  - PlayerTrigger
+  - PlayerWideTrigger
   - Terrain
   - Decor
   - WaterSounds

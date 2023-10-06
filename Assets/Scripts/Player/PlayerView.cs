@@ -33,4 +33,10 @@ public class PlayerView : MonoBehaviour, IDamagable
     }
 
     public void CauseDamage(ArrowType arrowType) => _model.CauseDamage(arrowType);
+
+    private void OnDestroy()
+    {
+        _animator.Dispose();
+        _model.Dispose();
+    }
 }

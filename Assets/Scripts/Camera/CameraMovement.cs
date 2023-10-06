@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -63,5 +64,7 @@ public class CameraMovement : MonoBehaviour
     private void OnDestroy()
     {
         GameEventSystem.UnSubscribe<SensitivityEvent>(ChangeSensitivity);
+        _aimPointer.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

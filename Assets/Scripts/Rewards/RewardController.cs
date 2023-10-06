@@ -53,7 +53,7 @@ public sealed class RewardController
 
     public void Dispose()
     {
-        GameEventSystem.Subscribe<EnemyKilledEvent>(SpawnReward);
+        GameEventSystem.UnSubscribe<EnemyKilledEvent>(SpawnReward);
         GC.SuppressFinalize(this);
     }
 }

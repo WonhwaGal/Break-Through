@@ -64,6 +64,7 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
         _enemyModel.OnStartShooting -= _enemyAnimator.AnimateShooting;
         _enemyModel.OnDying -= _enemyAnimator.AnimateDeath;
         GameEventSystem.UnSubscribe<GameStopEvent>(Pause);
+        _enemyAnimator.Dispose();
         Model.Dispose();
     }
 }

@@ -17,8 +17,6 @@ public class PlayerAnimator: AgentAnimator
         _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
     }
 
-    public Animator Animator => _animator;
-
     public void AnimateMovement(Vector3 input)
     {
         _animator.SetFloat(s_sideInput, input.x);

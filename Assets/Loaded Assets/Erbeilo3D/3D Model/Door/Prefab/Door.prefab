@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5849342643543230431}
   - component: {fileID: 5150888335314653088}
   - component: {fileID: 5962417427452765986}
-  - component: {fileID: 2553906079992466568}
-  m_Layer: 0
-  m_Name: Door.
+  - component: {fileID: 107983144508276608}
+  m_Layer: 11
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,19 +84,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2553906079992466568
-BoxCollider:
+--- !u!95 &107983144508276608
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772390754523021683}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2837237, y: 3.049205, z: 0.3334798}
-  m_Center: {x: -0.86293536, y: 1.5246025, z: 0.0059529096}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3be0afcf20d3b9e479206c1094f9aef3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2899784248044308909
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,8 +115,7 @@ GameObject:
   - component: {fileID: 3252085913930212227}
   - component: {fileID: 1770658173220496188}
   - component: {fileID: 4195772565556963111}
-  - component: {fileID: 5031041643685609791}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chwarchewa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,19 +187,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5031041643685609791
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2899784248044308909}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.7470794, y: 3.3513396, z: 0.30042592}
-  m_Center: {x: -0.85173416, y: 1.6722409, z: -0.00007261336}
 --- !u!1 &5977766523442718624
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +197,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6466775817139928346}
   - component: {fileID: 6244919661433147626}
-  m_Layer: 0
+  - component: {fileID: 3847711682036406118}
+  - component: {fileID: 3929553571950817947}
+  - component: {fileID: 1739961382725711087}
+  m_Layer: 11
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +216,7 @@ Transform:
   m_GameObject: {fileID: 5977766523442718624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 48.25, y: 0, z: -12.420153}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2324771, y: 1.3046055, z: 1.1738055}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3252085913930212227}
@@ -248,3 +244,45 @@ LODGroup:
     - renderer: {fileID: 5962417427452765986}
     - renderer: {fileID: 4195772565556963111}
   m_Enabled: 1
+--- !u!54 &3847711682036406118
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977766523442718624}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &3929553571950817947
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977766523442718624}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 1, z: 4}
+  m_Center: {x: -0.72, y: 1, z: 2}
+--- !u!114 &1739961382725711087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977766523442718624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14ae1d3631ed14439d701715cc9254d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 107983144508276608}

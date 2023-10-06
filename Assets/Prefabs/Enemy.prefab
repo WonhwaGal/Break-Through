@@ -49,10 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ac2caf98432084b96c25510f073123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 100
   _hpSlider: {fileID: 6039640940358557748}
   _shootPoint: {fileID: 7171815767289176975}
-  _damageFromArrow: 50
 --- !u!195 &5952455856256131084
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -486,7 +484,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 1af94993bc5ff4a48a07c70ad3a65797, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1af94993bc5ff4a48a07c70ad3a65797, type: 3}
 --- !u!4 &863521601817744201 stripped
 Transform:

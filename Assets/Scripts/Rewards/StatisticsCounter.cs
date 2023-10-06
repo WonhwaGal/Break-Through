@@ -1,9 +1,11 @@
 using System;
+using UnityEngine;
 
 public class StatisticsCounter : IService, IDisposable
 {
     private const int SliderMultiplier = 10;
     private const int MaxSliderValue = 100;
+    private int _arrowNumber;
 
     public StatisticsCounter()
     {
@@ -12,16 +14,18 @@ public class StatisticsCounter : IService, IDisposable
         GameEventSystem.Subscribe<PlayerHpEvent>(SetHpSlider);
     }
 
-    public int ArrowNumber { get; private set; }
+    public int ArrowNumber
+    {
+        get => _arrowNumber;
+        set
+        {
+            _arrowNumber = value;
+            PlayerPrefs.SetInt(Constants.CurrentArrowNumber, _arrowNumber);
+        }
+    }
     public int KeyNumber { get; private set; }
     public int EnemyNumber { get; private set; }
     public int PlayerHP { get; private set; }
-
-    public void GrantArrows(int number)
-    {
-        ArrowNumber += number;
-        GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.Arrow, ArrowNumber, enemiesKilled: 0));
-    }
 
     private void UpdateStats(ReceiveRewardEvent @event)
     {
@@ -47,7 +51,6 @@ public class StatisticsCounter : IService, IDisposable
         var result = currentValue + @event.RewardAmount;
         if(result < 0)
             result = 0;
-
         GameEventSystem.Send<StatsChangedEvent>(
             new StatsChangedEvent(@event.RewardType, result, @event.KillReward ? 1 : 0));
 
@@ -105,7 +108,7 @@ public class StatisticsCounter : IService, IDisposable
         GameEventSystem.Send<StatsChangedEvent>(
             new StatsChangedEvent(RewardType.Arrow,
                 ArrowNumber, enemiesKilled: progressData.EnemiesKilledNumber));
-        PlayerHP = progressData.PlayerHP;
+        PlayerHP = progressData.PlayerHP > 0 ? progressData.PlayerHP : MaxSliderValue;
         GameEventSystem.Send<StatsChangedEvent>(
             new StatsChangedEvent(RewardType.HP, PlayerHP));
     }
