@@ -18,21 +18,10 @@ public class GameCanvas : BaseSceneUI
     {
         SetPanels();
         GameEventSystem.Subscribe<GameStopEvent>(StopGame);
+        GameEventSystem.Subscribe<LoadLevelEvent>(ReceiveLoadEvent);
         GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(
             _soundPrefabs.NatureBackground, onLoop: true, AudioType.BackgroundMusic));
         _rewardController = new RewardController(_prefabs, _rewardsT);
-    }
-
-    private void StopGame(GameStopEvent @event)
-    {
-        if (!@event.EndOfGame)
-            ShowPanel(_pausePanel, @event.IsPaused);
-        else
-            ShowPanel(_gameOverPanel);
-
-        _backgroundPanel.SetActive(@event.IsPaused || @event.EndOfGame);
-        AudioClip clip = @event.IsPaused ? _soundPrefabs.MenuBackground : _soundPrefabs.NatureBackground;
-        GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(clip, onLoop: true, AudioType.BackgroundMusic));
     }
 
     private void SetPanels()
@@ -49,9 +38,29 @@ public class GameCanvas : BaseSceneUI
         _pauseSettingsButton.onClick.AddListener(() => ShowSettingsContainer(pausePanel.gameObject));
     }
 
+    private void StopGame(GameStopEvent @event)
+    {
+        if (!@event.EndOfGame)
+            ShowPanel(_pausePanel, @event.IsPaused);
+        else
+            ShowPanel(_gameOverPanel);
+
+        var isOnStop = @event.IsPaused || @event.EndOfGame;
+        _backgroundPanel.SetActive(isOnStop);
+        AudioClip clip = isOnStop ? _soundPrefabs.MenuBackground : _soundPrefabs.NatureBackground;
+        GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(clip, onLoop: true, AudioType.BackgroundMusic));
+    }
+
+    private void ReceiveLoadEvent(LoadLevelEvent @event)
+    {
+        _sceneLoader.LoadFinalLevel = @event.LoadFinalLevel;
+        _sceneLoader.LoadNextScene();
+    }
+
     private void OnDestroy()
     {
         GameEventSystem.UnSubscribe<GameStopEvent>(StopGame);
+        GameEventSystem.UnSubscribe<LoadLevelEvent>(ReceiveLoadEvent);
         _pauseSettingsButton.onClick.RemoveAllListeners();
         _rewardController.Dispose();
         BaseOnDestroy();

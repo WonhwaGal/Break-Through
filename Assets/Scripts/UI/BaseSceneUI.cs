@@ -5,15 +5,17 @@ public class BaseSceneUI : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] protected UIScriptableObject _prefabs;
     [SerializeField] protected GameAudioScriptable _soundPrefabs;
+    [SerializeField] protected SpawnScriptableObject _spawnPrefabs;
     [SerializeField] private GameObject _settingsSpawn;
 
     private SettingsMenu _settingsCanvas;
     protected LoadingCurtain _curtain;
     protected ProgressSaver _progressSaver;
+    protected SceneLoader _sceneLoader;
 
     private void Awake()
     {
-        _curtain = ServiceLocator.Container.RequestFor<LoadingCurtain>();
+        _sceneLoader = new SceneLoader(_spawnPrefabs);
         GameEventSystem.Subscribe<SaveGameEvent>(SaveProgress);
     }
 
@@ -48,15 +50,6 @@ public class BaseSceneUI : MonoBehaviour
     {
         _progressSaver = new ProgressSaver();
         _progressSaver.SaveProgressData();
-    }
-
-    protected void PrepareGameServices(SpawnScriptableObject spawnPrefabs)
-    {
-        ServiceLocator.Container.Register<StatisticsCounter>(new StatisticsCounter());
-        ServiceLocator.Container.Register<KeyboardInputService>(new KeyboardInputService());
-        ServiceLocator.Container.Register<ArrowController>(new ArrowController(spawnPrefabs));
-        ServiceLocator.Container.Register<Pointer>(
-            new Pointer(spawnPrefabs.PointerPrefab, ServiceLocator.Container.RequestFor<KeyboardInputService>()));
     }
 
     protected void BaseOnDestroy()

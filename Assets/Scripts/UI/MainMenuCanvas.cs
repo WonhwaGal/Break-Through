@@ -1,11 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class MainMenuCanvas : BaseSceneUI, ISceneLoader
+public class MainMenuCanvas : BaseSceneUI
 {
-    [SerializeField] private SpawnScriptableObject _spawnPrefabs;
-
     [Header("Buttons")]
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _exitButton;
@@ -17,9 +14,6 @@ public class MainMenuCanvas : BaseSceneUI, ISceneLoader
     [SerializeField] private GameObject _continueSavedPanel;
     [SerializeField] private GameObject _noSavedGamePanel;
     [SerializeField] private GameObject _rulesPanel;
-
-    private const string GameLevel = "GameLevel";
-    private bool _continueSaved;
 
     private void Start()
     {
@@ -40,39 +34,22 @@ public class MainMenuCanvas : BaseSceneUI, ISceneLoader
     private void AssignButtons()
     {
         _exitButton.onClick.AddListener(QuitGame);
-        _startLevelButton.onClick.AddListener(() => LoadNextScene(continueSaved: false));
-        _loadSavedGameButton.onClick.AddListener(() => LoadNextScene(continueSaved: true));
+        _startLevelButton.onClick.AddListener(() => LoadNextScene(false));
+        _loadSavedGameButton.onClick.AddListener(() => LoadNextScene(true));
         _settingsButton.onClick.AddListener(() => ShowSettingsContainer(_mainMenuContainer));
     }
 
     public void LoadNextScene(bool continueSaved)
     {
-        if (continueSaved && !HasSavedGame())
-            return;
-
-        _curtain.Show();
-        _continueSaved = continueSaved;
-        SceneManager.LoadSceneAsync(GameLevel);
-        SceneManager.sceneLoaded += OnLoadEvent;
-    }
-
-    public void OnLoadEvent(Scene scene, LoadSceneMode mode)
-    {
-        _curtain.Hide();
-        PrepareGameServices(_spawnPrefabs);
-        new PlayerLoader(_spawnPrefabs.PlayerPrefab, _continueSaved);
-        SceneManager.sceneLoaded -= OnLoadEvent;
-    }
-
-    private bool HasSavedGame()
-    {
-        if (!PlayerPrefs.HasKey(Constants.SaveGameKey))
+        _sceneLoader.ContinueSaved = continueSaved;
+        if (_sceneLoader.ContinueSaved && !_sceneLoader.HasSavedGame())
         {
             _continueSavedPanel.SetActive(false);
             _noSavedGamePanel.SetActive(true);
-            return false;
+            return;
         }
-        return true;
+
+        _sceneLoader.LoadNextScene();
     }
 
     public void QuitGame()

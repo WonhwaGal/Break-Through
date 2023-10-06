@@ -11,9 +11,9 @@ public class Bootstrapper : MonoBehaviour, ISceneLoader
     
     private void Awake() => DontDestroyOnLoad(this);
 
-    private void Start() => LoadNextScene(true);
+    private void Start() => LoadNextScene();
 
-    public void LoadNextScene(bool fromScratch)
+    public void LoadNextScene()
     {
         Curtain.Show();
         ServiceLocator.Container.Register<LoadingCurtain>(Curtain);

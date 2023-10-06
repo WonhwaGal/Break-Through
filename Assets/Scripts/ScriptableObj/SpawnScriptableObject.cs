@@ -8,4 +8,5 @@ public class SpawnScriptableObject : ScriptableObject
     public ArrowView ArrowPrefab; 
     public GameObject PointerPrefab; 
     public PlayerView PlayerPrefab;
+    public EnemyView BossPrefab;
 }

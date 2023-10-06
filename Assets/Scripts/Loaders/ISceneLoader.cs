@@ -2,6 +2,6 @@
 
 public interface ISceneLoader
 {
-    void LoadNextScene(bool startFromScratch);
+    void LoadNextScene();
     void OnLoadEvent(Scene scene, LoadSceneMode mode);
 }

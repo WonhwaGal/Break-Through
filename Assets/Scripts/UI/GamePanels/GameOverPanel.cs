@@ -12,7 +12,7 @@ public class GameOverPanel : BaseGamePanel
 
     private void TryAgain()
     {
-        GameEventSystem.Send<RestartGameEvent>(new RestartGameEvent(restart: true));
+        GameEventSystem.Send<LoadLevelEvent>(new LoadLevelEvent(toFinal: false));
     }
 
     private void OnDestroy()

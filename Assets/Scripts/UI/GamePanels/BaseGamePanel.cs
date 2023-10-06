@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BaseGamePanel : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class BaseGamePanel : MonoBehaviour
     {
         _saveButton.onClick.AddListener(SaveGame);
         _exitButton.onClick.AddListener(Quit);
+        if(SceneManager.GetActiveScene().buildIndex == 3)
+            _saveButton.interactable = false;
     }
 
     private void SaveGame()
