@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraMovement : MonoBehaviour
+public sealed class CameraMovement : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _moveSpeed;

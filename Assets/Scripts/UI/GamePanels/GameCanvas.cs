@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameCanvas : BaseSceneUI
+public sealed class GameCanvas : BaseSceneUI
 {
     [Header("Game UI")]
     [SerializeField] private Transform _rewardsT;
@@ -42,8 +42,10 @@ public class GameCanvas : BaseSceneUI
     {
         if (!@event.EndOfGame)
             ShowPanel(_pausePanel, @event.IsPaused);
-        else
+        else if (!@event.IsWin)
             ShowPanel(_gameOverPanel);
+        else
+            LoadWinPanel();
 
         var isOnStop = @event.IsPaused || @event.EndOfGame;
         _backgroundPanel.SetActive(isOnStop);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyShooter: Shooter
+public sealed class EnemyShooter : Shooter
 {
     private const float VerticalShift = 2.8f;
     private const float AnimationShootTime = 1.2f;

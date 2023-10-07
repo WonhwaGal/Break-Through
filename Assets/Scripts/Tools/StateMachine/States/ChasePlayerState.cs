@@ -1,14 +1,22 @@
 using UnityEngine;
 
-public class ChasePlayerState : BaseEnemyState
+public sealed class ChasePlayerState : BaseEnemyState
 {
     private float _timeToShoot;
 
     public override void EnterState()
     {
         Owner.Agent.isStopped = false;
-        Owner.Agent.stoppingDistance = PlayerStoppingDist;
-        _timeToShoot = Time.time + Owner.Model.ChaseTimeSpan;
+        if(Owner.EnemyType == EnemyType.Boss)
+        {
+            Owner.Agent.stoppingDistance = RegularStoppingDist;
+            _timeToShoot = Time.time + BossChaseSpan;
+        }
+        else
+        {
+            Owner.Agent.stoppingDistance = WarriorStoppingDist;
+            _timeToShoot = Time.time + ChaseTimeSpan;
+        }
         base.EnterState();
     }
 

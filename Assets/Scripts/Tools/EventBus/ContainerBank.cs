@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContainerBank
+public sealed class ContainerBank
 {
     private Dictionary<Type, IDisposable> _bankData = new();
 

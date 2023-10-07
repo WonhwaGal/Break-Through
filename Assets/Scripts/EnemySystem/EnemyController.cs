@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public sealed class EnemyController : MonoBehaviour
 {
     [SerializeField] private SpawnScriptableObject spawnPrefabs;
     [SerializeField] private Transform[] _guardPoints;
@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < _guardPoints.Length; i++)
         {
-            EnemyView enemy = SpawnEnemy(_guardPoints[i].position, EnemyType.Guard);
+            EnemyView enemy = SpawnEnemy(_guardPoints[i], EnemyType.Guard);
             enemy.StateMachine.ChangeTo<GuardState>(guardState => guardState.Owner = enemy);
         }
     }
@@ -35,15 +35,16 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < _patrolPoints.Length; i++)
         {
-            EnemyView enemy = SpawnEnemy(_patrolPoints[i].position, EnemyType.Patrol);
+            EnemyView enemy = SpawnEnemy(_patrolPoints[i], EnemyType.Patrol);
             enemy.StateMachine.ChangeTo<PatrolState>(patrolState => patrolState.Owner = enemy);
         }
     }
 
-    private EnemyView SpawnEnemy(Vector3 placement, EnemyType enemyType)
+    private EnemyView SpawnEnemy(Transform placement, EnemyType enemyType)
     {
         EnemyView enemy = _enemyViewPool.Spawn();
-        enemy.transform.position = placement;
+        enemy.transform.position = placement.position;
+        enemy.transform.rotation = placement.rotation;
         enemy.EnemyType = enemyType;
         enemy.Agent.avoidancePriority = Random.Range(0, 51);
         enemy.Model.OnReadyToDespawn += ReturnToPool;
@@ -52,7 +53,7 @@ public class EnemyController : MonoBehaviour
 
     private void RandomSpawnEnemy()
     {
-        EnemyView enemy = SpawnEnemy(_patrolPoints[Random.Range(0, _patrolPoints.Length)].position, EnemyType.Patrol);
+        EnemyView enemy = SpawnEnemy(_patrolPoints[Random.Range(0, _patrolPoints.Length)], EnemyType.Patrol);
         enemy.StateMachine.ChangeTo<PatrolState>(patrolState => patrolState.Owner = enemy);
     }
 

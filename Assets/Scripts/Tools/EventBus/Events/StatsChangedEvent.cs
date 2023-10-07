@@ -1,9 +1,9 @@
 
 public struct StatsChangedEvent : IGameEvent
 {
-    public RewardType RewardType;
-    public int NewValue;
-    public int EnemiesKilled;
+    public readonly RewardType RewardType;
+    public readonly int NewValue;
+    public readonly int EnemiesKilled;
 
     public StatsChangedEvent(RewardType type, int newValue, int enemiesKilled = 0)
     {

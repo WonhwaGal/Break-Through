@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ProgressSaver
+public sealed class ProgressSaver
 {
     private readonly ProgressData _progressData;
 

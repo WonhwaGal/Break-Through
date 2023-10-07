@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AudioPlayer : MonoBehaviour
+public sealed class AudioPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _soundSource;

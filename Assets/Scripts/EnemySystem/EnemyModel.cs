@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyModel :IDisposable
+public sealed class EnemyModel :IDisposable
 {
     private int _hp;
     private RewardType _rewardType;
@@ -14,15 +14,14 @@ public class EnemyModel :IDisposable
     private readonly EnemyShooter _shooter;
     private readonly int _damageFromArrow;
     private readonly Slider _hpSlider;
-    private const float ChaseSpan = 3.0f;
-    private const float StayAfterDeathSpan = 5.0f;
+    private float _stayAfterDeath = 5.0f;
 
-    public EnemyModel(Transform shootPoint, Slider hpSlider, IStateMachine stateMachine)
+    public EnemyModel(Transform shootPoint, Slider hpSlider, int damage, IStateMachine stateMachine)
     {
         _hpSlider = hpSlider;
         StateMachine = stateMachine;
         _shooter = new EnemyShooter(shootPoint);
-        _damageFromArrow = Constants.ArrowDamageToEnemy;
+        _damageFromArrow = damage;
         _hpSlider.onValueChanged.AddListener(UpdateSlider);
         GameEventSystem.Subscribe<GameStopEvent>(GameStopped);
     }
@@ -30,6 +29,11 @@ public class EnemyModel :IDisposable
     public RewardType RewardType { get => _rewardType; }
     public int RewardAmount { get => _rewardAmount; }
     public IStateMachine StateMachine { get; private set; }
+    public float StayAfterDeathTime
+    {
+        get => _stayAfterDeath;
+        set => _stayAfterDeath = value;
+    }
     public Vector3 GuardPoint { get; set; }
     public bool IsPaused { get; set; }
     public Transform Target
@@ -90,11 +94,9 @@ public class EnemyModel :IDisposable
             _hpSlider.value = _hp;
         }
     }
-    public float ChaseTimeSpan => ChaseSpan;
-    public float StayAfterDeathTime => StayAfterDeathSpan;
 
-    public event Action<bool> OnSeeingPlayer;
     public event Action<bool, bool, IState> OnMoving;
+    public event Action<bool> OnSeeingPlayer;
     public event Action OnStartShooting;
     public event Action OnDying;
     public event Action<EnemyView> OnReadyToDespawn;

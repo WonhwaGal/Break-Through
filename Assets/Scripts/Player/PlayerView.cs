@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerView : MonoBehaviour, IDamagable
+public sealed class PlayerView : MonoBehaviour, IDamagable
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField, Range(5, 15)] private float _speed = 12;

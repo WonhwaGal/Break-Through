@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : ISceneLoader
+public sealed class SceneLoader : ISceneLoader
 {
     private LoadingCurtain _curtain;
     private SpawnScriptableObject _spawnPrefabs;

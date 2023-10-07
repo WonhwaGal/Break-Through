@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WaterTrigger : MonoBehaviour, IPausable
+public sealed class WaterTrigger : MonoBehaviour, IPausable
 {
     [SerializeField] private GameAudioScriptable gameAudioScriptable;
     [SerializeField] private AudioSource _audioSource;

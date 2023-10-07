@@ -1,7 +1,7 @@
 
 public struct SaveGameEvent : IGameEvent
 {
-    public bool ProgressToSave;
+    public readonly bool ProgressToSave;
 
     public SaveGameEvent(bool save) => ProgressToSave = save;
 }

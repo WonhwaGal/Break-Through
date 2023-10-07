@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerSpawn : MonoBehaviour
+public sealed class PlayerSpawnSpot : MonoBehaviour
 {
     private void Start()
     {

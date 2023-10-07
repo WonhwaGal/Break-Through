@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement
+public sealed class PlayerMovement
 {
     private readonly CharacterController _characterController;
     private readonly Transform _playerT;

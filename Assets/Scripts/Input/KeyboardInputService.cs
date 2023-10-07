@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class KeyboardInputService : IInputService, IService
+public sealed class KeyboardInputService : IInputService, IService
 {
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
@@ -49,7 +49,10 @@ public class KeyboardInputService : IInputService, IService
         }
 
         if (@event.EndOfGame)
+        {
+            _isPaused = @event.IsPaused;
             Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void SendMouseEvents()
@@ -65,7 +68,7 @@ public class KeyboardInputService : IInputService, IService
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !_isPaused)
         {
-            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(isEnded: false, isPaused: true));
+            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(isPaused: true, false, false));
             _isPaused = true;
             Cursor.lockState = CursorLockMode.None;
         }

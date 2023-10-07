@@ -1,6 +1,6 @@
 using System;
 
-public class EventContainer<T> : IEventContainer<T> where T : struct, IGameEvent
+public sealed class EventContainer<T> : IEventContainer<T> where T : struct, IGameEvent
 {
     private bool _disposed;
 

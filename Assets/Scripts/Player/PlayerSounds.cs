@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerSounds : MonoBehaviour
+public sealed class PlayerSounds : MonoBehaviour
 {
     [SerializeField] private PlayerAudio _playerSounds;
     [SerializeField] private AudioSource _audioSource;

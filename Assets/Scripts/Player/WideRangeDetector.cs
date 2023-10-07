@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WideRangeDetector : MonoBehaviour
+public sealed class WideRangeDetector : MonoBehaviour
 {
     [SerializeField] private CapsuleCollider _collider;
     [SerializeField] private LayerMask _enemyMask;

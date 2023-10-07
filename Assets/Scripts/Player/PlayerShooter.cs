@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerShooter: Shooter
+public sealed class PlayerShooter : Shooter
 {
     private readonly Pointer _aimPointer;
     private readonly float _shootLength;

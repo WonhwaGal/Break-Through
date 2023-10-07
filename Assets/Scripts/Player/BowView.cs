@@ -1,13 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class BowView : MonoBehaviour
+public sealed class BowView : MonoBehaviour
 {
     public Transform ShootPoint;
 
     private Animator _animator;
 
-    private void OnEnable()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         GameEventSystem.Subscribe<PlayerAimEvent>(TightenBow);

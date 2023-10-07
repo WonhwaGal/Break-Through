@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuCanvas : BaseSceneUI
+public sealed class MainMenuCanvas : BaseSceneUI
 {
     [Header("Buttons")]
     [SerializeField] private Button _settingsButton;

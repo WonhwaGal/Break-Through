@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardIcon : BaseRewardItem
+public sealed class RewardIcon : BaseRewardItem
 {
     public Image RewardImage;
     public TextMeshProUGUI RewardText;

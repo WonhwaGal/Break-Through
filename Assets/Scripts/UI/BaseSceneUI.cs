@@ -9,6 +9,7 @@ public class BaseSceneUI : MonoBehaviour
     [SerializeField] private GameObject _settingsSpawn;
 
     private SettingsMenu _settingsCanvas;
+    private WinPanel _winPanel;
     protected LoadingCurtain _curtain;
     protected ProgressSaver _progressSaver;
     protected SceneLoader _sceneLoader;
@@ -32,6 +33,13 @@ public class BaseSceneUI : MonoBehaviour
         }
 
         _settingsCanvas.gameObject.SetActive(true);
+    }
+
+    protected void LoadWinPanel()
+    {
+        _winPanel = Instantiate<WinPanel>(_prefabs.WinPanel, transform);
+        _winPanel.transform.SetAsLastSibling();
+        _winPanel.gameObject.SetActive(true);
     }
 
     public void ShowPanel(BaseGamePanel panel, bool shouldShow = true)

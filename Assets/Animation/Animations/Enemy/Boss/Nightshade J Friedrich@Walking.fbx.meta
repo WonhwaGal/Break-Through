@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 119e2a573a450e64f9ce1896e7d8aa7b
+guid: 4bcdf362468e72d44b77593a1e420966
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Shooting Arrow
+    second: Walking
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,22 +36,22 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Shooting Arrow
+      name: Walking
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 44
-      lastFrame: 150
+      firstFrame: 0
+      lastFrame: 37
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0

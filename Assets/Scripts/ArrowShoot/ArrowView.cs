@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-public class ArrowView : MonoBehaviour, IArrow, IPausable
+public sealed class ArrowView : MonoBehaviour, IArrow, IPausable
 {
     [SerializeField] private Rigidbody _arrowRb;
-    [SerializeField, Range(5, 20)] private float _force = 15;
+    [SerializeField, Range(10, 30)] private float _force = 20;
     private Vector3 _pausedVelocity;
     private ParticleSystem _particleSystem;
 
@@ -30,8 +30,8 @@ public class ArrowView : MonoBehaviour, IArrow, IPausable
 
     public void Pause(GameStopEvent @event)
     {
-        if (@event.EndOfGame)
-            return; 
+        //if (@event.EndOfGame)
+        //    return; 
 
         if (_arrowRb.velocity != Vector3.zero && @event.IsPaused)
         {

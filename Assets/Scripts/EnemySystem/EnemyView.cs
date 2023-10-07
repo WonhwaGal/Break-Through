@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
-public class EnemyView : MonoBehaviour, IDamagable, IPausable
+public sealed class EnemyView : MonoBehaviour, IDamagable, IPausable
 {
     [SerializeField] private Slider _hpSlider;
+    [SerializeField] private int arrowDamage = Constants.ArrowDamageToEnemy;
     [SerializeField] private Transform _shootPoint;
 
     private readonly StateMachine _stateMachine = new();
@@ -23,7 +23,7 @@ public class EnemyView : MonoBehaviour, IDamagable, IPausable
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
-        _enemyModel = new EnemyModel(_shootPoint, _hpSlider, _stateMachine);
+        _enemyModel = new EnemyModel(_shootPoint, _hpSlider, arrowDamage, _stateMachine);
         SetUpAnimator();
         GameEventSystem.Subscribe<GameStopEvent>(Pause);
     }

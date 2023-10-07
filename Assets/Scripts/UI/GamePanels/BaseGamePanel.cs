@@ -9,10 +9,13 @@ public class BaseGamePanel : MonoBehaviour
 
     private void Awake()
     {
-        _saveButton.onClick.AddListener(SaveGame);
+        if(_saveButton != null)
+        {
+            _saveButton.onClick.AddListener(SaveGame);
+            if (SceneManager.GetActiveScene().buildIndex == 3)
+                _saveButton.interactable = false;
+        }
         _exitButton.onClick.AddListener(Quit);
-        if(SceneManager.GetActiveScene().buildIndex == 3)
-            _saveButton.interactable = false;
     }
 
     private void SaveGame()
@@ -24,7 +27,8 @@ public class BaseGamePanel : MonoBehaviour
 
     protected void BaseOnDestroy()
     {
-        _saveButton.onClick.RemoveListener(SaveGame);
+        if (_saveButton != null)
+            _saveButton.onClick.RemoveListener(SaveGame);
         _exitButton.onClick.RemoveListener(Quit);
     }
 }

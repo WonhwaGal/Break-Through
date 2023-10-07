@@ -13,10 +13,10 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Sneak_away
+  productName: Break_through
   defaultCursor: {fileID: 2800000, guid: 94d881922b7916a41b48b4632e97e7fc, type: 3}
   cursorHotspot: {x: 70, y: 20}
-  m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.21568629, g: 0.11764707, b: 0.07058824, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
@@ -273,7 +273,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 822a89e9f66c4c845802d3ec400be2fc, type: 3}
+      m_Icon: {fileID: 2800000, guid: d06cee75ad4a47e4b948c0ae6bb32a98, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0

@@ -1,5 +1,5 @@
 
-public class ServiceLocator
+public sealed class ServiceLocator
 {
     private static ServiceLocator _instance;
 

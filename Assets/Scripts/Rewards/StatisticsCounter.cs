@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class StatisticsCounter : IService, IDisposable
+public sealed class StatisticsCounter : IService, IDisposable
 {
     private const int SliderMultiplier = 10;
     private const int MaxSliderValue = 100;
@@ -25,7 +25,7 @@ public class StatisticsCounter : IService, IDisposable
     }
     public int KeyNumber { get; private set; }
     public int EnemyNumber { get; private set; }
-    public int PlayerHP { get; private set; }
+    public int PlayerHP { get; private set; } = MaxSliderValue;
 
     private void UpdateStats(ReceiveRewardEvent @event)
     {

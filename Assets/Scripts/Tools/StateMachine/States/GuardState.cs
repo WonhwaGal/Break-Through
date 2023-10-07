@@ -1,5 +1,5 @@
 
-public class GuardState : BaseEnemyState
+public sealed class GuardState : BaseEnemyState
 {
     public override void EnterState()
     {

@@ -3,11 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class StatsView : MonoBehaviour
+public sealed class StatsView : MonoBehaviour
 {
     [Header("HP:")]
     [SerializeField] private Slider _playerHpSlider;
     [SerializeField] private TextMeshProUGUI _hpText;
+
+    [Header("No Arrow Panel")]
+    [SerializeField] private GameObject _noArrowPanel;
 
     [Header("Stats:")]
     [SerializeField] private TextMeshProUGUI _arrowsText;
@@ -18,8 +21,10 @@ public class StatsView : MonoBehaviour
     private void Awake()
     {
         GameEventSystem.Subscribe<StatsChangedEvent>(UpdateView);
+        GameEventSystem.Subscribe<PlayerAimEvent>(ShowNoArrowPanel);
         _playerHpSlider.onValueChanged.AddListener(SetHpText);
-        if(SceneManager.GetActiveScene().buildIndex == 3)
+        _noArrowPanel.SetActive(false);
+        if (SceneManager.GetActiveScene().buildIndex == 3)
         {
             _keyText.gameObject.SetActive(false);
             _enemiesKilledText.gameObject.SetActive(false);
@@ -65,9 +70,16 @@ public class StatsView : MonoBehaviour
 
     private void SetHpText(float value) => _hpText.text = value.ToString();
 
+    private void ShowNoArrowPanel(PlayerAimEvent @event)
+    {
+        if(PlayerPrefs.GetInt(Constants.CurrentArrowNumber) == 0)
+            _noArrowPanel.SetActive(@event.AimPressed);
+    }
+
     private void OnDestroy()
     {
         GameEventSystem.UnSubscribe<StatsChangedEvent>(UpdateView);
+        GameEventSystem.UnSubscribe<PlayerAimEvent>(ShowNoArrowPanel);
         _playerHpSlider.onValueChanged.RemoveListener(SetHpText);
     }
 }

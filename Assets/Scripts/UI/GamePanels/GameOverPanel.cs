@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverPanel : BaseGamePanel
+public sealed class GameOverPanel : BaseGamePanel
 {
     [SerializeField] private Button _restartButton;
 

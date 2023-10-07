@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ArrowController : IService
+public sealed class ArrowController : IService
 {
     private readonly GameObject _root;
     private readonly ArrowView _arrowPrefab;

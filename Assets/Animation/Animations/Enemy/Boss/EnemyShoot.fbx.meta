@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 3191ef2e968e8864c9327303a4ce42ef
+guid: 119e2a573a450e64f9ce1896e7d8aa7b
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Standard Walk
+    second: EnemyShoot
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,22 +36,22 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Standard Walk
+      name: EnemyShoot
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
-      lastFrame: 35
+      firstFrame: 44
+      lastFrame: 150
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: -45
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0

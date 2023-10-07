@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BonusReward : BaseRewardItem
+public sealed class BonusReward : BaseRewardItem
 {
     [SerializeField] private RewardType _rewardType;
     [SerializeField] private int _minAmount;

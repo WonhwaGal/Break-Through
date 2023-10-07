@@ -504,9 +504,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 896604655570262295}
     m_Modifications:
+    - target: {fileID: 534740773484242571, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 670781206618061337, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
       propertyPath: m_Name
       value: EnemyLifeCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 670781206618061337, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457176134907443158, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3671280875621007400, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
       propertyPath: m_Value
@@ -610,6 +622,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4615200135977987029, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787949437186909781, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036658161665793232, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843580665338427445, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8476734198398894925, guid: b15c3bd9afef6e447848ac7180c94167, type: 3}

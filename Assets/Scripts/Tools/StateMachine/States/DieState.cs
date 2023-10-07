@@ -12,8 +12,9 @@ public class DieState : BaseStateOf<EnemyView>
         Owner.GetComponent<Collider>().enabled = false;
         _despawnTime = Time.time + Owner.Model.StayAfterDeathTime;
         var rewardSpawnPos = Owner.transform.position + _verticalShift;
-        GameEventSystem.Send<EnemyKilledEvent>(
-            new EnemyKilledEvent(Owner.Model.RewardType, Owner.Model.RewardAmount, rewardSpawnPos));
+        if(Owner.EnemyType != EnemyType.Boss)
+            GameEventSystem.Send<EnemyKilledEvent>(
+                new EnemyKilledEvent(Owner.Model.RewardType, Owner.Model.RewardAmount, rewardSpawnPos));
     }
 
     public override void UpdateState()

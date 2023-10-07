@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PlayerModel : IDisposable
+public sealed class PlayerModel : IDisposable
 {
     private int _hp;
     private const int MaxHp = 100;
@@ -16,13 +17,13 @@ public class PlayerModel : IDisposable
     {
         _animator = animator;
         _transform = playerT;
-        _damageFromArrow = Constants.ArrowDamageToPlayer;
+        _damageFromArrow = SceneManager.GetActiveScene().buildIndex == 3 ? 
+            _damageFromArrow = Constants.BossDamageToPlayer : _damageFromArrow = Constants.ArrowDamageToPlayer;
         _shooter = new PlayerShooter(bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
         _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
 
         GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);
         GameEventSystem.Subscribe<SaveGameEvent>(SavePlayerData);
-
         Reset();
     }
 
@@ -80,7 +81,7 @@ public class PlayerModel : IDisposable
             _hp = 0;
             IsDead = true;
             _animator.AnimateDeath();
-            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(isEnded: true, isPaused: false));
+            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(false, isEnded: true, isWin: false));
         }
         else
         {

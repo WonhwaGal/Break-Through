@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class Bootstrapper : MonoBehaviour, ISceneLoader
+public sealed class Bootstrapper : MonoBehaviour, ISceneLoader
 {
     public LoadingCurtain Curtain;
     public AudioMixer MainMixer;
@@ -30,21 +30,29 @@ public class Bootstrapper : MonoBehaviour, ISceneLoader
 
     private void LoadProgress()
     {
+        SetUpAudio();
+
         if (PlayerPrefs.HasKey(Constants.SaveGameKey))
         {
             string savedJson = PlayerPrefs.GetString(Constants.SaveGameKey);
             ProgressData progressData = JsonUtility.FromJson<ProgressData>(savedJson);
             ServiceLocator.Container.Register<ProgressData>(progressData);
-
-            if (PlayerPrefs.HasKey(Constants.PrefsMusic))
-            {
-                MainMixer.SetFloat("myMusic", PlayerPrefs.GetInt(Constants.PrefsMusic));
-                MainMixer.SetFloat("mySounds", PlayerPrefs.GetInt(Constants.PrefsSound));
-            }
         }
         else
         {
             ServiceLocator.Container.Register<ProgressData>(new ProgressData());
+        }
+    }
+
+    private void SetUpAudio()
+    {
+        if (PlayerPrefs.HasKey(Constants.PrefsMusic))
+        {
+            MainMixer.SetFloat("myMusic", PlayerPrefs.GetInt(Constants.PrefsMusic));
+            MainMixer.SetFloat("mySounds", PlayerPrefs.GetInt(Constants.PrefsSound));
+        }
+        else
+        {
             SetDefaultParameters();
         }
     }

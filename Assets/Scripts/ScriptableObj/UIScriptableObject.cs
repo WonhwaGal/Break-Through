@@ -4,6 +4,7 @@ using UnityEngine;
 public class UIScriptableObject : ScriptableObject
 {
     public SettingsMenu SettingsMenu;
+    public WinPanel WinPanel;
     public RewardIcon RewardIcon;
     public Sprite KeySprite;
     public Sprite ArrowSprite;

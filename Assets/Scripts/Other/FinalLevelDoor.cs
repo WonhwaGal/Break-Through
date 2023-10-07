@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class FinalLevelDoor : MonoBehaviour
+public sealed class FinalLevelDoor : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ArrowPool<T> : Pool<T>
+public sealed class ArrowPool<T> : Pool<T>
     where T : MonoBehaviour, IArrow
 {
     public ArrowPool(T prefab, Transform root) : base(prefab, root) { }

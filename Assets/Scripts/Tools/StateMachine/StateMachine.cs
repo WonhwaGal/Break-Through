@@ -1,6 +1,6 @@
 using System;
 
-public class StateMachine : IStateMachine
+public sealed class StateMachine : IStateMachine
 {
     public IState CurrentState { get; private set; }
 

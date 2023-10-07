@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyAnimator : AgentAnimator
+public sealed class EnemyAnimator : AgentAnimator
 {
     private static readonly int s_moving = Animator.StringToHash("Moving");
     private static readonly int s_shoot = Animator.StringToHash("Shoot");

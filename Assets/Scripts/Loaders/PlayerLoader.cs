@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 
-public class PlayerLoader
+public sealed class PlayerLoader
 {
     private readonly ProgressData _progressData;
     private readonly PlayerView _playerView;

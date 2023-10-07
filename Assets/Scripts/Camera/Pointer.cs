@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Pointer: IService
+public sealed class Pointer : IService
 {
     private readonly GameObject _aimPointer;
     private readonly Transform _cameraT;

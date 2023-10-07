@@ -1,6 +1,6 @@
 ﻿using TMPro;
 
-public class GamePlayPanel: SettingsPanel
+public sealed class GamePlayPanel : SettingsPanel
 {
     public TextMeshProUGUI Value;
 }

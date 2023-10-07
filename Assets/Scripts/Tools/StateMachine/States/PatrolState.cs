@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PatrolState : BaseEnemyState
+public sealed class PatrolState : BaseEnemyState
 {
     private const float WanderDistance = 15; 
     private const float Threshold = 5;

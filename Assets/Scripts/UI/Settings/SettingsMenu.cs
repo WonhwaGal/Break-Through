@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SettingsMenu : MonoBehaviour
+public sealed class SettingsMenu : MonoBehaviour
 {
     [Header("Buttons")]
     [SerializeField] private Button _returnButton;

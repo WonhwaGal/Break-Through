@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ShootState : BaseEnemyState
+public sealed class ShootState : BaseEnemyState
 {
     private const float AnimationTransitionTime = 1.0f;
     private const float RotationTime = 0.4f;

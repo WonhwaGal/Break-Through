@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Factory<T> 
+public sealed class Factory<T> 
     where T : MonoBehaviour
 {
     private readonly T _objectPrefab;

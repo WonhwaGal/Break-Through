@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimator: AgentAnimator
+public sealed class PlayerAnimator : AgentAnimator
 {
     private static readonly int s_forwardInput = Animator.StringToHash("Forward");
     private static readonly int s_sideInput = Animator.StringToHash("Side");

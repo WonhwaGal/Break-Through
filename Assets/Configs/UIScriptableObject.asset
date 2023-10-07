@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UIScriptableObject
   m_EditorClassIdentifier: 
   SettingsMenu: {fileID: -7964379816993978491, guid: 69a91f987745e2e4286056bd8c739b92, type: 3}
+  WinPanel: {fileID: 3137584531694952954, guid: 18d730495fa3e5f488343f92d4f54eca, type: 3}
   RewardIcon: {fileID: 282190109391311858, guid: b7ada39dd91451b48be9bc698695b494, type: 3}
   KeySprite: {fileID: 21300000, guid: 3ea537e7c42b1d448ad7e6e300db26ab, type: 3}
   ArrowSprite: {fileID: 21300000, guid: 5da3873f8fa9daf438241d185613c2bb, type: 3}

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SettingsPrefsSaver : IDisposable
+public sealed class SettingsPrefsSaver : IDisposable
 {
     private readonly AudioMixer _myMixer;
     private readonly Slider _musicSlider;
