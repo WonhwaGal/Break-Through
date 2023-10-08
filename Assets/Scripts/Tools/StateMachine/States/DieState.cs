@@ -7,7 +7,7 @@ public class DieState : BaseStateOf<EnemyView>
 
     public override void EnterState()
     {
-        Owner.Agent.isStopped = true;
+        Owner.Agent.enabled = false;
         Owner.Model.Target = null;
         Owner.GetComponent<Collider>().enabled = false;
         _despawnTime = Time.time + Owner.Model.StayAfterDeathTime;
@@ -20,10 +20,7 @@ public class DieState : BaseStateOf<EnemyView>
     public override void UpdateState()
     {
         if (_despawnTime < Time.time)
-        {
             Owner.Model.InvokeDespawn(Owner);
-            Dispose();
-        }
     }
 
     public override void ExitState()

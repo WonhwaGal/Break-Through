@@ -105,7 +105,6 @@ public sealed class EnemyModel :IDisposable
     {
         _hpSlider.gameObject.SetActive(true);
         HP = (int)_hpSlider.maxValue;
-
         IsDead = false;
         SetRewardValues();
     }
@@ -113,10 +112,7 @@ public sealed class EnemyModel :IDisposable
     private void SetRewardValues()
     {
         int randomNumber = UnityEngine.Random.Range(1, 31);
-
         _rewardAmount = randomNumber % Constants.KillRewardMaxValue;
-        if (_rewardAmount == 0 || _rewardType == RewardType.Key)
-            _rewardAmount = 1;
 
         Array rewardTypeValues = Enum.GetValues(typeof(RewardType));
         for (var i = rewardTypeValues.Length - 1; i >= 0; i--)
@@ -124,6 +120,8 @@ public sealed class EnemyModel :IDisposable
             if (randomNumber % (int)rewardTypeValues.GetValue(i) == 0)
             {
                 _rewardType = (RewardType)rewardTypeValues.GetValue(i);
+                if (_rewardAmount == 0 || _rewardType == RewardType.Key)
+                    _rewardAmount = 1;
                 return;
             }
         }

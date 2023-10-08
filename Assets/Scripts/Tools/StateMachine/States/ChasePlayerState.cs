@@ -10,12 +10,12 @@ public sealed class ChasePlayerState : BaseEnemyState
         if(Owner.EnemyType == EnemyType.Boss)
         {
             Owner.Agent.stoppingDistance = RegularStoppingDist;
-            _timeToShoot = Time.time + BossChaseSpan;
+            _timeToShoot = Time.time + MinChaseSpan;
         }
         else
         {
             Owner.Agent.stoppingDistance = WarriorStoppingDist;
-            _timeToShoot = Time.time + ChaseTimeSpan;
+            _timeToShoot = Time.time + (float)Random.Range(MinChaseSpan, MaxChaseSpan);
         }
         base.EnterState();
     }

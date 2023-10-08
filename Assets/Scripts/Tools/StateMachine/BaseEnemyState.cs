@@ -3,8 +3,8 @@ public class BaseEnemyState : BaseStateOf<EnemyView>
 {
     protected const float RegularStoppingDist = 0.9f;
     protected const float WarriorStoppingDist = 6.0f;
-    protected const float ChaseTimeSpan = 3.0f;
-    protected const float BossChaseSpan = 1.5f;
+    protected const int MaxChaseSpan = 5;
+    protected const int MinChaseSpan = 1;
     protected const float StayAfterDeathTime = 5.0f;
     protected const float BossAfterDeathTime = 2.0f;
 

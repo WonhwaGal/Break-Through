@@ -409,9 +409,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cace6a6f1dae994468b68e38aaf6a978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KillReward: 0
   _rewardType: 1
   _minAmount: 10
-  _maxAmount: 20
+  _maxAmount: 25
 --- !u!1 &2420215880366790839
 GameObject:
   m_ObjectHideFlags: 0

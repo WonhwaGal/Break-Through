@@ -13,7 +13,7 @@ public static class Constants
     [Header("Load Values :")]
     public const string SaveGameKey = "ProgressData";
     public const string ContinueSaved = "ContinueSaved";
-    public static Vector3 PlayerDefaultSpawn = new (-59.93f, 0.12f, 297.41f);
+    public static Vector3 PlayerDefaultSpawn = new (-79.8f, 0.12f, 248.7f);
     public static Vector3 PlayerFinalSpawn = new (37.22f, 8.3f, -13.0f);
     public const string CurrentArrowNumber = "CurrentArrows";
 
@@ -34,4 +34,5 @@ public static class Constants
 
     [Header("Enemies :")]
     public static Vector3 RewardSpawnYShift = new (0, 7, 0);
+    public const float MaxPointerDistance = 30;
 }

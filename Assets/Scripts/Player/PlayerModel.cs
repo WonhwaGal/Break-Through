@@ -19,7 +19,7 @@ public sealed class PlayerModel : IDisposable
         _transform = playerT;
         _damageFromArrow = SceneManager.GetActiveScene().buildIndex == 3 ? 
             _damageFromArrow = Constants.BossDamageToPlayer : _damageFromArrow = Constants.ArrowDamageToPlayer;
-        _shooter = new PlayerShooter(bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
+        _shooter = new PlayerShooter(_transform, bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
         _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
 
         GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);

@@ -5,7 +5,6 @@ public sealed class Pointer : IService
     private readonly GameObject _aimPointer;
     private readonly Transform _cameraT;
     private readonly LayerMask _enemyMask;
-    private const float MaxDistance = 30;
     private const float Size = 0.01f;
 
     public Pointer(GameObject pointer, IInputService input)
@@ -22,7 +21,7 @@ public sealed class Pointer : IService
 
     public void Update()
     {
-        if (!_aimPointer.activeInHierarchy)
+        if (!_aimPointer.activeSelf)
             return;
 
         PlacePointer();
@@ -33,7 +32,7 @@ public sealed class Pointer : IService
     private void PlacePointer()
     {
         RaycastHit rayCast;
-        if (Physics.Raycast(_cameraT.position, _cameraT.forward, out rayCast, MaxDistance, _enemyMask))
+        if (Physics.Raycast(_cameraT.position, _cameraT.forward, out rayCast, Constants.MaxPointerDistance, _enemyMask))
         {
             float scale = Vector3.Distance(_aimPointer.transform.position, _cameraT.position);
             _aimPointer.transform.localScale = scale * Size * Vector3.one;
