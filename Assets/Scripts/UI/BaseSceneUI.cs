@@ -37,6 +37,7 @@ public class BaseSceneUI : MonoBehaviour
 
     protected void LoadWinPanel()
     {
+        GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(_soundPrefabs.GongSound, false, AudioType.Sound));
         _winPanel = Instantiate<WinPanel>(_prefabs.WinPanel, transform);
         _winPanel.transform.SetAsLastSibling();
         _winPanel.gameObject.SetActive(true);

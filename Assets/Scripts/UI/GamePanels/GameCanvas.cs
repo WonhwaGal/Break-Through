@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public sealed class GameCanvas : BaseSceneUI
 {
@@ -13,23 +14,28 @@ public sealed class GameCanvas : BaseSceneUI
 
     private Button _pauseSettingsButton;
     private RewardController _rewardController;
+    private AudioClip _background;
 
     private void Start()
     {
-        SetPanels();
+        SetUp();
         GameEventSystem.Subscribe<GameStopEvent>(StopGame);
         GameEventSystem.Subscribe<LoadLevelEvent>(ReceiveLoadEvent);
         GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(
-            _soundPrefabs.NatureBackground, onLoop: true, AudioType.BackgroundMusic));
+            _background, onLoop: true, AudioType.BackgroundMusic));
         _rewardController = new RewardController(_prefabs, _rewardsT);
     }
 
-    private void SetPanels()
+    private void SetUp()
     {
         AssignPausePanelButton(_pausePanel);
         _backgroundPanel.SetActive(false);
         _pausePanel.gameObject.SetActive(false);
         _gameOverPanel.gameObject.SetActive(false);
+        if (SceneManager.GetActiveScene().buildIndex != 3)
+            _background = _soundPrefabs.NatureBackground;
+        else
+            _background = _soundPrefabs.FinalBackground;
     }
 
     public void AssignPausePanelButton(PausePanel pausePanel)
@@ -49,7 +55,7 @@ public sealed class GameCanvas : BaseSceneUI
 
         var isOnStop = @event.IsPaused || @event.EndOfGame;
         _backgroundPanel.SetActive(isOnStop);
-        AudioClip clip = isOnStop ? _soundPrefabs.MenuBackground : _soundPrefabs.NatureBackground;
+        AudioClip clip = isOnStop ? _soundPrefabs.MenuBackground : _background;
         GameEventSystem.Send<PlayMusicEvent>(new PlayMusicEvent(clip, onLoop: true, AudioType.BackgroundMusic));
     }
 

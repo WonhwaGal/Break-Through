@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arrowRb: {fileID: 174766248412251469}
-  _force: 24
+  _force: 26
 --- !u!54 &174766248412251469
 Rigidbody:
   m_ObjectHideFlags: 0

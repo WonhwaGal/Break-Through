@@ -5,6 +5,9 @@ public sealed class BossController : MonoBehaviour
     [SerializeField] private SpawnScriptableObject _prefabs;
     [SerializeField] private Transform _bossSpawnPoint;
     [SerializeField] private float _stayAfterDeathTime = 1;
+    private bool _cancelPlayerWin;
+
+    private void Awake() => GameEventSystem.Subscribe<GameStopEvent>(PlayerDieEvent);
 
     private void Start()
     {
@@ -17,7 +20,16 @@ public sealed class BossController : MonoBehaviour
 
     private void WinGame(EnemyView boss)
     {
-        GameEventSystem.Send<GameStopEvent>(new GameStopEvent(true, isEnded: true, isWin: true));
+        if (!_cancelPlayerWin)
+            GameEventSystem.Send<GameStopEvent>(new GameStopEvent(true, isEnded: true, isWin: true));
         boss.Model.OnReadyToDespawn -= WinGame;
     }
+
+    private void PlayerDieEvent(GameStopEvent @event)
+    {
+        if (@event.EndOfGame && !@event.IsWin)
+            _cancelPlayerWin = true;
+    }
+
+    private void OnDestroy() => GameEventSystem.UnSubscribe<GameStopEvent>(PlayerDieEvent);
 }

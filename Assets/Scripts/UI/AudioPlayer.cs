@@ -4,6 +4,7 @@ public sealed class AudioPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _soundSource;
+    private AudioSource _currentSource;
 
     private void Awake()
     {
@@ -13,13 +14,14 @@ public sealed class AudioPlayer : MonoBehaviour
 
     private void PlayAudio(PlayMusicEvent @event)
     {
-        _musicSource.loop = @event.OnLoop;
-        _musicSource.clip = @event.Clip;
-
         if(@event.AudioType == AudioType.BackgroundMusic)
-            _musicSource.Play();
+            _currentSource = _musicSource;
         else
-            _soundSource.Play();
+            _currentSource = _soundSource;
+
+        _currentSource.loop = @event.OnLoop;
+        _currentSource.clip = @event.Clip;
+        _currentSource.Play();
     }
 
     private void OnDestroy()

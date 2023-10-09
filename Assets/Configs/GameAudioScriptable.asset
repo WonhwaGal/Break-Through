@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuBackground: {fileID: 8300000, guid: e740296362c30ec4786a0035b92981c2, type: 3}
   NatureBackground: {fileID: 8300000, guid: add7648d1726e4944ba68e477f055929, type: 3}
+  FinalBackground: {fileID: 8300000, guid: 934e9ca245218f9458384a4a7cc09c50, type: 3}
   WaterfallSound: {fileID: 8300000, guid: f6aca1067a0c0e74e94138dedc7a28d2, type: 3}
   RiverSound: {fileID: 8300000, guid: 81f6a6f6b490ff340a37c4543efdf090, type: 3}
+  GongSound: {fileID: 8300000, guid: a842a0caa7565224c93654332e773e98, type: 3}

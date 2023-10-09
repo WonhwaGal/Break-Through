@@ -3,13 +3,20 @@ using UnityEngine.SceneManagement;
 
 public sealed class SceneLoader : ISceneLoader
 {
-    private LoadingCurtain _curtain;
-    private SpawnScriptableObject _spawnPrefabs;
+    private readonly LoadingCurtain _curtain;
+    private readonly SpawnScriptableObject _spawnPrefabs;
     private string _nextScene;
     private bool _continueSaved;
 
     public const string GameLevel = "GameLevel";
     public const string FinalLevel = "FinalScene";
+
+    public SceneLoader(SpawnScriptableObject scriptableObject)
+    {
+        _spawnPrefabs = scriptableObject;
+        ContinueSaved = PlayerPrefs.GetInt(Constants.ContinueSaved) == 1;
+        _curtain = ServiceLocator.Container.RequestFor<LoadingCurtain>();
+    }
 
     public bool ContinueSaved
     {
@@ -21,13 +28,6 @@ public sealed class SceneLoader : ISceneLoader
         }
     }
     public bool LoadFinalLevel { get; set; }
-
-    public SceneLoader(SpawnScriptableObject scriptableObject)
-    {
-        _spawnPrefabs = scriptableObject;
-        ContinueSaved = PlayerPrefs.GetInt(Constants.ContinueSaved) == 1;
-        _curtain = ServiceLocator.Container.RequestFor<LoadingCurtain>();
-    }
 
     public void LoadNextScene()
     {

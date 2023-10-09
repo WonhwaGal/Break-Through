@@ -13,8 +13,8 @@ public static class Constants
     [Header("Load Values :")]
     public const string SaveGameKey = "ProgressData";
     public const string ContinueSaved = "ContinueSaved";
-    public static Vector3 PlayerDefaultSpawn = new (-79.8f, 0.12f, 248.7f);
-    public static Vector3 PlayerFinalSpawn = new (37.22f, 8.3f, -13.0f);
+    public static Vector3 PlayerDefaultSpawn = new (-76.828f, 0.119f, 247.60f);
+    public static Vector3 PlayerFinalSpawn = new (37.22f, 8.59f, -13.04f);
     public const string CurrentArrowNumber = "CurrentArrows";
 
     [Header("UI Values :")]

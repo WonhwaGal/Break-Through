@@ -53,11 +53,9 @@ public sealed class EnemyController : MonoBehaviour
 
     private void RandomSpawnEnemy()
     {
-        var number = Random.Range(0, _guardPoints.Length);
-        EnemyView enemy = SpawnEnemy(_guardPoints[number], EnemyType.Patrol);
+        var number = Random.Range(0, _patrolPoints.Length);
+        EnemyView enemy = SpawnEnemy(_patrolPoints[number], EnemyType.Patrol);
         enemy.StateMachine.ChangeTo<PatrolState>(state => state.Owner = enemy);
-        Debug.Log("chosen post " + _guardPoints[number].name);
-        Debug.Break();
     }
 
     private void ReturnToPool(EnemyView enemy)

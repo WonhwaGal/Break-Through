@@ -22,7 +22,7 @@ public sealed class EnemyShooter : Shooter
 
     public void Update()
     {
-        if (_getReadyToShoot && _timeToShoot < Time.time)
+        if (_getReadyToShoot && _timeToShoot < Time.time && _targetAgent != null)
         {
             _targetPos = _targetAgent.position;
             _getReadyToShoot = false;
