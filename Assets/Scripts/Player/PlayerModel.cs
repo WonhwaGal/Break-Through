@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public sealed class PlayerModel : IDisposable
 {
     private int _hp;
-    private const int MaxHp = 100;
     private const float DrownControl = -9.15f;
     private readonly PlayerAnimator _animator;
     private readonly PlayerShooter _shooter;
@@ -21,10 +20,11 @@ public sealed class PlayerModel : IDisposable
             _damageFromArrow = Constants.BossDamageToPlayer : _damageFromArrow = Constants.ArrowDamageToPlayer;
         _shooter = new PlayerShooter(_transform, bowShootPoint, _animator.GetLengthOfClip("PlayerShoot"));
         _stats = ServiceLocator.Container.RequestFor<StatisticsCounter>();
+        _hp = _stats.PlayerHP;
 
         GameEventSystem.Subscribe<PlayerAimEvent>(StartAiming);
         GameEventSystem.Subscribe<SaveGameEvent>(SavePlayerData);
-        Reset();
+        GameEventSystem.Subscribe<StatsChangedEvent>(AddHP);
     }
 
     public bool IsHurting => _animator.CheckCurrentClip("Hurt-Reaction");
@@ -41,8 +41,6 @@ public sealed class PlayerModel : IDisposable
                 _hp = value;
         }
     }
-
-    public void Reset() => HP = MaxHp;
 
     public void StartAiming(PlayerAimEvent @event)
     {
@@ -87,8 +85,13 @@ public sealed class PlayerModel : IDisposable
         {
             _animator.AnimateDamage();
         }
-        var isHurting = IsHurting;
-        GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp, isHurting));
+        GameEventSystem.Send<PlayerHpEvent>(new PlayerHpEvent(_hp, oldHp, IsHurting));
+    }
+
+    private void AddHP(StatsChangedEvent @event)
+    {
+        if(@event.RewardType == RewardType.HP)
+            _hp = @event.NewValue;
     }
 
     private void SavePlayerData(SaveGameEvent @event)
@@ -102,6 +105,8 @@ public sealed class PlayerModel : IDisposable
     {
         GameEventSystem.UnSubscribe<PlayerAimEvent>(StartAiming);
         GameEventSystem.UnSubscribe<SaveGameEvent>(SavePlayerData);
+        GameEventSystem.UnSubscribe<StatsChangedEvent>(AddHP);
+        _stats.Dispose();
         GC.SuppressFinalize(this);
     }
 }

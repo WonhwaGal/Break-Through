@@ -69,6 +69,8 @@ public sealed class StatisticsCounter : IService, IDisposable
 
     private void SetHpSlider(PlayerHpEvent @event)
     {
+        if (PlayerHP == @event.CurrentHP)
+            return;
         PlayerHP = @event.CurrentHP;
         CheckSLiderValue();
         GameEventSystem.Send<StatsChangedEvent>(new StatsChangedEvent(RewardType.HP, PlayerHP, enemiesKilled: 0));
