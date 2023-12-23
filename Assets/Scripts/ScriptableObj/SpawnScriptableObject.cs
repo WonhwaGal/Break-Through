@@ -9,4 +9,6 @@ public class SpawnScriptableObject : ScriptableObject
     public GameObject PointerPrefab; 
     public PlayerView PlayerPrefab;
     public EnemyView BossPrefab;
+    public GameObject PlayerDefaultSpawn;
+    public GameObject PlayerFinalSpawn;
 }

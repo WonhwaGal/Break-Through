@@ -46,7 +46,7 @@ public sealed class SceneLoader : ISceneLoader
     {
         _curtain.Hide();
         PrepareGameServices(_spawnPrefabs);
-        new PlayerLoader(_spawnPrefabs.PlayerPrefab, ContinueSaved, LoadFinalLevel);
+        new PlayerLoader(_spawnPrefabs, ContinueSaved, LoadFinalLevel);
         SceneManager.sceneLoaded -= OnLoadEvent;
     }
 
@@ -56,7 +56,7 @@ public sealed class SceneLoader : ISceneLoader
         ServiceLocator.Container.Register<KeyboardInputService>(new KeyboardInputService());
         ServiceLocator.Container.Register<ArrowController>(new ArrowController(spawnPrefabs));
         ServiceLocator.Container.Register<Pointer>(
-            new Pointer(spawnPrefabs.PointerPrefab, ServiceLocator.Container.RequestFor<KeyboardInputService>()));
+            new Pointer(spawnPrefabs.PointerPrefab));
     }
 
     public bool HasSavedGame()

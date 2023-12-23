@@ -3,6 +3,7 @@ using UnityEngine;
 public sealed class PlayerView : MonoBehaviour, IDamagable
 {
     [SerializeField] private CharacterController _characterController;
+    [SerializeField] private Transform _followT;
     [SerializeField, Range(5, 15)] private float _speed = 12;
     [SerializeField] private BowView _bowView;
 
@@ -16,7 +17,7 @@ public sealed class PlayerView : MonoBehaviour, IDamagable
     void Start()
     {
         _input = ServiceLocator.Container.RequestFor<KeyboardInputService>();
-        _movement = new PlayerMovement(_characterController, _speed);
+        _movement = new PlayerMovement(_characterController, _speed, _followT);
         _animator = new PlayerAnimator(GetComponentInChildren<Animator>());
         _model = new PlayerModel(_animator, _bowView.ShootPoint, transform);
     }
@@ -38,5 +39,6 @@ public sealed class PlayerView : MonoBehaviour, IDamagable
     {
         _animator.Dispose();
         _model.Dispose();
+        _movement.Dispose();
     }
 }

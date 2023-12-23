@@ -35,4 +35,7 @@ public static class Constants
     [Header("Enemies :")]
     public static Vector3 RewardSpawnYShift = new (0, 7, 0);
     public const float MaxPointerDistance = 30;
+
+    [Header("Player :")]
+    public const float PlayerRotationSpeed = 25;
 }

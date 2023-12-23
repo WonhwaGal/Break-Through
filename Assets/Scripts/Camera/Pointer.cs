@@ -7,7 +7,7 @@ public sealed class Pointer : IService
     private readonly LayerMask _enemyMask;
     private const float Size = 0.01f;
 
-    public Pointer(GameObject pointer, IInputService input)
+    public Pointer(GameObject pointer)
     {
         _aimPointer = GameObject.Instantiate(pointer);
         _cameraT = Camera.main.transform;
@@ -17,6 +17,7 @@ public sealed class Pointer : IService
         GameEventSystem.Subscribe<PlayerAimEvent>(ShowPointer);
     }
 
+    public bool IsAiming { get; private set; }
     public Transform PointerT => _aimPointer.transform;
 
     public void Update()
@@ -44,7 +45,11 @@ public sealed class Pointer : IService
         }
     }
 
-    private void ShowPointer(PlayerAimEvent @event) => _aimPointer.SetActive(@event.AimPressed);
+    private void ShowPointer(PlayerAimEvent @event)
+    {
+        IsAiming = @event.AimPressed;
+        _aimPointer.SetActive(@event.AimPressed);
+    }
 
     public void Dispose()
     {

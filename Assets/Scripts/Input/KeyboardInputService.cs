@@ -22,6 +22,7 @@ public sealed class KeyboardInputService : IInputService, IService
     private Vector3 GetInputAxis()
     {
         CheckForPause();
+        GetMouseAxis();
 
         if (!_isPaused)
             return new(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));

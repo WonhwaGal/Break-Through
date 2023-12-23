@@ -17,3 +17,5 @@ MonoBehaviour:
   PointerPrefab: {fileID: 4557340427249492926, guid: 62c1833956bcebf4b89689ca5bdd912f, type: 3}
   PlayerPrefab: {fileID: 9158128367596119529, guid: cc38a6c5e94de014baf24ff30fcd6605, type: 3}
   BossPrefab: {fileID: 6254604312235485078, guid: 097ca0e963fe74b4bb7b8f9267235610, type: 3}
+  PlayerDefaultSpawn: {fileID: 3181999264419492021, guid: e097592e029c9e544b6abdd723401c56, type: 3}
+  PlayerFinalSpawn: {fileID: 8735542992648335136, guid: 6eb66422d2694e144b1c7d777d04822f, type: 3}

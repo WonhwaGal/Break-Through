@@ -1824,10 +1824,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7776098443760351805}
+  - component: {fileID: 7776098443760351802}
   - component: {fileID: 7776098443760351804}
   - component: {fileID: 7776098443760351807}
   - component: {fileID: 7776098443760351806}
-  - component: {fileID: 7776098443760351802}
   m_Layer: 5
   m_Name: GameCanvas
   m_TagString: Untagged
@@ -1863,6 +1863,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &7776098443760351802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7776098443760351777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699c37231339abd4faa4e9678cf81639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabs: {fileID: 11400000, guid: aca20c816827392439387e56727823bd, type: 2}
+  _soundPrefabs: {fileID: 11400000, guid: 497520e045342314495eb8a8447ce098, type: 2}
+  _spawnPrefabs: {fileID: 11400000, guid: 9fd9e4e8a51b35746b09ed0bf4d6bc82, type: 2}
+  _settingsSpawn: {fileID: 7885826794130984978}
+  _rewardsT: {fileID: 5716441441838163915}
+  _backgroundPanel: {fileID: 7776098443369897194}
+  _pausePanel: {fileID: 4914061817200694659}
+  _gameOverPanel: {fileID: 3587011070970703946}
 --- !u!223 &7776098443760351804
 Canvas:
   m_ObjectHideFlags: 0
@@ -1924,26 +1944,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7776098443760351802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776098443760351777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 699c37231339abd4faa4e9678cf81639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabs: {fileID: 11400000, guid: aca20c816827392439387e56727823bd, type: 2}
-  _soundPrefabs: {fileID: 11400000, guid: 497520e045342314495eb8a8447ce098, type: 2}
-  _spawnPrefabs: {fileID: 11400000, guid: 9fd9e4e8a51b35746b09ed0bf4d6bc82, type: 2}
-  _settingsSpawn: {fileID: 7885826794130984978}
-  _rewardsT: {fileID: 5716441441838163915}
-  _backgroundPanel: {fileID: 7776098443369897194}
-  _pausePanel: {fileID: 4914061817200694659}
-  _gameOverPanel: {fileID: 3587011070970703946}
 --- !u!1 &7885826794130984978
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
+using Cinemachine;
 
-public sealed class PlayerMovement
+public sealed class PlayerMovement : IDisposable
 {
     private readonly CharacterController _characterController;
     private readonly Transform _playerT;
@@ -8,36 +10,72 @@ public sealed class PlayerMovement
     private Vector3 _moveDirection;
     private const float GravityValue = -1.8f;
 
-    private readonly CameraMovement _cameraMovement;
+    private readonly Transform _followT;
+    private float _mouseSensitivity;
+    private Transform _cameraT;
 
-    public PlayerMovement(CharacterController characterController, float speed)
+    private readonly Pointer _aimPointer;
+
+    public PlayerMovement(CharacterController characterController, float speed, Transform followT)
     {
         _characterController = characterController;
         _speed = speed;
         _playerT = _characterController.transform;
-        _cameraMovement = Camera.main.GetComponentInParent<CameraMovement>();
-        _cameraMovement.Init(_playerT);
+        _followT = followT;
+        _aimPointer = ServiceLocator.Container.RequestFor<Pointer>();
+        SetSensitivityMultiplier();
+        GameEventSystem.Subscribe<SensitivityEvent>(ChangeSensitivity);
+        GameEventSystem.Subscribe<FollowPlayerEvent>(AssignPlayer);
+    }
+
+    private void AssignPlayer(FollowPlayerEvent @event)
+    {
+        _cameraT = Camera.main.transform;
+        _aimPointer.SetUpPointer(_cameraT);
+        @event.Manager.SetUpCameras(_followT, _mouseSensitivity);
     }
 
     public void Move(IInputService input)
     {
+        if (_cameraT == null)
+            return;
+
         _moveDirection = _playerT.TransformDirection(input.KeyAxis);
         _moveDirection.y += GravityValue;
         _characterController.Move(_speed * Time.deltaTime * _moveDirection.normalized);
-        _cameraMovement.FollowPlayer();
 
-        _cameraMovement.UpdateRotation(input.MouseAxis);
-        Rotate();
+        if (_characterController.velocity != Vector3.zero || _aimPointer.IsAiming)
+            Rotate();
+
+        _aimPointer.Update();
     }
 
     private void Rotate()
     {
-        Vector3 lookPoint = _cameraMovement.CenterTransform.position + _cameraMovement.CenterTransform.forward * _speed;
-        Vector3 lookDirection = lookPoint - _playerT.position;
-        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
-        lookRotation.x = 0;
-        lookRotation.z = 0;
+        var targetRotation = _cameraT.rotation;
+        targetRotation.x = 0;
+        targetRotation.z = 0;
+        _playerT.rotation = Quaternion
+            .Slerp(_playerT.rotation, targetRotation, _speed * Time.deltaTime);
+    }
 
-        _playerT.rotation = Quaternion.Lerp(_playerT.rotation, lookRotation, _speed * Time.deltaTime);
+    private void ChangeSensitivity(SensitivityEvent @event) => _mouseSensitivity = @event.NewValue;
+
+    private void SetSensitivityMultiplier()
+    {
+        if (PlayerPrefs.HasKey(Constants.PrefsSensitivity))
+        {
+            var step = Constants.MouseSensitivityStep;
+            _mouseSensitivity =
+                PlayerPrefs.GetInt(Constants.PrefsSensitivity) * step + step * 2;
+        }
+    }
+
+    public void Dispose()
+    {
+        GameEventSystem.UnSubscribe<SensitivityEvent>(ChangeSensitivity);
+        GameEventSystem.UnSubscribe<FollowPlayerEvent>(AssignPlayer);
+        _aimPointer.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
