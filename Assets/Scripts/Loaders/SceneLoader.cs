@@ -47,6 +47,7 @@ public sealed class SceneLoader : ISceneLoader
         _curtain.Hide();
         PrepareGameServices(_spawnPrefabs);
         new PlayerLoader(_spawnPrefabs, ContinueSaved, LoadFinalLevel);
+        GameEventSystem.Send(new LoadLevelEvent(toFinal: false, withCutscene: !ContinueSaved));
         SceneManager.sceneLoaded -= OnLoadEvent;
     }
 

@@ -12,7 +12,7 @@ public sealed class GameOverPanel : BaseGamePanel
 
     private void TryAgain()
     {
-        GameEventSystem.Send<LoadLevelEvent>(new LoadLevelEvent(toFinal: false));
+        GameEventSystem.Send(new LoadLevelEvent(toFinal: false, withCutscene: false));
     }
 
     private void OnDestroy()

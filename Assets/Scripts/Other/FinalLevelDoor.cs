@@ -35,6 +35,6 @@ public sealed class FinalLevelDoor : MonoBehaviour
     private async void LoadFinalLevel()
     {
         await Task.Delay(1500);
-        GameEventSystem.Send<LoadLevelEvent>(new LoadLevelEvent(toFinal: true));
+        GameEventSystem.Send(new LoadLevelEvent(toFinal: true, withCutscene: true));
     }
 }

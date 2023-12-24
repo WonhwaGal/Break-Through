@@ -11,7 +11,7 @@ public sealed class GameCanvas : BaseSceneUI
     [SerializeField] private GameObject _backgroundPanel;
     [SerializeField] private PausePanel _pausePanel;
     [SerializeField] private GameOverPanel _gameOverPanel;
-
+ 
     private Button _pauseSettingsButton;
     private RewardController _rewardController;
     private AudioClip _background;

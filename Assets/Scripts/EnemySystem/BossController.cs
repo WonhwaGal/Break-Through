@@ -1,15 +1,30 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public sealed class BossController : MonoBehaviour
 {
     [SerializeField] private SpawnScriptableObject _prefabs;
     [SerializeField] private Transform _bossSpawnPoint;
     [SerializeField] private float _stayAfterDeathTime = 1;
+    [SerializeField] private PlayableDirector _director;
     private bool _cancelPlayerWin;
 
-    private void Awake() => GameEventSystem.Subscribe<GameStopEvent>(PlayerDieEvent);
+    private void Awake()
+    {
+        GameEventSystem.Subscribe<GameStopEvent>(PlayerDieEvent);
+        _director.stopped += CreateBoss;
+    }
 
-    private void Start()
+
+
+    //IEnumerator WaitForCutSceneEnd()
+    //{
+    //    yield return new WaitWhile(() => _director.stopped); 
+    //    CreateBoss();
+    //}
+
+    private void CreateBoss(PlayableDirector dir)
     {
         EnemyView boss = Instantiate(_prefabs.BossPrefab, _bossSpawnPoint);
         boss.EnemyType = EnemyType.Boss;
@@ -31,5 +46,9 @@ public sealed class BossController : MonoBehaviour
             _cancelPlayerWin = true;
     }
 
-    private void OnDestroy() => GameEventSystem.UnSubscribe<GameStopEvent>(PlayerDieEvent);
+    private void OnDestroy()
+    {
+        GameEventSystem.UnSubscribe<GameStopEvent>(PlayerDieEvent);
+        _director.stopped -= CreateBoss;
+    }
 }

@@ -44,7 +44,7 @@ public sealed class PlayerMovement : IDisposable
         _moveDirection.y += GravityValue;
         _characterController.Move(_speed * Time.deltaTime * _moveDirection.normalized);
 
-        if (_characterController.velocity != Vector3.zero || _aimPointer.IsAiming)
+        if (input.KeyAxis != Vector3.zero || _aimPointer.IsAiming)
             Rotate();
 
         _aimPointer.Update();
